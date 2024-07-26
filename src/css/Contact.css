@@ -1,0 +1,134 @@
+/* Contact.css */
+
+.other-contact-page {
+    font-family: Arial, sans-serif;
+    transition: background-image 0.3s ease-in-out;
+    animation: fadeIn 0.3s forwards; 
+    color: #333;
+  }
+ 
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .other-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url('../assets/Hero.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    position: relative;
+    height: 80vh;
+    opacity: 0; 
+    animation: fadeInUp 0.5s forwards; 
+    animation-delay: 0.5s;
+  }
+  
+  .other-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(41, 50, 100, 0.7);
+  }
+  
+  .other-hero h1, .other-hero h2, .other-hero p {
+    position: relative;
+    opacity: 0;
+    animation: fadeInUp 1.5s forwards;
+    z-index: 1;
+  }
+  
+  .other-hero h1 {
+    font-size: 45px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    animation-delay: 1.5s; 
+  }
+  
+  .other-hero h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    animation-delay: 2s;
+  }
+  .other-hero p {
+    max-width: 600px;
+    /*margin-bottom: 2rem; */
+    animation-delay: 2.5s;
+  }
+  
+  .contact-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-container {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .contact-info {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  form input,
+  form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    opacity: 1;
+  }
+  
+  .contact-info h2,
+  .contact-info p,
+  .contact-info h3 {
+    margin: 10px 0;
+  }
+  
+  .toll-free {
+    font-size: 24px;
+    color: #1a73e8;
+  }
+  
+  .contact-info i {
+    margin-right: 10px;
+  }

@@ -1,0 +1,130 @@
+:root {
+    --primary-color: #5e72e4;
+    --secondary-color: #00d1ff;
+    --text-color: #344767;
+    --light-bg: #f8f9fa;
+    --dark-bg: #1a2036;
+    --border-radius: 15px;
+}
+.dashboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    min-width: 650px;
+}
+
+.dashboard-table th, .dashboard-table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.dashboard-table th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #8c8c8c;
+}
+
+.dashboard-table tr {
+    background-color: var(--light-bg);
+    transition: all 0.3s ease;
+}
+
+.dashboard-table tr:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-table-name {
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.dashboard-table-email {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.dashboard-table-info {
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-table-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.dashboard-table-container h2 {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.dashboard-author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+
+.dashboard-status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    height: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+
+.dashboard-status-badge.online {
+    background-color: #ddf3e4;
+    color: #22c55e;
+}
+
+.dashboard-status-badge.offline {
+    background-color: #fde8e8;
+    color: #f87171;
+}
+
+.dashboard-status-badge.approved {
+    background-color: #ddf3e4;
+    color: #22c55e;
+}
+
+.dashboard-status-badge.pending {
+    background-color: #fef3c7;
+    color: #f59e0b;
+}
+
+.dashboard-status-badge.rejected {
+    background-color: #fde8e8;
+    color: #f87171;
+}
+
+.dashboard-status-badge.selected {
+    padding: 5px 10px;
+    background-color: #ddf3e4;
+    color: #22c55e;
+}
+
+.dashboard-table-edit-button {
+    padding: 5px 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-table-edit-button:hover {
+    background-color: rgb(11, 244, 11);
+}

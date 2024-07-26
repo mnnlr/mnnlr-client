@@ -1,0 +1,141 @@
+/* Dashboard.css */
+
+:root {
+    --primary-color: #5e72e4;
+    --secondary-color: #00d1ff;
+    --text-color: #344767;
+    --light-bg: #f8f9fa;
+    --dark-bg: #1a2036;
+    --border-radius: 15px;
+}
+
+.dashboard {
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    background-color: #f0f2f5;
+    color: var(--text-color);
+}
+
+html, body, #root, .dashboard-app-container {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard-actual-card-container {
+    margin-bottom: 30px;
+}
+
+.dashboard-card-container {
+    display: flex;
+    /* flex-grow: 1; */
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.dashboard-card {
+    flex: 1;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    min-width: 300px;
+    max-width: 100%;
+}
+
+.dashboard-light-card {
+    background-color: var(--light-bg);
+    color: var(--text-color);
+}
+
+.dashboard-dark-card {
+    background-color: var(--dark-bg);
+    color: white;
+}
+
+.dashboard-card h2 {
+    font-size: 0.875rem;
+    color: #8c8c8c;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dashboard-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.dashboard-card p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.dashboard-read-more {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.dashboard-read-more:hover {
+    color: darken(var(--primary-color), 10%);
+}
+
+.dashboard-rocket-image {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    width: 200px;
+    height: 190px;
+    background-color: var(--secondary-color);
+    border-radius: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-rocket-image:hover {
+    transform: scale(1.1);
+}
+
+.dashboard-sh {
+    width: 345px;
+}
+
+/* Media Queries */
+
+
+@media ( min-width: 768px) {
+    .dashboard-rocket-image {
+        visibility: hidden;
+    }
+}
+@media (max-width: 768px) {
+    .dashboard-card-container {
+        flex-direction: column;
+    }
+
+    .dashboard-card {
+        width: calc(100% - 20px); /* Full width on smaller screens */
+    }
+
+    .dashboard-rocket-image {
+        visibility: hidden;
+    }
+
+    .dashboard-sh {
+        width: 100%;
+    }
+}

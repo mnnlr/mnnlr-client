@@ -1,0 +1,12 @@
+.dashboard-actual-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust the minimum width as needed */
+    align-items: center;
+  }
+  
+  /* Style each card with margin */
+  .dashboard-card {
+    margin: 0 10px; /* Adjust margin as needed */
+  }
+  
+  

@@ -1,0 +1,253 @@
+/* src/profile.css */
+
+.profile-page {
+   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f2f5;
+    padding: 20px;
+    margin-top: 50px;
+  }
+  
+  .profile-main {
+
+    background-color: white;
+    height: 100vh;
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 10px;
+    margin-top: 45px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position:  absolute;
+    top : 17%
+  }
+  
+  .profile-info {
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  .profile-info h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .profile-info p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .edit-profile {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-profile:hover {
+    background-color: #0056b3;
+  }
+  
+  .tab-menu ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tab-menu ul li {
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .tab-menu ul li.active {
+    border-bottom: 3px solid #007bff;
+    color: #007bff;
+  }
+  
+  .account-details {
+    margin-top: 20px;
+  }
+  
+  .detail-group {
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .detail-item label {
+    font-weight: bold;
+  }
+  
+  .detail-item p {
+    margin-top: 5px;
+    color: #666;
+  }
+  
+  .account-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .deactivate,
+  .delete {
+    background: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .deactivate:hover,
+  .delete:hover {
+    background: #d9363e;
+  }
+  .btn:link,.btn,
+  .btn:visited {
+     margin: 10px;
+      background: #ff4d4f;
+   text-transform: uppercase;
+   text-decoration: none;
+   color: white;
+   padding: 10px 30px;
+   border: 1px solid;
+   border-radius: 1000px;
+   display: inline-block;
+   transition: all .2s;
+   position: relative;
+  }
+  
+  .btn:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 10px 20px rgba(27, 27, 27, .5);
+  }
+  
+  .btn:active {
+   transform: translateY(-3px);
+  }
+  
+  .btn::after {
+   content: "";
+   display: inline-block;
+   height: 100%;
+   width: 100%;
+   border-radius: 100px;
+   top: 0;
+   left: 0;
+   position: absolute;
+   z-index: -1;
+   transition: all .3s;
+  }
+  
+  .dropdown-wrapper {
+      position: relative;
+    }
+    
+    .dropdown-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      visibility: hidden;
+    }
+    
+    .dropdown-btn:hover {
+      background-color: #0056b3;
+    }
+    
+    .dropdown-content {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      z-index: 1;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      border-radius: 5px;
+      display: none;
+    }
+    
+    .dropdown-content ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .dropdown-content ul li {
+      padding: 10px;
+      cursor: pointer;
+    }
+    
+    .dropdown-wrapper:hover .dropdown-content {
+      display: block;
+    }
+  
+  
+  @media (max-width: 670px) {
+    .dropdown-btn{
+        visibility: visible;
+        margin-left: 250px;
+      }
+    .profile-main {
+        height: 100%;
+    }
+    .profile-page{
+        height: 100%;
+    }
+    .profile-header {
+      flex-direction: column;
+    }
+  
+    .profile-info {
+      margin-top: 0;
+    }
+  
+    .tab-menu ul {
+     
+      visibility: hidden;
+    }
+  
+    .tab-menu ul li {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .account-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+   
+    .deactivate,
+    .delete {
+      margin-bottom: 10px;
+      width: 100%;
+      max-width: 200px;
+    }
+  }
+ 

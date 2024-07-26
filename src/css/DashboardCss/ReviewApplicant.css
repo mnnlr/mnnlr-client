@@ -1,0 +1,122 @@
+.candidate-container {
+    display: flex;
+    border-radius: 10px;
+    margin-top: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+  }
+  
+  .candidate-header {
+    margin-bottom: 20px;
+  }
+  .section-title{
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: rgba(9, 30, 66, 0.25) solid 2px;
+  }
+  
+  .candidate-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: none;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .info {
+    flex: 2;
+    scrollbar-width: none;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    overflow-y: auto; 
+    /* max-height: 100vh;  */
+  }
+  .fifty{
+    width: 50%;
+   
+  }
+  .selected {
+    flex: 1;
+    /* border-radius: 8px; */
+    padding: 20px;
+    background-color: white;
+    border-left: 1px solid rgba(9, 30, 66, 0.25);
+    /* box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px; */
+  }
+  
+  .info-section {
+    margin-bottom: 20px;
+  }
+  
+  .info-section h2 {
+    font-size: 24px; /* Adjust font size for better readability */
+    margin-bottom: 10px;
+  }
+  
+  .info-section p {
+    font-size: 16px; /* Adjust font size for better readability */
+    color: #666;
+  }
+  
+  .personal-info {
+    display: flex;
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    flex-wrap: wrap; /* Allows items to wrap if needed */
+  }
+  
+  .info-item {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 200px; /* Adjust the flex basis as needed */
+    margin-right: 20px; /* Add space between items */
+   width: '50%';
+
+  }
+  .info-item-skill {
+    margin-bottom: 10px;
+    display: flex;
+   flex-wrap: wrap;
+    flex: 1 1 200px; /* Adjust the flex basis as needed */
+    margin-right: 20px; /* Add space between items */
+  }
+  @media (min-width: 768px) {
+    .candidate-content {
+      flex-direction: row; /* Stack content horizontally on larger screens */
+    }
+ 
+    .personal-info {
+      flex-direction: row; /* Align items horizontally on larger screens */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .info {
+      padding: 10px; /* Adjust padding for smaller screens */
+    }
+    .fifty{
+        width: 100%;
+      }
+    .selected {
+      padding: 10px; /* Adjust padding for smaller screens */
+    }
+  
+    .info-item {
+      margin-right: 0; /* Remove margin-right for smaller screens */
+    }
+  
+    .info-section h2 {
+      font-size: 20px; /* Adjust font size for smaller screens */
+    }
+  
+    .info-section p {
+      font-size: 14px; /* Adjust font size for smaller screens */
+    }
+  }
+  

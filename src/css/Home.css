@@ -1,0 +1,143 @@
+/* Home.css */
+.home {
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: background-image 0.3s ease-in-out;
+  opacity: 0; 
+  animation: fadeIn 0.3s forwards; 
+}
+
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.home::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(41, 50, 100, 0.7);
+}
+  
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 2rem;
+    color: white;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    opacity: 0; 
+    animation: fadeInUp 0.5s forwards; 
+    animation-delay: 0.5s;
+  }
+  
+  .hero h1, .hero h2, .hero p, .button {
+    opacity: 0;
+    animation: fadeInUp 1.5s forwards;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    max-width: 600px;
+    animation-delay: 1.5s; 
+  }
+  
+  .hero h2 {
+    font-size: 1.5rem;
+    max-width: 600px;
+    animation-delay: 2s;
+  }
+  
+  .hero p {
+    max-width: 600px;
+    margin-bottom: 2rem;
+    animation-delay: 2.5s;
+  }
+  
+  .button {
+    animation-delay: 3s;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .get-started {
+    background-color: #5d7fee;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+  
+    .hero h2 {
+      font-size: 1.2rem;
+    }
+  }
+  
+  .button {
+    cursor: pointer;
+    position: relative;
+    padding: 5px 20px;
+    font-size: 18px;
+    color: white;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 34px;
+    background-color: transparent;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden;
+  }
+  
+  .button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: inherit;
+    transform: scale(0);
+    z-index: -1;
+    background-color: rgb(114, 54, 255);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .button:hover::before {
+    transform: scale(3);
+  }
+  
+  .button:hover {
+    color: #212121;
+    transform: scale(1.1);
+    box-shadow: 0 0px 20px rgba(193, 163, 98, 0.4);
+  }
+  
+  .button:active {
+    transform: scale(1);
+  }
+  

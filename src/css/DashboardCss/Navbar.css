@@ -1,0 +1,110 @@
+.dashbord-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    background-color: rgba(249, 245, 245, 0.9);
+    border-radius: 10px;
+  }
+  
+  .dashbord-navbar.scrolled {
+    background-color: rgb(82, 4, 4);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashbord-navbar-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .dashbord-breadcrumb-container {
+    flex: 1;
+  }
+  
+  .dashbord-search-icons-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .dashbord-mobile-toggle-btn {
+    display: none;
+  }
+  
+  .dashbord-mobile-icons-container {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+  
+  .dashbord-mobile-icons-container.dashbord-visible {
+    display: flex;
+  }
+  .dashbord-sidenav-toggler {
+    display: block;
+    padding: 8px 16px;
+    background-color: rgb(82, 4, 4);
+    color: white;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .dashbord-sidenav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 230px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .dashbord-sidenav-container.visible {
+    transform: translateX(0);
+  }
+  /* # Mobile
+only screen and (min-width: 480px)
+
+# Tablet
+only screen and (min-width: 768px) 
+
+# Desktop
+only screen and (min-width: 992px)
+
+# Huge
+only screen and (min-width: 1280px)  */
+
+  @media (min-width: 480px) {
+    .dashbord-search-icons-container {
+      display: none;
+    }
+  
+    .dashbord-mobile-toggle-btn {
+      display: block;
+      padding: 8px 16px;
+      background-color: rgb(82, 4, 4);
+      color: white;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
+  }
+  
