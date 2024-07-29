@@ -38,6 +38,7 @@ const AttendenceHistory = () => {
                         <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}><FaPhone style={{ marginRight: '7px' }} /> {attendance?.phoneNo}</p>
                         <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}><FaEnvelope style={{ marginRight: '7px' }} /> {attendance?.email}</p>
                     </div>
+                    
                 </div>
                 <div className="profile-info">
             
