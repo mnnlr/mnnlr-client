@@ -38,6 +38,7 @@ const AttendenceHistory = () => {
                         <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}><FaPhone style={{ marginRight: '7px' }} /> {attendance?.phoneNo}</p>
                         <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}><FaEnvelope style={{ marginRight: '7px' }} /> {attendance?.email}</p>
                     </div>
+
                 </div>
                 <div className="profile-info">
             
@@ -45,11 +46,11 @@ const AttendenceHistory = () => {
                         <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>LogIn : {attendance?.timeTracking?.length > 0 ? attendance?.timeTracking[0]?.timeIn : 'unavailable'}</p>
                         <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             LogOut : {
-                                attendance?.timeTracking?.length > 0? 
-                                    attendance?.timeTracking[attendance?.timeTracking?.length - 1]?
-                                    attendance?.timeTracking[attendance?.timeTracking?.length - 1]?.timeOut
-                                        :'working'
-                                    :'unavailable'
+                                    attendance?.timeTracking?.length > 0 ? (
+                                        attendance.timeTracking[attendance.timeTracking.length - 1].timeOut ?
+                                        attendance.timeTracking[attendance.timeTracking.length - 1].timeOut :
+                                        'working'
+                                    ) : 'unavailable'
                                 }
                         </p>
                     </div>

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaUser,  } from 'react-icons/fa';
 
 import { LineChart, Line } from 'recharts';
 
@@ -87,12 +87,12 @@ const ProfileCard = ({employee,attendance}) => (
           <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>LogIn : {attendance?.timeTracking?.length > 0 ? attendance?.timeTracking[0]?.timeIn : 'unavailable'}</p>
           <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               LogOut : {
-                attendance?.timeTracking?.length > 0? 
-                attendance?.timeTracking[attendance?.timeTracking?.length - 1]?
-                attendance?.timeTracking[attendance?.timeTracking?.length - 1]?.timeOut
-                :'working'
-                :'unavailable'
-              }
+                      attendance?.timeTracking?.length > 0 ? (
+                        attendance.timeTracking[attendance.timeTracking.length - 1].timeOut ?
+                        attendance.timeTracking[attendance.timeTracking.length - 1].timeOut :
+                        'working'
+                      ) : 'unavailable'
+                    }
           </p>
       </div>
       <p className="profile-role">Today's Working Hour : {attendance?.totalWorkingHours ? attendance?.totalWorkingHours : 'unavailable'}</p>
@@ -118,9 +118,43 @@ const StatItem = ({ label, value }) => (
 );
 
 const TaskList = () => (
-  <div className="task-list">
-    <h3 className="section-title">Complete Due Tasks</h3>
+  <div className="dashbord-task-list">
+  <h1>Personal info</h1>
+
+  <div className="dashbord-info-container">
+    <div className="dashbord-info-column">
+      <div className="dashbord-info-item">
+        <h4>Full Name</h4>
+        <div className="dashbord-info-content">
+          <FaUser className="dashbord-icon" /> Yash Maurya
+        </div>
+      </div>
+
+      <div className="dashbord-info-item">
+        <h4>Phone</h4>
+        <div className="dashbord-info-content">
+          <FaPhone className="dashbord-icon" /> 9132431354432
+        </div>
+      </div>
+    </div>
+
+    <div className="dashbord-info-column">
+      <div className="dashbord-info-item">
+        <h4>Email</h4>
+        <div className="dashbord-info-content">
+          <FaEnvelope className="dashbord-icon" /> yashmaurya@gmail.com
+        </div>
+      </div>
+
+      <div className="dashbord-info-item">
+        <h4>Role</h4>
+        <div className="dashbord-info-content">
+          <FaUser className="dashbord-icon" /> Software Developer
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 );
 
 // const TaskItem = ({ title, progress, color }) => (
