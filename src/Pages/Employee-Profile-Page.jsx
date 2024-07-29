@@ -5,6 +5,7 @@ import '../css/Profile.css';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useDispatch,useSelector } from 'react-redux';
 import { getEmployeeById } from '../redux/actions/EmployeeAction';
+import { getAttendanceById } from '../redux/actions/AttendanceAction';
 
 function EmployeeProfile() {
   const navigate = useNavigate();
@@ -17,9 +18,11 @@ function EmployeeProfile() {
 
   const {user} = useSelector((state) => state.login);
   const {employee,isLoading} = useSelector((state) => state.employees );
-
+  const {attendance} = useSelector((state) => state.attendances);
+console.log('attendance',attendance);
   useEffect(() => {
-    dispatch(getEmployeeById({privateAxios,accessToken:user.accessToken,id}));  
+    dispatch(getEmployeeById({privateAxios,accessToken:user.accessToken,id}));
+    dispatch(getAttendanceById({privateAxios,accessToken:user.accessToken,id:user?._id}));
   },[id]);
 
   const toggleDropdown = () => {
@@ -139,8 +142,25 @@ function EmployeeProfile() {
 
             {activeTab === 'Leaves' && (
               <div className="detail-group">
-                <h3>Leaves</h3>
-                <p>Leaves content goes here.</p>
+                <h3>Attendace Log</h3>
+                <div style={{display:'grid',gridAutoColumns:'1fr 1fr 1fr 1fr',gridTemplateRows:'1fr auto'}}>
+                  {attendance?.timeTracking?.map((log, index) => (
+                    <div key={index}>
+                      <p>
+                        <span>Time In:</span> {log.timeIn}
+                      </p>
+                      <p>
+                        <span>Time Out:</span> {
+                                    attendance?.timeTracking?.length > 0 ? (
+                                        attendance.timeTracking[attendance.timeTracking.length - 1].timeOut ?
+                                        attendance.timeTracking[attendance.timeTracking.length - 1].timeOut :
+                                        'working'
+                                    ) : 'unavailable'
+                                }
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </section>
