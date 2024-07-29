@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-const FormPage = () => {
+const AddEmployee = () => {
   const [designation, setDesignation] = useState("");
   const [designationLevel, setDesignationLevel] = useState("");
   const [, setSelectedFile] = useState(null);
@@ -223,4 +223,4 @@ const FormPage = () => {
   );
 };
 
-export default FormPage;
+export default AddEmployee;

@@ -8,9 +8,9 @@ import NewApplicants from './Pages/Dashboard/NewApplicants';
 import ReviewApplicant from './Pages/Dashboard/ReviewApplicant';
 import CandidatesOnLeave from './Pages/Dashboard/CandidatesOnLeave';
 import AttendenceHistory from './Pages/Dashboard/AttendanceHistory';
-import FormPage from './Pages/Dashboard/FormPage';
 import SendRecoveryLink from './Pages/SendRecoveryLink';
 import PasswordRecover from './Pages/Recover-Password';
+import AddEmployee from './Pages/Dashboard/AddEmployee';
 
 const Login = lazy(() => import('./Pages/LogInSinUp'));
 const PageLayOut = lazy(() => import('./Pages/PageLayOut'));
@@ -60,22 +60,22 @@ const App = () => {
         </Route>
 
 
-          <Route element={<ProtectedRoute allowedRole={['admin','hr']}/>}>
-            <Route path='dashboard' element={<DashboardLayout />} >
-                <Route index element={<DashboardHome />} />
-                <Route path='holidays' element={<Holidays />} />  
-                <Route path='profile' element={<DashboardProfile />} />
-                <Route path='track-leave' element={<TrackLeave/>} />
-                <Route path='candidates-on-leave' element={<CandidatesOnLeave />} />
-                <Route path='new-applicants' element={<NewApplicants/>} />
-                <Route path='review-applicant/:id' element={<ReviewApplicant />} />
-                <Route path='attendance' element={<Attendence />} />
-                <Route path='attendence-history/:id' element={<AttendenceHistory />} />
-                <Route path='performances' element={<Performances />} />
-                <Route path='user-profile/:id' element={<UserProfile />} />
-                <Route path='/dashboard/form' element={<FormPage/>} />
-            </Route>
+        <Route element={<ProtectedRoute allowedRole={['admin','hr']}/>}>
+          <Route path='dashboard' element={<DashboardLayout />} >
+              <Route index element={<DashboardHome />} />
+              <Route path='holidays' element={<Holidays />} />  
+              <Route path='profile' element={<DashboardProfile />} />
+              <Route path='track-leave' element={<TrackLeave/>} />
+              <Route path='candidates-on-leave' element={<CandidatesOnLeave />} />
+              <Route path='new-applicants' element={<NewApplicants/>} />
+              <Route path='review-applicant/:id' element={<ReviewApplicant />} />
+              <Route path='attendance' element={<Attendence />} />
+              <Route path='attendence-history/:id' element={<AttendenceHistory />} />
+              <Route path='performances' element={<Performances />} />
+              <Route path='user-profile/:id' element={<UserProfile />} />
+              <Route path='add-employee' element={<AddEmployee/>} />
           </Route>
+        </Route>
 
 
       </Routes>

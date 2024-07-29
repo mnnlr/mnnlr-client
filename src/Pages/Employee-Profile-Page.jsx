@@ -191,25 +191,25 @@ function EmployeeProfile() {
                   </h3>
                   <div className="relative">
                     <img
-                      src={img}
+                      src={'img'}
                       alt="PDF Thumbnail"
                       className="w-16 h-16 sm:w-24 sm:h-24 cursor-pointer"
-                      onClick={togglePDFViewer}
+                      // onClick={togglePDFViewer}
                     />
-                    {isOpen && (
+                    {/* {isOpen && ( */}
                       <div
                         className="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-2 sm:p-4 sm:w-full sm:h-screen"
-                        onClick={handleBackdropClick}
+                        // onClick={handleBackdropClick}
                       >
                         <div className="relative w-full h-full sm:max-w-screen-lg sm:max-h-screen bg-white rounded-lg shadow-lg overflow-y-auto sm:overflow-y-hidden">
                           <iframe
-                            src={pdf}
+                            src={'pdf'}
                             className="w-full h-80 sm:h-full border-none"
                             title="Document Preview"
                           />
                         </div>
                       </div>
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               )}

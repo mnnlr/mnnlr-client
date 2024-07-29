@@ -26,7 +26,7 @@ function SideNav() {
       <div>
         <div style={{marginTop:'40px'}}>
           <NavItem to="/dashboard" icon={FaTachometerAlt}>Dashboard</NavItem>
-          <NavItem to="/dashboard/form" icon={PersonAddIcon}>Add Employee</NavItem>
+          <NavItem to="/dashboard/add-employee" icon={PersonAddIcon}>Add Employee</NavItem>
           <NavItem to="/dashboard/holidays" icon={CalendarMonthIcon}>Holidays</NavItem>
         </div>
         
