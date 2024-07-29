@@ -441,3 +441,94 @@
     font-size: 0.8em;
   }
   
+ 
+/* Css added by yash*/
+
+  .dashbord-task-list {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .dashbord-task-list h1 {
+    font-size: 30px;
+    font-weight: bold;
+  }
+  
+  .dashbord-info-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .dashbord-info-column {
+    flex: 1;
+    margin-right: 10px;
+    min-width: 250px;
+  }
+  
+  .dashbord-info-column:last-child {
+    margin-right: 0;
+  }
+  
+  .dashbord-info-item {
+    margin-top: 10px;
+  }
+  
+  .dashbord-info-item h4 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .dashbord-info-content {
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dashbord-icon {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Media Queries for Responsive Design */
+  @media (max-width: 768px) {
+    .dashbord-task-list h1 {
+      font-size: 24px;
+    }
+  
+    .dashbord-info-item h4 {
+      font-size: 18px;
+    }
+  
+    .dashbord-info-content {
+      padding: 8px;
+    }
+  
+    .dashbord-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .dashbord-task-list h1 {
+      font-size: 20px;
+    }
+  
+    .dashbord-info-item h4 {
+      font-size: 16px;
+    }
+  
+    .dashbord-info-content {
+      padding: 6px;
+    }
+  
+    .dashbord-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  
