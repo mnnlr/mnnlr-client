@@ -4,12 +4,12 @@ import ProcessCard from './ProcessCard';
 
 const Process = () => {
     const processes = [
-        { number: '01', title: 'Discover', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar.' },
-        { number: '02', title: 'Define', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar.' },
-        { number: '03', title: 'Design', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar.' },
-        { number: '04', title: 'Develop', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar.' },
-        { number: '05', title: 'Deploy', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar.' },
-        { number: '06', title: 'Deliver', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar.' },
+        { number: '01', title: 'Discover', description: 'Understand the client’s needs, goals, and challenges.' },
+        { number: '02', title: 'Define', description: 'Establish detailed project requirements and create a roadmap.' },
+        { number: '03', title: 'Design', description: 'Create the architecture and design of the solution.' },
+        { number: '04', title: 'Develop', description: 'Build the software according to the design specifications.' },
+        { number: '05', title: 'Deploy', description: 'Prepare the software for release and ensure it is ready for production.' },
+        { number: '06', title: 'Deliver', description: 'Ensure the software is effectively used and maintained post-deployment.' },
     ];
 
     return (

@@ -8,6 +8,7 @@ import NewApplicants from './Pages/Dashboard/NewApplicants';
 import ReviewApplicant from './Pages/Dashboard/ReviewApplicant';
 import CandidatesOnLeave from './Pages/Dashboard/CandidatesOnLeave';
 import AttendenceHistory from './Pages/Dashboard/AttendanceHistory';
+import FormPage from './Pages/Dashboard/FormPage';
 
 
 const Login = lazy(() => import('./Pages/LogInSinUp'));
@@ -69,6 +70,7 @@ const App = () => {
                 <Route path='attendence-history/:id' element={<AttendenceHistory />} />
                 <Route path='performances' element={<Performances />} />
                 <Route path='user-profile/:id' element={<UserProfile />} />
+                <Route path='/dashboard/form' element={<FormPage/>} />
             </Route>
           </Route>
 
