@@ -1,103 +1,72 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useSelector,useDispatch } from 'react-redux';
+import { getAttendance } from '../../redux/actions/AttendanceAction';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 import Table from '../../component/DashboardComponents/Table';
 
 const Attendence = () => {
     const navigate = useNavigate();
-    
-    const authors = [
-        {
-          name: "John Michael",
-          email: "john@creative-tim.com",
-          function: 'Programmer',
-          employeeID:"1",
-          status: "ONLINE",
-          employed: "23/04/18",
-          level: 'L0',
-        },
-        {
-          name: "Alexa Liras",
-          email: "alexa@creative-tim.com",
-          function: "Programator",
-          employeeID:"2",
-          status: "ONLINE",
-          employed: "11/01/19",
-          level: 'L0',
-        },
-        {
-          name: "Laurent Perrier",
-          email: "laurent@creative-tim.com",
-          function: "Executive",
-          employeeID:"3",
-          status: "OFFLINE",
-          employed: "19/09/17",
-          level: 'L0',
-        },
-        {
-          name: "Michael Levi",
-          email: "michael@creative-tim.com",
-          function: "Programator",
-          employeeID:"4",
-          status: "ONLINE",
-          employed: "24/12/08",
-          level: 'L0',
-        },
-        {
-          name: "Richard Gran",
-          email: "richard@creative-tim.com",
-          function: "PENDING",
-          employeeID:"5",
-          status: "OFFLINE",
-          employed: "04/10/21",
-          level: 'L0',
-        },
-        {
-          name: "Miriam Eric",
-          email: "miriam@creative-tim.com",
-          function: "Programator",
-          employeeID:"6",
-          status: "ONLINE",
-          employed: "14/09/20",
-          level: 'L0',
-        },
-      ];
+    const {user} = useSelector((state) => state.login);
+    const {attendances} = useSelector((state) => state.attendances);
+    console.log(attendances);
+    const dispatch = useDispatch();
+    const privateAxios = useAxiosPrivate();
+
+    useEffect(() => {
+        dispatch(getAttendance({privateAxios,accessToken:user.accessToken}));
+    }, [dispatch,privateAxios]);
+
   return (
     <div style={{marginTop: '30px'}}>
-       <Table 
+      <Table 
         TableTitle={'Attendence'}
-        TableHeaderData={["Employee","Name", "Designation", "Status", "Employed","ACTION"]}  
+        TableHeaderData={["Employee","Name", "Designation","LEVEL", "Status", "LOGIN","LOGOUT","HISTORY"]}  
       >
         <tbody>
-            {authors.map((Datum, index) => (
+            {attendances?.map((Datum, index) => (
               <tr key={index}>
                 <td>
-                  <div className="dashboard-table-info" style={{cursor:'pointer'}} onClick={()=>navigate('/dashboard/user-profile')}>
+                  <div className="dashboard-table-info" style={{cursor:'pointer'}} onClick={()=>navigate(`/dashboard/user-profile/${Datum?._id}`)}>
                     <img
-                      src={`https://via.placeholder.com/36?text=${Datum.name[0]}`}
-                      alt={Datum.name}
-                      className=".dashboard-author-avatar"
+                      src={Datum?.avatar?.url}
+                      alt={Datum.firstName}
+                      className="dashboard-author-avatar"
                     />
                   </div>
                 </td>
                 <td>
                     <div>
-                      <div className="dashboard-table-name">{Datum.name}</div>
+                      <div className="dashboard-table-name">{Datum.firstName} {Datum.lastName}</div>
                       <div className="dashboard-table-email">{Datum.email}</div>
                     </div>
                 </td>
                 <td>
-                  <div>{Datum.function}</div>
+                  <div>{Datum.designation}</div>
                 </td>
-                {Datum.status&&<td>
-                  <span
-                    className={`dashboard-status-badge ${Datum.status.toLowerCase()}`}
-                  >
-                    {Datum.status}
-                  </span>
-                </td>}
-                <td>{Datum.employed}</td>
                 <td>
-                  <button className="dashboard-table-edit-button">Edit</button>
+                  <div>{Datum.designationLevel}</div>
+                </td>
+                <td>
+                  <span
+                    className={`dashboard-status-badge ${Datum?.attendance?'online':'offline'}`}
+                  >
+                    {Datum?.attendance ? 'PRESENT' : 'ABSENT'}
+                  </span>
+                </td>
+                <td>{Datum?.attendance ? Datum?.attendance?.timeTracking[0]?.timeIn : 'unavailable'}</td>
+                <td>{
+                  Datum?.attendance? 
+                    Datum?.attendance?.timeTracking[Datum?.attendance?.timeTracking?.length - 1]?
+                      Datum?.attendance?.timeTracking[Datum?.attendance?.timeTracking?.length - 1]?.timeOut
+                        :'working'
+                    :'unavailable'
+                  }
+                </td>
+                <td>
+                  <button className="dashboard-table-edit-button" onClick={()=>navigate(`/dashboard/attendence-history/${Datum?.userId}`)}>History</button>
                 </td>
               </tr>
             ))}

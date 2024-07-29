@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -6,15 +7,31 @@ import { BsPersonFillCheck } from "react-icons/bs";
 import { FaChartLine } from 'react-icons/fa';
 import Card from './Card';
 
-import { useSelector } from 'react-redux';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+
+import { useSelector,useDispatch } from 'react-redux';
+import { getAttendance } from '../../redux/actions/AttendanceAction';
 
 import '../../css/DashboardCss/ActualCard.css' 
 
 
 const ActualCard = ({empFun}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const privateAxios = useAxiosPrivate();
+
+  const {user} = useSelector((state) => state.login);
+
+  const {attendances} = useSelector((state) => state.attendances);
   const {totalEmployees} = useSelector(state => state.employees);
   
+  useEffect(() => {
+    dispatch(getAttendance({privateAxios,accessToken:user.accessToken}));
+  }, [dispatch,privateAxios]);
+
+  const present = attendances.filter((attendance) => attendance.attendance) || 0;
+  const absent = attendances?.length - present?.length || 0;
+
   const cardData = [
     {
       title: "Total Employees",
@@ -27,7 +44,7 @@ const ActualCard = ({empFun}) => {
     },
     {
       title: "Present",
-      amount: "600",
+      amount: present?.length,
       percentage: "+12%",
       icon: BsPersonFillCheck,
       bgColorFrom: "from-green-400",
@@ -36,7 +53,7 @@ const ActualCard = ({empFun}) => {
     },
     {
       title: "Absent",
-      amount: "50",
+      amount: absent,
       percentage: "+25%",
       icon: BsPersonFillX,
       bgColorFrom: "from-red-400",

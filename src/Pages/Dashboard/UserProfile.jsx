@@ -11,6 +11,8 @@ import '../../css/DashboardCss/UserProfile.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployeeById } from '../../redux/actions/EmployeeAction';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { getAttendanceById } from '../../redux/actions/AttendanceAction';
+import AttendenceHistoryTable from '../../component/DashboardComponents/AttendanceHistoryTable';
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -26,12 +28,17 @@ const UserProfile = () => {
   };
 
   const {user} = useSelector((state) => state.login);
-  const {employee,isLoading} = useSelector((state) => state.employees );
-  console.log('employee : ',employee);
-  useEffect(() => {
-    dispatch(getEmployeeById({privateAxios,accessToken:user.accessToken,id}));  
-  },[id]);
+  const {employee} = useSelector((state) => state.employees );
+  
+  const { attendance } = useSelector((state) => state.attendances);
+  console.log(attendance);
 
+  useEffect(() => {
+    dispatch(getEmployeeById({privateAxios,accessToken:user.accessToken,id}));
+  },[id]);
+  useEffect(() => {
+    dispatch(getAttendanceById({privateAxios,accessToken:user.accessToken,id:employee?.userId}));  
+  },[employee?.userId]);
   return (
     <div className="user-profile">
       <div style={{cursor:'pointer'}}>
@@ -45,9 +52,10 @@ const UserProfile = () => {
       
       <main className="main mt-5">
         <div className="left-column">
-          <ProfileCard employee={employee}/>
+          <ProfileCard employee={employee} attendance={attendance}/>
           <StatsSummary />
-          <TaskList />
+          {/* <TaskList /> */}
+          <AttendenceHistoryTable attendance={attendance} />
         </div>
         <div className="right-column">
           <StatisticsCard />
@@ -57,21 +65,39 @@ const UserProfile = () => {
   );
 };
 
-const ProfileCard = ({employee}) => (
+const ProfileCard = ({employee,attendance}) => (
+  console.log('attendance :',attendance),
   <div className="profile-card">
     <div className="profile-header" style = {{alignItems : 'center', display: 'flex', flexDirection: 'column' }}>
       <img src={employee?.avatar?.url} alt="Profile" className="avatar" />
       <h6 className="profile-name">{`${employee.firstName} ${employee?.lastName}`}</h6>
     </div>
+
     <div className="profile-info">
-   
       <p className="profile-role">{employee?.designation}</p>
       <p className="profile-location">{employee?.address}</p>
       <div className="profile-contact">
         <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}><FaPhone style={{ marginRight: '7px' }} /> {employee?.phoneNo}</p>
-        <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}><FaEnvelope style={{ marginRight: '7px' }} /> {employee?.email}</p>
       </div>
     </div>
+    
+    <div className="profile-info">
+            
+      <div className="profile-contact">
+          <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>LogIn : {attendance?.timeTracking?.length > 0 ? attendance?.timeTracking[0]?.timeIn : 'unavailable'}</p>
+          <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              LogOut : {
+                attendance?.timeTracking?.length > 0? 
+                attendance?.timeTracking[attendance?.timeTracking?.length - 1]?
+                attendance?.timeTracking[attendance?.timeTracking?.length - 1]?.timeOut
+                :'working'
+                :'unavailable'
+              }
+          </p>
+      </div>
+      <p className="profile-role">Today's Working Hour : {attendance?.totalWorkingHours ? attendance?.totalWorkingHours : 'unavailable'}</p>
+      <p style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}><FaEnvelope style={{ marginRight: '7px' }} /> {employee?.email}</p>
+  </div>
   </div>
 );
 
