@@ -8,6 +8,8 @@ import NewApplicants from './Pages/Dashboard/NewApplicants';
 import ReviewApplicant from './Pages/Dashboard/ReviewApplicant';
 import CandidatesOnLeave from './Pages/Dashboard/CandidatesOnLeave';
 import AttendenceHistory from './Pages/Dashboard/AttendanceHistory';
+import SendRecoveryLink from './Pages/SendRecoveryLink';
+import PasswordRecover from './Pages/Recover-Password';
 
 
 const Login = lazy(() => import('./Pages/LogInSinUp'));
@@ -34,6 +36,8 @@ const App = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
           <Route path='connect-with-us' element={<Login/>} />
+          <Route path="get-recovery-link" element={<SendRecoveryLink />} />
+          <Route path="reset-password/:id" element={<PasswordRecover />} />
           <Route path="/" element={<PageLayOut />}>
             <Route index element={<Home />} />
             <Route path='services' element={<Service/>} />
