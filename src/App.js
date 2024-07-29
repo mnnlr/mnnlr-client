@@ -8,9 +8,9 @@ import NewApplicants from './Pages/Dashboard/NewApplicants';
 import ReviewApplicant from './Pages/Dashboard/ReviewApplicant';
 import CandidatesOnLeave from './Pages/Dashboard/CandidatesOnLeave';
 import AttendenceHistory from './Pages/Dashboard/AttendanceHistory';
+import FormPage from './Pages/Dashboard/FormPage';
 import SendRecoveryLink from './Pages/SendRecoveryLink';
 import PasswordRecover from './Pages/Recover-Password';
-
 
 const Login = lazy(() => import('./Pages/LogInSinUp'));
 const PageLayOut = lazy(() => import('./Pages/PageLayOut'));
@@ -73,6 +73,7 @@ const App = () => {
                 <Route path='attendence-history/:id' element={<AttendenceHistory />} />
                 <Route path='performances' element={<Performances />} />
                 <Route path='user-profile/:id' element={<UserProfile />} />
+                <Route path='/dashboard/form' element={<FormPage/>} />
             </Route>
           </Route>
 

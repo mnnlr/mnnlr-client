@@ -1,6 +1,7 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { NavLink, useLocation } from 'react-router-dom';
 import { FaTachometerAlt, FaUser, FaSignInAlt} from 'react-icons/fa';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 import '../../css/DashboardCss/Sidenav.css';
 
@@ -25,6 +26,7 @@ function SideNav() {
       <div>
         <div style={{marginTop:'40px'}}>
           <NavItem to="/dashboard" icon={FaTachometerAlt}>Dashboard</NavItem>
+          <NavItem to="/dashboard/form" icon={PersonAddIcon}>Add Employee</NavItem>
           <NavItem to="/dashboard/holidays" icon={CalendarMonthIcon}>Holidays</NavItem>
         </div>
         

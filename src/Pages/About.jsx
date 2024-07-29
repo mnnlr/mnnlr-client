@@ -10,17 +10,17 @@ const About = () => {
         {
             
             title: 'Who Are We',
-            description: 'Lorem ipsum dolor sit amet, consec tetur adipi scing elit. Ut elit tellus, luctus nec ullam corper mattis, pulvinar. Etiam erat lectus, finibus eget commodo quis, tinci dunt eget leo. Nullam quis vulpu tate orci, ac accum san quam.'
+            description: 'At Man Need New Life Resources, we are a dedicated team of innovators and technologists with a passion for creating cutting-edge software solutions. As a product-based IT company, our mission is to deliver exceptional digital products that enhance business operations and provide a superior user experience.'
         },
         {
             icon: '📐',
             title: 'Our Mission',
-            description: 'LUt elit tellus, luctus nec ullam corper mattis, pulvinar. Etiam erat lectus, finibus eget commodo quis, tinci dunt eget leo. Nullam quis vulpu tate orci, ac accum san quam. Morbi frin gilla congue libero.'
+            description: 'Our mission is to develop high-quality, reliable, and scalable software products that meet the diverse needs of our clients. We strive to continuously improve our offerings, leveraging the latest technologies and industry best practices to stay ahead in the competitive market.'
         },
         {
 
             title: 'What We Do',
-            description: 'Lorem ipsum dolor sit amet, consec tetur adipi scing elit. Ut elit tellus, luctus nec ullam corper mattis, pulvinar. Etiam erat lectus, finibus eget commodo quis, tinci dunt eget leo. Nullam quis vulpu tate orci, ac accum san quam.'
+            description: 'At Man Need New Life Resources, we specialize in developing innovative software solutions that empower businesses to achieve their goals. Our expertise spans across various domains, enabling us to deliver comprehensive and effective products tailored to meet the unique needs of our clients.'
         },
     ];
     return(
