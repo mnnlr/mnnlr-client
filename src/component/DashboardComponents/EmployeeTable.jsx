@@ -27,6 +27,11 @@ const EmployeeTable = () => {
         }
     },[totalEmployees,user.accessTokens]);
     
+const handelNavigateToEdit = (e, employeeId) =>{
+    navigate(`/edit-employee/${employeeId}`)
+
+}
+
     return (
         <Table 
           TableTitle={'Employees'}
@@ -70,7 +75,7 @@ const EmployeeTable = () => {
                         </td>}
                         {/* <td>{Datum.employeId}</td> */}
                         <td>
-                            <button className="dashboard-table-edit-button">Edit</button>
+                            <button className="dashboard-table-edit-button" onClick={(e)=>handelNavigateToEdit(e,Datum._id)}>Edit</button>
                         </td>
                     </tr>
                 ))}
