@@ -26,13 +26,13 @@ const AddEmployee = () => {
   return (
     <div className="min-h-screen bg-white flex justify-center rounded-lg shadow-lg items-center p-4 mt-6">
       <div className="min-h-screen bg-white p-6 rounded-lg w-full max-w-10xl">
-        <div className="flex justify-between items-center mb-6">
-          <div>
+        <div className="flex justify-end items-center mb-6">
+          {/* <div>
             <h2 className="text-2xl font-semibold mb-1">Employee Form</h2>
             <span className="text-sm lg:text-lg">
               Fill Employee personal detials
             </span>
-          </div>
+          </div> */}
           <div className="hidden lg:block">
             <button
               type="submit"
@@ -208,14 +208,6 @@ const AddEmployee = () => {
                     <input className="w-full"/>
                 </div>
             </div>
-          </div>
-          <div className="flex justify-end mt-10 lg:hidden ">
-            <button
-              type="submit"
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700"
-            >
-              Save changes
-            </button>
           </div>
         </form>
       </div>
