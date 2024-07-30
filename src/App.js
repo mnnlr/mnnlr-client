@@ -8,7 +8,13 @@ import NewApplicants from './Pages/Dashboard/NewApplicants';
 import ReviewApplicant from './Pages/Dashboard/ReviewApplicant';
 import CandidatesOnLeave from './Pages/Dashboard/CandidatesOnLeave';
 import AttendenceHistory from './Pages/Dashboard/AttendanceHistory';
+
 import UserEdit from './Pages/Dashboard/UserEdit';
+
+import SendRecoveryLink from './Pages/SendRecoveryLink';
+import PasswordRecover from './Pages/Recover-Password';
+import AddEmployee from './Pages/Dashboard/AddEmployee';
+
 
 const Login = lazy(() => import('./Pages/LogInSinUp'));
 const PageLayOut = lazy(() => import('./Pages/PageLayOut'));
@@ -34,6 +40,8 @@ const App = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
           <Route path='connect-with-us' element={<Login/>} />
+          <Route path="get-recovery-link" element={<SendRecoveryLink />} />
+          <Route path="reset-password/:id" element={<PasswordRecover />} />
           <Route path="/" element={<PageLayOut />}>
             <Route index element={<Home />} />
             <Route path='services' element={<Service/>} />
@@ -56,6 +64,7 @@ const App = () => {
         </Route>
 
 
+
           <Route element={<ProtectedRoute allowedRole={['admin','hr']}/>}>
             <Route path='dashboard' element={<DashboardLayout />} >
                 <Route index element={<DashboardHome />} />
@@ -70,8 +79,9 @@ const App = () => {
                 <Route path='performances' element={<Performances />} />
                 <Route path='user-profile/:id' element={<UserProfile />} />
                 <Route path='edit-employee/:id' element={<UserEdit/>}/>
+                   <Route path='add-employee' element={<AddEmployee/>} />
             </Route>
-          </Route>
+                </Route>
 
 
       </Routes>

@@ -6,12 +6,12 @@ const Accordion = () => {
     const [activeIndex, setActiveIndex] = useState(null);
 
     const items = [
-        { title: 'Best Quality Designs', content: 'Sed Fringilla Mauris Sit Amet Nibh. Donec Sodales Sagittis Magna. Sed Consequat, Leo Eget Bibendum, Sodales, Augue Velit Cursus Nunc, Quis Gravida Magna Mi A Libero.' },
-        { title: '24x7 Live Support', content: 'Sed Fringilla Mauris Sit Amet Nibh. Donec Sodales Sagittis Magna. Sed Consequat, Leo Eget Bibendum, Sodales, Augue Velit Cursus Nunc, Quis Gravida Magna Mi A Libero.' },
-        { title: 'Result Oriented Projects', content: 'Sed Fringilla Mauris Sit Amet Nibh. Donec Sodales Sagittis Magna. Sed Consequat, Leo Eget Bibendum, Sodales, Augue Velit Cursus Nunc, Quis Gravida Magna Mi A Libero.' },
-        { title: 'Award Winning Support Team', content: 'Sed Fringilla Mauris Sit Amet Nibh. Donec Sodales Sagittis Magna. Sed Consequat, Leo Eget Bibendum, Sodales, Augue Velit Cursus Nunc, Quis Gravida Magna Mi A Libero.' },
-        { title: 'Best ROI Techniques', content: 'Sed Fringilla Mauris Sit Amet Nibh. Donec Sodales Sagittis Magna. Sed Consequat, Leo Eget Bibendum, Sodales, Augue Velit Cursus Nunc, Quis Gravida Magna Mi A Libero.' },
-        { title: 'Experienced Professionals', content: 'Sed Fringilla Mauris Sit Amet Nibh. Donec Sodales Sagittis Magna. Sed Consequat, Leo Eget Bibendum, Sodales, Augue Velit Cursus Nunc, Quis Gravida Magna Mi A Libero.' },
+        { title: 'Best Quality Designs', content: "We are offers stunning and innovative design solutions to elevate your brand's visual presence." },
+        { title: '24x7 Live Support', content: '24x7 Live Support provides round-the-clock assistance to ensure your needs are met anytime, anywhere.' },
+        { title: 'Result Oriented Projects', content: 'Result Oriented Projects deliver measurable outcomes that drive success and achieve your objectives' },
+        { title: 'Award Winning Support Team', content: 'Our Award-Winning Support Team delivers exceptional service that sets industry standards and ensures your satisfaction.' },
+        { title: 'Best ROI Techniques', content: 'Best ROI Techniques utilize strategic methods to maximize returns on investment and enhance profitability.' },
+        { title: 'Experienced Professionals', content: 'Experienced Professionals bring expert knowledge and skills to deliver high-quality results and solutions.' },
     ];
 
     const handleClick = index => {

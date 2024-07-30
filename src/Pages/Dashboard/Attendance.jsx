@@ -58,15 +58,15 @@ const Attendence = () => {
                 </td>
                 <td>{Datum?.attendance ? Datum?.attendance?.timeTracking[0]?.timeIn : 'unavailable'}</td>
                 <td>{
-                  Datum?.attendance? 
-                    Datum?.attendance?.timeTracking[Datum?.attendance?.timeTracking?.length - 1]?
-                      Datum?.attendance?.timeTracking[Datum?.attendance?.timeTracking?.length - 1]?.timeOut
-                        :'working'
-                    :'unavailable'
-                  }
+                      Datum?.attendance?.timeTracking?.length > 0 ? (
+                        Datum.attendance.timeTracking[Datum.attendance.timeTracking.length - 1].timeOut ?
+                        Datum.attendance.timeTracking[Datum.attendance.timeTracking.length - 1].timeOut :
+                        'working'
+                      ) : 'unavailable'
+                    }
                 </td>
                 <td>
-                  <button className="dashboard-table-edit-button" onClick={()=>navigate(`/dashboard/attendence-history/${Datum?.userId}`)}>History</button>
+                  <button className="dashboard-table-edit-button" onClick={()=>navigate(`/dashboard/attendence-history/${Datum?.userId}`)}>Details</button>
                 </td>
               </tr>
             ))}

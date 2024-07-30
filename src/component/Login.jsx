@@ -64,7 +64,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-4">
-            <p className="px-3 py-2 text-right text-gray-600 mb-4">Forgot your password?</p>
+            <p onClick={()=>navigate('/get-recovery-link')} className=" cursor-pointer px-3 py-2 text-right text-gray-600 mb-4">Forgot your password?</p>
           </div>
           <div className="flex justify-center sm:justify-end">
             <button type="submit" className="w-full sm:w-auto bg-gradient-to-r from-blue-700 to-blue-400 text-white py-2 px-6 rounded-lg">Sign In</button>

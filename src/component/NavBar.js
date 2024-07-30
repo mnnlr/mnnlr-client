@@ -5,6 +5,7 @@ import '../css/NavBar.css';
 import { useSelector } from 'react-redux';
 import ProfileIcon from './ProfileIcon';
 import EmployeeButton from './EmployeeButton';
+import logo from '../assets/logo4.jpg';
 
 function NavBar() {
   const [scrollPosition, setScrollPosition] = useState(1);
@@ -32,7 +33,9 @@ function NavBar() {
 
   return (
     <nav className={`navbar ${scrollPosition > 0 ? 'scrolled' : ''}`}>
-      <div className="navbar-logo">DIGITAL AGENCY</div>
+      <div className="navbar-logo">
+        <img src={logo} alt='logo' className='w-16 h-16 rounded-full p-1'/>
+       MNNLR</div>
       <div className={`navbar-links ${isNavOpen ? 'open' : ''}`}>
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>

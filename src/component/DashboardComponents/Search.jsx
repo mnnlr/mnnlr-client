@@ -1,20 +1,21 @@
-// Search.jsx
-import React from 'react';
-import { IoSearch } from "react-icons/io5";
+import SearchIcon from '@mui/icons-material/Search';
 
-const Search = () => {
-  return (
-    <div className="flex items-center border rounded-lg overflow-hidden">
-      <span className="material-icons text-black px-2">
-      <IoSearch/>
-      </span>
-      <input
-        type="text"
-        placeholder="Type here..."
-        className="outline-none p-2"
-      />
-    </div>
-  );
-};
+const SearchSomething = ({setValue,placeholder,Value,Style,iconColor}) => {
+    return (
+        <div style={{position:'relative'}} >
+            <input type='text' placeholder={placeholder} value={Value} onChange={(e)=>{setValue&&setValue(e.target.value)}} style={{...Style,textIndent: '35px'}} />
+            <SearchIcon
+                style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '10px',
+                    transform: 'translateY(-50%)',
+                    color: iconColor?iconColor:'#888', 
+                    pointerEvents: 'none', 
+                }}
+            />
+        </div>
+    )
+}
 
-export default Search;
+export default SearchSomething
