@@ -11,8 +11,11 @@ const getAttendance = createAsyncThunk(
                 },
             });
             console.log('getAttendance data : ',data);
-            return data?.Data;
+            if(status === 200){
+                return data?.Data;
+            }
         } catch (error) {
+            console.log('getAttendanceById error : ',error);
             return rejectWithValue(error.response.data.message);
         }
     }

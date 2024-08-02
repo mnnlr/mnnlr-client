@@ -15,6 +15,7 @@ const logInUser = createAsyncThunk(
                 return data.foundUser;
             }
         } catch (error) {
+            console.log(error);
             return rejectWithValue(error.response.data.message);
         }
     }

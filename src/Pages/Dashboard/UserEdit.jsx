@@ -150,7 +150,7 @@ function UserEdit() {
                             </div>
                             <div className='dashboard-field'>
                             <button class="dashboard-button dashboard-type1"><span class="dashboard-btn-txt">Save Changes </span>
-</button>
+                            </button>
                             </div>
                         </div>
                     </div>

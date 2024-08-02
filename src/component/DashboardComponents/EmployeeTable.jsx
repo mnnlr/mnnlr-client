@@ -27,10 +27,9 @@ const EmployeeTable = () => {
         }
     },[totalEmployees,user.accessTokens]);
     
-const handelNavigateToEdit = (e, employeeId) =>{
-    navigate(`/edit-employee/${employeeId}`)
-
-}
+    const handelNavigateToEdit = (e, employeeId) =>{
+        navigate(`/dashboard/edit-employee/${employeeId}`)
+    }
 
     return (
         <Table 

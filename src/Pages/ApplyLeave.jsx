@@ -1,10 +1,16 @@
 import { useState } from "react";
-import axios from "axios";
+
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
+import { useSelector } from "react-redux";
 
 const ApplyLeave = () => {
+  const privateAxios = useAxiosPrivate();
+
+  const { user } = useSelector((state) => state.login);
 
   const [formData, setFormData] = useState({
-    employeeId: "",
+    // userId: "",
     typeOfLeave: "",
     startDate: "",
     endDate: "",
@@ -17,23 +23,23 @@ const ApplyLeave = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const employeeData = {
-      formData,
-    };
+    const employeeData = formData;
+  
     const header = {
       "content-type": "application/json",
+      "Authorization": `Bearer ${user?.accessToken}`,
     };
+
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/leave",
-        employeeData,
+      const response = await privateAxios.post(
+        "/leave",
+        {id:user?._id,...employeeData},
         { header }
       );
-      alert(response.data);
+      alert(response.data.message);
     } catch (error) {
       if(error.response){
-        console.error(error.response.data)
-        alert(error.response.data)
+        alert(error.response.data.message);
       }
     }
   };
@@ -45,22 +51,6 @@ const ApplyLeave = () => {
           Apply Leave
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-          </div>
-          <div>
-            <label className="block text-gray-600 mb-2" htmlFor="employeeId">
-              Employee ID
-            </label>
-            <input
-              type="text"
-              name="employeeId"
-              id="employeeId"
-              value={formData.employeeId}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            />
-          </div>
           <div>
             <label className="block text-gray-600 mb-2" htmlFor="typeOfLeave">
               Leave Type

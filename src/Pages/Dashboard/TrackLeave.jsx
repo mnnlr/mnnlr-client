@@ -1,101 +1,79 @@
+import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import Table from '../../component/DashboardComponents/Table';
+import { useSelector } from 'react-redux';
 
 const TrackLeave = () => {
+    const privateAxios = useAxiosPrivate();
     const navigate = useNavigate();
+    const [Data,setData] = useState([]);
     
-    const authors = [
-        {
-          name: "John Michael",
-          email: "john@creative-tim.com",
-          function: 'Programmer',
-          employeeID:"1",
-          status: "APPROVED",
-          employed: "23/04/18",
-          level: 'L0',
-        },
-        {
-          name: "Alexa Liras",
-          email: "alexa@creative-tim.com",
-          function: "Programator",
-          employeeID:"2",
-          status: "APPROVED",
-          employed: "11/01/19",
-          level: 'L0',
-        },
-        {
-          name: "Laurent Perrier",
-          email: "laurent@creative-tim.com",
-          function: "Executive",
-          employeeID:"3",
-          status: "PENDING",
-          employed: "19/09/17",
-          level: 'L0',
-        },
-        {
-          name: "Michael Levi",
-          email: "michael@creative-tim.com",
-          function: "Programator",
-          employeeID:"4",
-          status: "REJECTED",
-          employed: "24/12/08",
-          level: 'L0',
-        },
-        {
-          name: "Richard Gran",
-          email: "richard@creative-tim.com",
-          function: "Manager",
-          employeeID:"5",
-          status: "PENDING",
-          employed: "04/10/21",
-          level: 'L0',
-        },
-        {
-          name: "Miriam Eric",
-          email: "miriam@creative-tim.com",
-          function: "Programator",
-          employeeID:"6",
-          status: "APPROVED",
-          employed: "14/09/20",
-          level: 'L0',
-        },
-      ];
+    const { user } = useSelector((state) => state.login);
+    console.log('user : ',user);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const {data,status} = await privateAxios.get('/leave', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user?.accessToken}`
+                    }
+                });
+                if(status === 200){
+                  setData(data.Data);
+                }
+                
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData();
+    }, [user?.accessToken]);
+    console.log(Data);
+    
   return (
     <div style={{marginTop: '30px'}}>
        <Table 
-        TableTitle={'Employees'}
-        TableHeaderData={["Employee","Name", "Designation", "Status", "Employed","ACTION"]}  
+        TableTitle={'Track Leave'}
+        TableHeaderData={["Employee","Name", "Employee Id","Leave Type", "Status", "duration","ACTION"]}  
       >
         <tbody>
-            {authors.map((Datum, index) => (
+            {Data.map((Datum, index) => (
               <tr key={index}>
                 <td>
                   <div className="dashboard-table-info" style={{cursor:'pointer'}} onClick={()=>navigate('/dashboard/user-profile')}>
                     <img
-                      src={`https://via.placeholder.com/36?text=${Datum.name[0]}`}
-                      alt={Datum.name}
-                      className=".dashboard-author-avatar"
+                      src={Datum?.avatar?.url}
+                      alt={Datum?.name}
+                      className="dashboard-author-avatar"
                     />
                   </div>
                 </td>
                 <td>
                     <div>
-                      <div className="dashboard-table-name">{Datum.name}</div>
+                      <div className="dashboard-table-name">{Datum?.name}</div>
                       <div className="dashboard-table-email">{Datum.email}</div>
                     </div>
                 </td>
                 <td>
-                  <div>{Datum.function}</div>
+                  <div>{Datum.employeeId}</div>
                 </td>
-                {Datum.status&&<td>
+                <td>
+                  <div>{Datum.leaveType}</div>
+                </td>
+                <td>
                   <span
                     className={`dashboard-status-badge ${Datum.status.toLowerCase()}`}
                   >
                     {Datum.status}
                   </span>
-                </td>}
-                <td>{Datum.employed}</td>
+                </td>
+                {/* leave duration */}
+                <td>
+                  <div>{Datum?.duration}</div>
+                </td>
                 <td>
                   <button className="dashboard-table-edit-button">Edit</button>
                 </td>
