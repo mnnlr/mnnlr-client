@@ -97,7 +97,7 @@ const TrackLeave = () => {
                 </td>}
                 <td>{Datum.employed}</td>
                 <td>
-                  <button className="dashboard-table-edit-button">Edit</button>
+                  <button className="dashboard-table-edit-button" onClick={()=>navigate('requestleave')}>Edit</button>
                 </td>
               </tr>
             ))}

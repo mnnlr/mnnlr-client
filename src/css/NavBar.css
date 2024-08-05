@@ -88,8 +88,8 @@
   
   @media (max-width: 768px) {
     .navbar {
-      flex-direction: column;
-      align-items: flex-start;
+      flex-direction: row;
+      align-items: center;
       background-color: rgb(36, 42, 86);
     }
   
@@ -101,13 +101,23 @@
   
     .navbar-links.open {
       display: flex;
+      justify-items: center;
+      position: absolute;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      margin-left: -32px;
+      background-color: rgba(94, 94, 223, 0.9);
+      top: 0;
     }
   
     .navbar-links a,
     .dropdown-btn {
       margin: 0.5rem 0;
+      font-size: large;
+      text-decoration: underline;
     }
-  
+
     .navbar-quote-btn {
       margin-top: 1rem;
       align-self: flex-end;
@@ -115,6 +125,7 @@
   
     .navbar-toggle-btn {
       display: block;
+      z-index: 1;
     }
   }
   

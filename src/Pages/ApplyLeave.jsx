@@ -25,7 +25,7 @@ const ApplyLeave = () => {
     };
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/leave",
+        "http://localhost:8000/leave",
         employeeData,
         { header }
       );
