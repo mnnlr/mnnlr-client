@@ -10,6 +10,26 @@ const FormPage = () => {
     "https://t4.ftcdn.net/jpg/01/64/16/59/360_F_164165971_ELxPPwdwHYEhg4vZ3F4Ej7OmZVzqq4Ov.jpg"
   );
 
+  const allDesignation = [
+    "MERN Stack Developer",
+    "ReactJs Developer",
+    "MongoDB Developer",
+    "Backend Developer",
+    "NodeJs Developer",
+    "Frontend Developer",
+    "Software Developer",
+    "Java Developer",
+    "React Native",
+    "Java Android",
+    "Python Developer",
+    "Python Desktop Developer",
+    "Digital Marketing",
+    "Poster Designer",
+    "Video Editor",
+    "UI/UX Designer",
+    "VOICE",
+    "NON VOICE",
+  ];
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -111,7 +131,7 @@ const FormPage = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Email 
+                    Email
                   </label>
                   <input
                     type="text"
@@ -130,16 +150,16 @@ const FormPage = () => {
                   />
                 </div>
               </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Address
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="Enter Full Address"
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Address
+                </label>
+                <input
+                  type="email"
+                  placeholder="Enter Full Address"
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
             </div>
             <div className="mb-4">
               <h3 className="text-lg font-medium mb-2">Upload Documents</h3>
@@ -175,11 +195,12 @@ const FormPage = () => {
                     onChange={(e) => setDesignation(e.target.value)}
                     className="block w-full p-2 border border-gray-300 rounded"
                   >
-                    <option value="">Select Designation</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Developer">Developer</option>
-                    <option value="Designer">Designer</option>
-                    <option value="Tester">Tester</option>
+                    <option value="">Choose Designation</option>
+                   {
+                    allDesignation.map((val)=>(
+                      <option value={val}>{val}</option>
+                    ))
+                   }
                   </select>
                 </div>
                 <div>
@@ -191,22 +212,23 @@ const FormPage = () => {
                     onChange={(e) => setDesignationLevel(e.target.value)}
                     className="block w-full p-2 border border-gray-300 rounded"
                   >
-                    <option value="">Select Level</option>
-                    <option value="Junior">Junior</option>
-                    <option value="Mid">Mid</option>
-                    <option value="Senior">Senior</option>
+                    <option value="">Choose Level</option>
+                    <option value="L0">L0</option>
+                    <option value="L1">L1</option>
+                    <option value="L2">L2</option>
+                    <option value="L2">L3</option>
                   </select>
                 </div>
               </div>
-                <button
-                  onClick={()=>console.log('generate')}
-                  className="w-full py-2 bg-black text-white font-semibold rounded mb-2"
-                >
-                  Generate Virtual Id (Employee Id)
-                </button>
-                <div className="mb-4 p-2 bg-gray-200 text-center rounded">
-                    <input className="w-full"/>
-                </div>
+              <button
+                onClick={() => console.log("generate")}
+                className="w-full py-2 bg-black text-white font-semibold rounded mb-2"
+              >
+                Generate Virtual Id (Employee Id)
+              </button>
+              <div className="mb-4 p-2 bg-gray-200 text-center rounded">
+                <input className="w-full" />
+              </div>
             </div>
           </div>
           <div className="flex justify-end mt-10 lg:hidden ">
