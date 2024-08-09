@@ -8,14 +8,12 @@ const ContactUsForm = () => {
       <div className="get-in-touch">
         <h1>Get in touch</h1>
         <div>
-          <h3><FaPhone className="icon"   style={{marginRight: '10px'}}/>Number</h3>
-          <p>834678</p>
-          <p>987234987</p>
+          <h3><FaPhone className="icon"   style={{marginRight: '10px'}}/>Contact Number</h3>
+          <p>+91 8309560480</p>
         </div>
         <div>
           <h3><FaEnvelope className="icon"  style={{marginRight: '10px'}}/>Email</h3>
-          <p>abc@gmail.com</p>
-          <p>xyz@gmail.com</p>
+          <p>mnnlr.ceo@gmail.com</p>
         </div>
         <div>
           <h3><FaClock className="icon" style={{marginRight: '10px'}}/>Business Hours</h3>
@@ -25,7 +23,7 @@ const ContactUsForm = () => {
         </div>
       </div>
       <div className="form">
-        <h1>Send us info</h1>
+        <h1>Contact Us</h1>
         <form>
     
           <input type="text" id="name" name="name" placeholder="Name" />

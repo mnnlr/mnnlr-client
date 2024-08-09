@@ -13,9 +13,7 @@ import UserEdit from './Pages/Dashboard/UserEdit';
 
 import SendRecoveryLink from './Pages/SendRecoveryLink';
 import PasswordRecover from './Pages/Recover-Password';
-import AddEmployee from './Pages/Dashboard/AddEmployee';
-
-
+import LeaveDashboard from './Pages/Dashboard/LeaveDashboard';
 const Login = lazy(() => import('./Pages/LogInSinUp'));
 const PageLayOut = lazy(() => import('./Pages/PageLayOut'));
 const Home = lazy(() => import('./Pages/Home'));
@@ -70,7 +68,7 @@ const App = () => {
                 <Route index element={<DashboardHome />} />
                 <Route path='holidays' element={<Holidays />} />  
                 <Route path='profile' element={<DashboardProfile />} />
-                <Route path='track-leave' element={<TrackLeave/>} />
+                <Route path='track-leave' element={<TrackLeave/>}/>
                 <Route path='candidates-on-leave' element={<CandidatesOnLeave />} />
                 <Route path='new-applicants' element={<NewApplicants/>} />
                 <Route path='review-applicant/:id' element={<ReviewApplicant />} />
@@ -78,8 +76,8 @@ const App = () => {
                 <Route path='attendence-history/:id' element={<AttendenceHistory />} />
                 <Route path='performances' element={<Performances />} />
                 <Route path='user-profile/:id' element={<UserProfile />} />
-                <Route path='edit-employee/:id' element={<UserEdit/>}/>
-                   <Route path='add-employee' element={<AddEmployee/>} />
+                <Route path='/dashboard/form' element={<FormPage/>} />
+                <Route path='track-leave/requestleave' element={<LeaveDashboard/>}/>
             </Route>
                 </Route>
 
