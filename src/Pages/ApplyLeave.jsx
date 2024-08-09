@@ -31,9 +31,9 @@ const ApplyLeave = () => {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/leave",
-        employeeData,
+      const response = await privateAxios.post(
+        "/leave",
+        {id:user?._id,...employeeData},
         { header }
       );
       alert(response.data.message);

@@ -6,7 +6,7 @@ function Footer() {
     <footer style={{ borderTop: '1px solid rgb(36, 42, 86)', background: 'rgb(36, 42, 86)', paddingTop: '40px', color: '#fff', fontSize: '14px', textAlign: 'center', display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px', paddingBottom: '40px' }}>
       <div style={{flex: '1 1 250px', maxWidth: '250px', textAlign: 'left' }}>
         <h2 style={{ fontSize: '25px', marginBottom: '20px', borderBottom: '2px solid #fff', paddingBottom: '10px' }}>Logo</h2>
-        <p style={{ lineHeight: '1.6', opacity: '0.8' }}>The MNNLR logo is a symbol of innovation, excellence, and commitment to quality. Designed to reflect the core values of our company, the logo embodies our dedication to providing top-notch IT solutions and services. The logo features a modern and sleek design, using a color palette that signifies trust, reliability, and professionalism.</p>
+        <p style={{ lineHeight: '1.6', opacity: '0.8' }}>A short description about the logo or brand. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla condimentum tortor id metus elementum, quis pharetra velit pulvinar.</p>
         <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
           <a href="https://instagram.com" style={{ color: '#fff', textDecoration: 'none', height: '56px', }}><FaInstagram /></a>
           <a href="https://linkedin.com" style={{ color: '#fff', textDecoration: 'none', height: '56px',  }}><FaLinkedin /></a>

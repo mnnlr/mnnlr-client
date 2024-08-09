@@ -3,12 +3,36 @@ import ServiceCard from './ServiceCard';
 
 const OurServices = () => {
   const services = [
-    { icon: '✏️', title: 'Design', description: 'Crafting visually stunning and user-friendly interfaces to enhance user experience.' },
-    { icon: '🖥️', title: 'Development', description: 'Building robust and scalable websites tailored to your business needs.' },
-    { icon: '📈', title: 'Marketing', description: 'Driving growth through targeted and effective digital marketing strategies.' },
-    { icon: '💡', title: 'Strategy', description: 'Providing actionable insights and strategies to help your business succeed.' },
-    { icon: '💳', title: 'Payments', description: 'Integrating secure and efficient payment solutions for seamless transactions.' },
-    { icon: '👤', title: 'Support', description: 'Offering reliable and responsive support to ensure your operations run smoothly.' },
+    {
+      icon: '✏️', 
+      title: 'Web Services',
+      description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et justo. Praesent mattis commodo augue.'
+    },
+    {
+      icon: '📐',
+      title: 'App Development',
+      description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et justo. Praesent mattis commodo augue.'
+    },
+    {
+      icon: '📧',
+      title: 'Digital Marketing',
+      description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et justo. Praesent mattis commodo augue.'
+    },
+    {
+      icon: '🧑‍🤝‍🧑',
+      title: 'Social Media',
+      description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et justo. Praesent mattis commodo augue.'
+    },
+    {
+      icon: '🚀',
+      title: 'E-Commerce Solution',
+      description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et justo. Praesent mattis commodo augue.'
+    },
+    {
+      icon: '📞',
+      title: 'Help & Support',
+      description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et justo. Praesent mattis commodo augue.'
+    }
   ];
 
   return (

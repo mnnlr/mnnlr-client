@@ -4,7 +4,6 @@ import OurWork from "../component/OurWork";
 import ServicesMain from "../component/ServicesMain";
 import Service from "../component/Service";
 import WorkWithUs from "../component/WorkWithUs";
-import Ceo from "../component/Ceo";
 
 const Services = () => {
   return (
@@ -12,7 +11,7 @@ const Services = () => {
       <ServicesMain />
       <Service/>
       <OurCustomers/>
-      <Ceo/>
+      <OurWork/>
       <div className="bg-blue-50 pt-10 pb-20">
         <WorkWithUs />
       </div>

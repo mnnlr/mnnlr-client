@@ -1,5 +1,5 @@
 import React from 'react';
-import img1 from '../assets/logo4.jpg';
+import img1 from '../assets/ceo.jpg';
 
 function Ceo() {
   return (
@@ -7,14 +7,14 @@ function Ceo() {
       <h1 style={styles.title}>"Amazing Designs and Quality Work!"</h1>
       <div style={styles.textContainer}>
         <p style={styles.text}>
-        We are a product-based IT company specializing in innovative solutions to enhance business productivity and efficiency. Our team is dedicated to delivering high-quality designs and exceptional service.
+          Nam at congue diam. Etiam erat lectus, finibus eget commodo quis, tincidunt eget leo. Nullam quis vulputate orci, ac accumsan quam. Morbi fringilla congue libero, ac malesuada vulputate pharetra.
         </p>
       </div>
       <div style={styles.imageContainer}>
         <img style={styles.image} src={img1} alt="CEO" />
       </div>
-      <h4 style={styles.name}>Anand Anirudh</h4>
-      <p style={styles.position}>CEO, MNNLR</p>
+      <h4 style={styles.name}>John Doe</h4>
+      <p style={styles.position}>CEO, ACME INC.</p>
       {/* <ContactCard /> */}
     </div>
   );

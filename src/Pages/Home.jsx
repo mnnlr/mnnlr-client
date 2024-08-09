@@ -11,7 +11,6 @@ import Ceo from '../component/Ceo';
 
 import '../css/Home.css';
 import WorkWithUs from '../component/WorkWithUs';
-import OurCustomers from '../component/OurCustormers';
 
 function Home() {
 
@@ -30,16 +29,15 @@ function Home() {
   return (
     <div>
       <main className="hero home" style={{ backgroundImage: `url(${images[currentImage]})` }}>
-        <h2>Innovative Product Solutions</h2>
-        <h1>Empower Your Business with Our Cutting-Edge Products</h1>
-        <p>Our products are designed to streamline your operations, enhance productivity, and drive success. Explore our range of innovative solutions tailored to meet the unique needs of your business.</p>
+        <h2>Fastest And Most Lightweight WP Theme</h2>
+        <h1>Create Amazing Business Websites</h1>
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et justo. Praesent mattis commodo augue.</p>
         <div>
           <button className="button">Get Started</button>
         </div>
       </main>
       <Service />
       <Portfolio />
-      <OurCustomers/>
       <Ceo />
       <div className="bg-blue-50 pt-10 pb-20">
         <WorkWithUs />
