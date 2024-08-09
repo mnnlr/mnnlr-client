@@ -1,203 +1,58 @@
 import React, { useState } from "react";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch,useSelector } from "react-redux";
-import { addEmployee } from "../../redux/actions/EmployeeAction";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const AddEmployee = () => {
-  const dispatch = useDispatch();
-  const privateAxios = useAxiosPrivate();
-
-  const [employeeDetails, setEmployeeDetails] = useState({});
-  const [uploadedDocuments, setSelectedFile] = useState({previewUrl:'https://t4.ftcdn.net/jpg/01/64/16/59/360_F_164165971_ELxPPwdwHYEhg4vZ3F4Ej7OmZVzqq4Ov.jpg'});
-
-  const {user} = useSelector(state => state.login);
-  const {isLoading,message,error} = useSelector(state => state.employees);
-
-  const designations = [
-    "MERN Stack Developer",
-    "ReactJs Developer",
-    "MongoDB Developer",
-    "Backend Developer",
-    "NodeJs Developer",
-    "Frontend Developer",
-    "Software Developer",
-    "Java Developer",
-    "React Native",
-    "Java Android",
-    "Python Developer",
-    "Python Desktop Developer",
-    "Digital Marketing",
-    "Poster Designer",
-    "Video Editor",
-    "UI/UX Designer",
-    "VOICE",
-    "NON VOICE"
-  ];
-
-  const levels = ["L0", "L1", "L2", "L3"];
-
-  const handleEmployeeDetails = (e) => {
-    const {name,value} = e.target;
-    setEmployeeDetails((prev)=>({...prev,[name]:value}));
-  }
+  const [designation, setDesignation] = useState("");
+  const [designationLevel, setDesignationLevel] = useState("");
+  const [, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(
+    "https://t4.ftcdn.net/jpg/01/64/16/59/360_F_164165971_ELxPPwdwHYEhg4vZ3F4Ej7OmZVzqq4Ov.jpg"
+  );
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    setSelectedFile(file);
 
-    if(file.size > 512000){
-      alert("File size should be less than 500KB");
-      event.target.value = null;
-      return;
-    }
-
-    if (file.size < 512000) {
+    if (file) {
       const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setSelectedFile((prev)=>({...prev,[event.target.name]:reader.result}));
-        }
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleGenerateId = (e) => {
-    e.preventDefault();
-
-    if(!employeeDetails?.designation){
-      alert('Please select designation');
-      return;
-    }
-    if(!employeeDetails?.designationLevel){
-      alert('Please select designation level');
-      return;
-    }
-
-    if(!employeeDetails?.email){
-      alert('Please enter email');
-      return;
-    }
-
-    let result;
-
-    if (employeeDetails?.designation === "MongoDB Developer") {
-      result = "MDB DEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Backend Developer") {
-      result = "BCKND DEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-   if (employeeDetails?.designation === "NodeJs Developer") {
-     result = "NODEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-   }
-
-    if (employeeDetails?.designation === "ReactJs Developer") {
-      result = "REACT-DEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Frontend Developer") {
-      result = "F-DEV" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Software Developer") {
-      result = "SOFT-DEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Java Developer") {
-      result = "JAVA-DEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "MERN Stack Developer") {
-      result = "MERN-DEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-    if (employeeDetails?.designation === "React Native") {
-      result = "RN-DEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Java Android") {
-      result = "JAVA-APP-DEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Python Developer") {
-      result = "P-DEV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Python Desktop Developer") {
-      result = "P-DES-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Digital Marketing") {
-      result = "DM-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Poster Designer") {
-      result = "POS-DEG-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "Video Editor") {
-      result = "VID-ED-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "UI/UX Designer") {
-      result = "UIX-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "VOICE") {
-      result = "TEL-CAL-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation === "NON VOICE") {
-      result = "TEL-NV-" + employeeDetails?.designationLevel + "-" + employeeDetails?.email;
-    }
-
-    if (employeeDetails?.designation && employeeDetails?.designationLevel) {
-      setEmployeeDetails((prev)=>({...prev,employeeId:result}));
-    }
-  };
-
-  const handleAddEmployee = (e) => {
-    e.preventDefault();
-
-    const myForm = new FormData();
-    Object.entries({...employeeDetails,...uploadedDocuments}).forEach(([key, value]) => {
-      if(key !== 'previewUrl'){
-        myForm.append(key, value);
-      }
-    });
-
-    dispatch(addEmployee({privateAxios, data:myForm,accessToken:user?.accessToken}));
-    
-  }
-  
   return (
     <div className="min-h-screen bg-white flex justify-center rounded-lg shadow-lg items-center p-4 mt-6">
-      <form className="min-h-screen bg-white p-6 rounded-lg w-full max-w-10xl">
+      <div className="min-h-screen bg-white p-6 rounded-lg w-full max-w-10xl">
         <div className="flex justify-end items-center mb-6">
+          {/* <div>
+            <h2 className="text-2xl font-semibold mb-1">Employee Form</h2>
+            <span className="text-sm lg:text-lg">
+              Fill Employee personal detials
+            </span>
+          </div> */}
           <div className="hidden lg:block">
-            {!isLoading?<button
+            <button
               type="submit"
-              onClick={handleAddEmployee}
               className="px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700"
             >
-              Add Employee
-            </button>:<p className="px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700">please wait</p>}
+              Save changes
+            </button>
           </div>
         </div>
-        <div className="flex flex-col lg:flex-row-reverse">
+        <form className="flex flex-col lg:flex-row-reverse">
           <div className="w-full lg:w-1/3 mb-6 lg:mb-0 flex flex-col items-center lg:items-start lg:mr-6">
             <div className="mb-6 lg:ml-20">
               <h3 className="text-lg font-medium mb-2">Profile image</h3>
               <p className="mt-1 mb-4 text-sm text-gray-500 text-left lg:text-left lg:text-m">
                 Image must be at least 500x500px and no larger than 5mb.
               </p>
-              <img className="h-32 w-32 mb-4" src={uploadedDocuments?.avatar?uploadedDocuments?.avatar:uploadedDocuments?.previewUrl} alt="Profile" />
+              <img className="h-32 w-32 mb-4" src={previewUrl} alt="Profile" />
               <input
                 type="file"
                 className="hidden"
-                name="avatar"
                 id="profileImageUpload"
                 accept="image/*"
                 onChange={handleFileChange}
@@ -221,8 +76,6 @@ const AddEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter First Name"
-                    name="firstName"
-                    onChange={handleEmployeeDetails}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
@@ -233,8 +86,6 @@ const AddEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter Last Name"
-                    onChange={handleEmployeeDetails}
-                    name="lastName"
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
@@ -245,8 +96,6 @@ const AddEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter Father Name"
-                    onChange={handleEmployeeDetails}
-                    name="fatherName"
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
@@ -257,8 +106,6 @@ const AddEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter Mother Name"
-                    onChange={handleEmployeeDetails}
-                    name="motherName"
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
@@ -267,10 +114,8 @@ const AddEmployee = () => {
                     Email 
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     placeholder="Enter Email Address"
-                    onChange={handleEmployeeDetails}
-                    name="email"
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
@@ -281,8 +126,6 @@ const AddEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter Phone Number"
-                    onChange={handleEmployeeDetails}
-                    name="phoneNo"
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
@@ -292,22 +135,8 @@ const AddEmployee = () => {
                     Address
                   </label>
                   <input
-                    type="text"
+                    type="email"
                     placeholder="Enter Full Address"
-                    onChange={handleEmployeeDetails}
-                    name="address"
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  />
-                </div>
-                <div className="mt-[10px]">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Description
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="write something about employee"
-                    onChange={handleEmployeeDetails}
-                    name="description"
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
@@ -316,26 +145,23 @@ const AddEmployee = () => {
               <h3 className="text-lg font-medium mb-2">Upload Documents</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-5">
                 {[
-                  { label: "Aadhar Card (pdf)",name:'aadhar', accept: "application/pdf" },
-                  { label: "PAN Card (pdf)",name:'pan', accept: "application/pdf" },
-                  { label: "Bank Detail (pdf)",name:'Bank', accept: "application/pdf" },
-                  { label: "PF (pdf)",name:'PF', accept: "application/pdf" },
-                  { label: "10th MarkSheet (pdf)",name:'xthMarksheet', accept: "application/pdf" },
-                  { label: "12th MarkSheet (pdf)",name:'xiithMarksheet', accept: "application/pdf" },
+                  { label: "Aadhar Card (pdf)", accept: "application/pdf" },
+                  { label: "PAN Card (pdf)", accept: "application/pdf" },
+                  { label: "Bank Detail (pdf)", accept: "application/pdf" },
+                  { label: "PF (pdf)", accept: "application/pdf" },
+                  { label: "10th MarkSheet (pdf)", accept: "application/pdf" },
+                  { label: "12th MarkSheet (pdf)", accept: "application/pdf" },
                   {
                     label: "Graduation MarkSheet (pdf)",
-                    name:'graduationMarksheet',
                     accept: "application/pdf",
                   },
-                  { label: "PG MarkSheet (pdf)",name:'pgMarksheet', accept: "application/pdf" },
+                  { label: "PG MarkSheet (pdf)", accept: "application/pdf" },
                 ].map((file, index) => (
                   <div key={index} className="mb-4">
                     <label className="block text-gray-700 mb-2">{`Upload ${file.label}`}</label>
                     <input
                       type="file"
                       accept={file.accept}
-                      name={file.name}
-                      onChange={handleFileChange}
                       className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                     />
                   </div>
@@ -345,15 +171,15 @@ const AddEmployee = () => {
                     Choose Designation
                   </label>
                   <select
-                    value={employeeDetails?.designation}
-                    onChange={(e) => setEmployeeDetails((prev)=>({...prev,designation:e.target.value}))}
+                    value={designation}
+                    onChange={(e) => setDesignation(e.target.value)}
                     className="block w-full p-2 border border-gray-300 rounded"
                   >
-                    {designations?.map(
-                      (designation)=><option key={designation} value={designation}>
-                        {designation}
-                      </option>)}
-                    
+                    <option value="">Select Designation</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Developer">Developer</option>
+                    <option value="Designer">Designer</option>
+                    <option value="Tester">Tester</option>
                   </select>
                 </div>
                 <div>
@@ -361,32 +187,30 @@ const AddEmployee = () => {
                     Choose Designation Level
                   </label>
                   <select
-                    value={employeeDetails?.designationLevel}
-                    onChange={(e) => setEmployeeDetails((prev)=>({...prev,designationLevel:e.target.value}))}
+                    value={designationLevel}
+                    onChange={(e) => setDesignationLevel(e.target.value)}
                     className="block w-full p-2 border border-gray-300 rounded"
                   >
-                    {levels?.map(
-                      (level)=><option key={level} value={level}>
-                        {level}
-                      </option>
-                    )}
+                    <option value="">Select Level</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Mid">Mid</option>
+                    <option value="Senior">Senior</option>
                   </select>
                 </div>
               </div>
                 <button
-                  type="button"
-                  onClick={handleGenerateId}
+                  onClick={()=>console.log('generate')}
                   className="w-full py-2 bg-black text-white font-semibold rounded mb-2"
                 >
                   Generate Virtual Id (Employee Id)
                 </button>
-                {employeeDetails?.employeeId&&<div className="mb-4 p-2 bg-gray-200 text-center rounded">
-                    <p className="text-lg font-semibold">{employeeDetails?.employeeId}</p>
-                </div>}
+                <div className="mb-4 p-2 bg-gray-200 text-center rounded">
+                    <input className="w-full"/>
+                </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

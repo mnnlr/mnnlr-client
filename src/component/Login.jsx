@@ -61,7 +61,7 @@ const Login = () => {
               name='password'
               placeholder="Password" 
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" 
-            /> 
+            />
           </div>
           <div className="mb-4">
             <p onClick={()=>navigate('/get-recovery-link')} className=" cursor-pointer px-3 py-2 text-right text-gray-600 mb-4">Forgot your password?</p>

@@ -37,7 +37,7 @@ const TrackLeave = () => {
     <div style={{marginTop: '30px'}}>
        <Table 
         TableTitle={'Track Leave'}
-        TableHeaderData={["Employee","Name", "Employee Id","Type", "Status", "duration","ACTION"]}  
+        TableHeaderData={["Employee","Name", "Employee Id","Leave Type", "Status", "duration","ACTION"]}  
       >
         <tbody>
             {Data.map((Datum, index) => (
@@ -58,7 +58,7 @@ const TrackLeave = () => {
                     </div>
                 </td>
                 <td>
-                  <p className='dashboard-table-email'>{Datum.employeeId}</p>
+                  <div>{Datum.employeeId}</div>
                 </td>
                 <td>
                   <div>{Datum.leaveType}</div>
@@ -72,7 +72,7 @@ const TrackLeave = () => {
                 </td>
                 {/* leave duration */}
                 <td>
-                  <div>{Datum?.duration} D</div>
+                  <div>{Datum?.duration}</div>
                 </td>
                 <td>
                   <button className="dashboard-table-edit-button">Edit</button>

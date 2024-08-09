@@ -23,29 +23,6 @@ const getEmployees = createAsyncThunk(
     }
 );
 
-const addEmployee = createAsyncThunk(
-    'AddEmployee',
-    async (Parameter, { rejectWithValue }) => {
-        try {
-            console.log('Parameter data : ',Parameter?.data)
-            const {data,status} = await Parameter.privateAxios.post('/api/v1/employee/new',Parameter.data, {
-                withCredentials: true,
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                  "Authorization": `Bearer ${Parameter?.accessToken}`,
-                },
-            });
-
-            if(status === 200){
-                return data.Data;
-            }
-            
-        } catch (error) {
-            return rejectWithValue(error.response.data.message);
-        }
-    }
-);
-
 const getEmployeeById = createAsyncThunk(
     'EmployeeById',
     async (Parameter, { rejectWithValue }) => {
@@ -76,4 +53,4 @@ const getEmployeeById = createAsyncThunk(
     }
 );
 
-export { getEmployees,getEmployeeById,addEmployee };
+export { getEmployees,getEmployeeById };
