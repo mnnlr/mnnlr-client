@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getEmployees,getEmployeeById } from "../actions/EmployeeAction";
+import { getEmployees,getEmployeeById,addEmployee } from "../actions/EmployeeAction";
 
 const initialState = {
     employees: [],
     employee: {},
     totalEmployees: 0,
+    message: null,
     isLoading: false,
     error: null,
 };
@@ -17,6 +18,7 @@ const employeeSlice = createSlice({
         
     },
     extraReducers: (builder) => {
+        // get all employees
         builder.addCase(getEmployees.pending, (state) => {
             state.isLoading = true;
         });
@@ -42,6 +44,20 @@ const employeeSlice = createSlice({
             state.error = null;
         });
         builder.addCase(getEmployeeById.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+        });
+
+        // add employee
+        builder.addCase(addEmployee.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(addEmployee.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.message = action.payload;
+            state.error = null;
+        });
+        builder.addCase(addEmployee.rejected, (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
         });
