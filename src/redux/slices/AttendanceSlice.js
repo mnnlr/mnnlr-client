@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAttendance, getAttendanceById } from "../actions/AttendanceAction";
+import { getAttendance, getAttendanceById,getEmployeeWorkingHours } from "../actions/AttendanceAction";
 
 const initialState = {
-    attendances: [],
+    attendances: [], 
+    workingHours: [],
     attendance: {},
     isLoading: false,
     error: null,
@@ -43,6 +44,19 @@ const AttendanceSlice = createSlice({
             state.isLoading = false;
             state.error = payload;
         });
+
+        // getEmployeeWorkingHours
+        builder.addCase(getEmployeeWorkingHours.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getEmployeeWorkingHours.fulfilled, (state, { payload }) => {
+            state.workingHours = payload;
+            state.isLoading = false;
+        });
+        builder.addCase(getEmployeeWorkingHours.rejected, (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload
+        })
     },
 });
 

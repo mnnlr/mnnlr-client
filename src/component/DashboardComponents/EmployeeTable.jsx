@@ -44,26 +44,26 @@ const EmployeeTable = () => {
                             <div className="dashboard-table-info" style={{cursor:'pointer'}} onClick={()=>navigate(`/dashboard/user-profile/${Datum?._id}`)}>
                                 <img
                                     style={{width:'36px',height:'36px',borderRadius:'50%'}}
-                                    src={Datum.avatar.url}
-                                    alt={Datum.firstName}
+                                    src={Datum?.avatar?.url}
+                                    alt={Datum?.firstName}
                                     className=".dashboard-author-avatar"
                                 />
                             </div>
                         </td>
                         <td>
                             <div>
-                                <div className="dashboard-table-name">{`${Datum.firstName} ${Datum?.lastName}`}</div>
-                                <div className="dashboard-table-email">{Datum.email}</div>
+                                <div className="dashboard-table-name">{`${Datum?.firstName} ${Datum?.lastName}`}</div>
+                                <div className="dashboard-table-email">{Datum?.email}</div>
                             </div>
                         </td>
                         <td>
-                            <div>{Datum.designation}</div>
+                            <div>{Datum?.designation}</div>
                         </td>
                         <td>
-                            <div>{Datum.designationLevel}</div>
+                            <div>{Datum?.designationLevel}</div>
                         </td>
                         <td>
-                            <div>{Datum.createdAt?new Date(Datum.createdAt).toDateString():'not available'}</div>
+                            <div>{Datum?.createdAt?new Date(Datum.createdAt).toDateString():'not available'}</div>
                         </td>
                         {Datum?.status&&<td>
                             <span

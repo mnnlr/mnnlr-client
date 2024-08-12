@@ -10,8 +10,8 @@ import Card from './Card';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 import { useSelector,useDispatch } from 'react-redux';
-import { getAttendance } from '../../redux/actions/AttendanceAction';
-
+import { getAttendance,getEmployeeWorkingHours } from '../../redux/actions/AttendanceAction';
+import convertSecondsToHHMMSS from '../../utils/convertSecondsToHHMMSS';
 import '../../css/DashboardCss/ActualCard.css' 
 
 
@@ -22,15 +22,24 @@ const ActualCard = ({empFun}) => {
 
   const {user} = useSelector((state) => state.login);
 
-  const {attendances} = useSelector((state) => state.attendances);
+  const {attendances,workingHours} = useSelector((state) => state.attendances);
   const {totalEmployees} = useSelector(state => state.employees);
+
+  console.log('workingHours : ',workingHours);
   
   useEffect(() => {
-    dispatch(getAttendance({privateAxios,accessToken:user.accessToken}));
-  }, [dispatch,privateAxios]);
+    let isMounted = true;
+    if(isMounted){
+      dispatch(getAttendance({privateAxios,accessToken:user.accessToken}));
+      dispatch(getEmployeeWorkingHours({privateAxios,accessToken:user.accessToken}));
+    }
+    return () => {
+      isMounted = false;
+    }
+    }, [dispatch,privateAxios]);
 
-  const present = attendances.filter((attendance) => attendance.attendance) || 0;
-  const absent = attendances?.length - present?.length || 0;
+  const present = attendances.filter((attendance) => attendance.attendance) || <p>calculating...</p>;
+  const absent = attendances?.length - present?.length || <p>calculating...</p>;
 
   const cardData = [
     {
@@ -62,7 +71,7 @@ const ActualCard = ({empFun}) => {
     },
     {
       title: "Performance",
-      amount: "100K hrs",
+      amount: `${convertSecondsToHHMMSS(workingHours?.totalWorkingTimeOfAllEmployee)} hrs`,
       percentage: "+5%",
       icon: FaChartLine,
       bgColorFrom: "from-purple-400",
@@ -77,6 +86,7 @@ const ActualCard = ({empFun}) => {
         <div key={index} onClick={data.fun}>
           <Card
             title={data.title}
+            
             amount={data.amount}
             percentage={data.percentage}
             icon={data?.icon}

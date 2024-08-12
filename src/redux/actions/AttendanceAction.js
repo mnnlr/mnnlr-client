@@ -1,5 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+const getEmployeeWorkingHours = createAsyncThunk(
+    'getEmployeeWorkingHours',
+    async (Parameter,{rejectWithValue}) => {
+        try {
+            const {data,status} = await Parameter.privateAxios.get('/api/v1/performance', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${Parameter?.accessToken}`,
+                },
+            });
+            console.log('getEmployeeWorkingHours data : ',data);
+            return data?.Data;
+        } catch (error) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }   
+);
+
 const getAttendance = createAsyncThunk(
    'getAttendance',
     async (Parameter,{rejectWithValue}) => {
@@ -39,4 +57,4 @@ const getAttendanceById = createAsyncThunk(
     }
 );
 
-export {getAttendance,getAttendanceById};
+export {getAttendance,getAttendanceById,getEmployeeWorkingHours};
