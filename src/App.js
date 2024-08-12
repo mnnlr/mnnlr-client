@@ -14,6 +14,7 @@ import UserEdit from './Pages/Dashboard/UserEdit';
 import SendRecoveryLink from './Pages/SendRecoveryLink';
 import PasswordRecover from './Pages/Recover-Password';
 import AddEmployee from './Pages/Dashboard/AddEmployee';
+import LeaveDashboard from './Pages/Dashboard/LeaveDashboard';
 
 
 const Login = lazy(() => import('./Pages/LogInSinUp'));
@@ -80,6 +81,7 @@ const App = () => {
                 <Route path='user-profile/:id' element={<UserProfile />} />
                 <Route path='edit-employee/:id' element={<UserEdit/>}/>
                    <Route path='add-employee' element={<AddEmployee/>} />
+                   <Route path='track-leave/review-leave' element={<LeaveDashboard/>}/>                   
             </Route>
                 </Route>
 
