@@ -38,9 +38,9 @@ const LeaveDashboard = () => {
   const totalLeaveData = [4, 1];
   const totalLeave = 2;
 
-  return (
+  return (  //grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
     <div className="p-6 min-h-screen">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:flex lg:justify-between gap-6 mb-8 xl:gap-10 bg-white shadow-sm rounded-lg">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:flex lg:flex-wrap lg:justify-start gap-6 mb-8 xl:gap-10 bg-white shadow-sm rounded-lg">
         {/* {data.map((item, index) => (
           <LeaveData
             key={index}
@@ -54,7 +54,8 @@ const LeaveDashboard = () => {
          title="Sick Leave"
          labels={sickLeaveLabels}
          leaveData={sickLeaveData}
-         totalLeave={totalSickLeave}/>
+         totalLeave={totalSickLeave}
+    />
         <LeavePieChart
            title="Casual Leave"
            labels={casualLeaveLabels}
