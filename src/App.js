@@ -81,7 +81,7 @@ const App = () => {
                 <Route path='user-profile/:id' element={<UserProfile />} />
                 <Route path='edit-employee/:id' element={<UserEdit/>}/>
                    <Route path='add-employee' element={<AddEmployee/>} />
-                   <Route path='track-leave/review-leave' element={<LeaveDashboard/>}/>                   
+                   <Route path='review-leave/:id' element={<LeaveDashboard/>}/>                   
             </Route>
                 </Route>
 

@@ -71,7 +71,7 @@ const ActualCard = ({empFun}) => {
     },
     {
       title: "Performance",
-      amount: `${convertSecondsToHHMMSS(workingHours?.totalWorkingTimeOfAllEmployee)} hrs`,
+      amount: `${convertSecondsToHHMMSS(workingHours?.totalWorkingTimeOfAllEmployee)}`,
       percentage: "+5%",
       icon: FaChartLine,
       bgColorFrom: "from-purple-400",

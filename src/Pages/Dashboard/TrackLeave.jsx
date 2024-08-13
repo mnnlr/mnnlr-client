@@ -11,7 +11,7 @@ const TrackLeave = () => {
     const [Data,setData] = useState([]);
     
     const { user } = useSelector((state) => state.login);
-    console.log('user : ',user);
+   
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -32,7 +32,6 @@ const TrackLeave = () => {
         fetchData();
     }, [user?.accessToken]);
     console.log(Data);
-    
   return (
     <div style={{marginTop: '30px'}}>
        <Table 
@@ -54,28 +53,27 @@ const TrackLeave = () => {
                 <td>
                     <div>
                       <div className="dashboard-table-name">{Datum?.name}</div>
-                      <div className="dashboard-table-email">{Datum.email}</div>
+                      <div className="dashboard-table-email">{Datum?.email}</div>
                     </div>
                 </td>
                 <td>
-                  <p className='dashboard-table-email'>{Datum.employeeId}</p>
+                  <p className='dashboard-table-email'>{Datum?.employeeId}</p>
                 </td>
                 <td>
-                  <div>{Datum.leaveType}</div>
+                  <div>{Datum?.leaveType}</div>
                 </td>
                 <td>
                   <span
-                    className={`dashboard-status-badge ${Datum.status.toLowerCase()}`}
+                    className={`dashboard-status-badge ${Datum?.status?.toLowerCase()}`}
                   >
-                    {Datum.status}
+                    {Datum?.status}
                   </span>
                 </td>
-                {/* leave duration */}
                 <td>
                   <div>{Datum?.duration} D</div>
                 </td>
                 <td>
-                  <button className="dashboard-table-edit-button" onClick={()=>navigate('review-leave')}>Edit</button>
+                  <button className="dashboard-table-edit-button" onClick={()=>navigate(`/dashboard/review-leave/${Datum?._id}`)}>review</button>
                 </td>
               </tr>
             ))}
