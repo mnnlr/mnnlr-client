@@ -3,35 +3,21 @@ import { useNavigate } from 'react-router-dom';
 
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import Table from '../../component/DashboardComponents/Table';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import { getAllLeave } from '../../redux/actions/LeaveActions';
 
 const TrackLeave = () => {
     const privateAxios = useAxiosPrivate();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [Data,setData] = useState([]);
     
     const { user } = useSelector((state) => state.login);
-   
+    const { leaves } = useSelector((state) => state.leaves);
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const {data,status} = await privateAxios.get('/leave', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${user?.accessToken}`
-                    }
-                });
-                if(status === 200){
-                  setData(data.Data);
-                }
-                
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchData();
+        dispatch(getAllLeave({accessToken:user?.accessToken,privateAxios}));
     }, [user?.accessToken]);
-    console.log(Data);
+
   return (
     <div style={{marginTop: '30px'}}>
        <Table 
@@ -39,7 +25,7 @@ const TrackLeave = () => {
         TableHeaderData={["Employee","Name", "Employee Id","Type", "Status", "duration","ACTION"]}  
       >
         <tbody>
-            {Data.map((Datum, index) => (
+            {leaves?.map((Datum, index) => (
               <tr key={index}>
                 <td>
                   <div className="dashboard-table-info" style={{cursor:'pointer'}} onClick={()=>navigate('/dashboard/user-profile')}>
@@ -73,7 +59,9 @@ const TrackLeave = () => {
                   <div>{Datum?.duration} D</div>
                 </td>
                 <td>
-                  <button className="dashboard-table-edit-button" onClick={()=>navigate(`/dashboard/review-leave/${Datum?._id}`)}>review</button>
+                  <button className="dashboard-table-edit-button" onClick={()=>navigate(`/dashboard/review-leave/${Datum?.leaveId}`)}>
+                    {Datum?.status?.toLowerCase() !== 'pending' ? 'View' : 'Review'}
+                  </button>
                 </td>
               </tr>
             ))}

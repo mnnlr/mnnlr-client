@@ -80,8 +80,8 @@ const App = () => {
                 <Route path='performances' element={<Performances />} />
                 <Route path='user-profile/:id' element={<UserProfile />} />
                 <Route path='edit-employee/:id' element={<UserEdit/>}/>
-                   <Route path='add-employee' element={<AddEmployee/>} />
-                   <Route path='review-leave/:id' element={<LeaveDashboard/>}/>                   
+                <Route path='add-employee' element={<AddEmployee/>} />
+                <Route path='review-leave/:id' element={<LeaveDashboard/>}/>                   
             </Route>
                 </Route>
 
