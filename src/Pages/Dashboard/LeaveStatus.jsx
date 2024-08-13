@@ -134,7 +134,7 @@ const LeaveStatus = ({Data}) => {
             </tr>
           </tbody>
         </table>
-       {Data?.status?.toLowerCase() === 'pendind' ? <div className="flex flex-col md:flex-row md:justify-end space-y-4 md:space-y-0 md:space-x-4 mt-10">
+       {Data?.status?.toLowerCase() === 'pending' ? <div className="flex flex-col md:flex-row md:justify-end space-y-4 md:space-y-0 md:space-x-4 mt-10">
           <button onClick={(e)=>handleReview(e,{leaveId:Data?.leaveId,reviewStatus:false})} className="bg-red-500 hover:bg-red-700 text-white text-lg px-4 py-2 rounded-lg shadow-lg">
             Reject
           </button>
