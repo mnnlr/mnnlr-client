@@ -49,8 +49,17 @@ const LeaveDashboard = () => {
 
   return (
     <div className="p-6 min-h-screen">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:flex lg:justify-between gap-6 mb-8 xl:gap-10 bg-white shadow-sm rounded-lg">  
 
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 bg-white shadow-sm rounded-lg">
+        {/* {data.map((item, index) => (
+          <LeaveData
+            key={index}
+            title={item.title}
+            value={item.value}
+            bgColor={item.bgColor}
+            textColor={item.textColor}
+          />
+        ))} */}
         <LeavePieChart
          title="Sick Leave"
          labels={['Balance', 'Used']}

@@ -1,9 +1,13 @@
+
+import { lazy, Suspense } from "react";
 import AboutCard from "../component/AboutCard";
-import AboutSlider from "../component/AboutSlider";
-import ClientStats from "../component/ClientStatus";
 import Process from "../component/Process";
 import WHY_CHOOSE_US from "../component/Why_Choose_Us";
 import WorkWithUs from "../component/WorkWithUs";
+
+
+
+const AboutSlider = lazy(()=>  import('../component/AboutSlider'));
 
 const About = () => {
     const services = [
@@ -25,7 +29,9 @@ const About = () => {
     ];
     return(
         <>
-            <AboutSlider />
+        <Suspense fallback={<div>Loading...</div>}>
+        <AboutSlider />
+        </Suspense>
             <div className="relative top-[-14vh] w-full">
                 <div className="container mx-auto px-10">
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-8">
@@ -42,7 +48,7 @@ const About = () => {
             </div>
             <Process />
             <WHY_CHOOSE_US />
-            <ClientStats />
+            {/* <ClientStats /> */}
             <div className="bg-blue-50 pt-10 pb-20">
                 <WorkWithUs />
             </div>

@@ -8,7 +8,7 @@ const HeroSection = ({Data}) => {
         <h1>{Data?.title?Data?.title:'Contact Us'}</h1>
         <h2>{Data?.subtitle?Data?.subtitle:'Contact for Premium Business Services'}</h2>
         <p>
-            {Data?.description?Data?.description:'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et justo. Praesent mattis commodo augue. Aliquam ornare hendrerit augue.'}
+            {Data?.description?Data?.description:"If you have any questions or would like to learn more about our services, please don't hesitate to reach out. We look forward to connecting with you!"}
         </p>
       </section>
     </div>

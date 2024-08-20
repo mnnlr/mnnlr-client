@@ -37,7 +37,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(41, 50, 100, 0.7);
+    background-color: rgba(0,0,0,0.7);
   }
   
   .other-hero h1, .other-hero h2, .other-hero p {
@@ -92,6 +92,7 @@
   form {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
   }
   
   form input,

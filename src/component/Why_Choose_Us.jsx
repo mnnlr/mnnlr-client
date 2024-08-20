@@ -10,7 +10,7 @@ const WHY_CHOOSE_US = () => {
           alt="Description"
           className="w-full h-full object-cover rounded shadow-lg"
         />
-        <div className="absolute inset-0 bg-[#242a56] opacity-80 rounded"></div>
+        <div className="absolute inset-0 bg-black/65 opacity-80 rounded"></div>
       </div>
       <div className="w-full  lg:w-1/2 md:w-1/2 p-4">
         <div className="text-center py-8">

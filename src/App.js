@@ -22,7 +22,7 @@ const PageLayOut = lazy(() => import('./Pages/PageLayOut'));
 const Home = lazy(() => import('./Pages/Home'));
 const About = lazy(() => import('./Pages/About'));
 const Service = lazy(() => import('./Pages/Services'));
-const SatisfiedClients = lazy(() => import('./Pages/SatisfiedClients'));
+// const SatisfiedClients = lazy(() => import('./Pages/SatisfiedClients'));
 const ContactUs = lazy(() => import('./Pages/ContactUs'));
 const Employees = lazy(() => import('./Pages/Employees'));
 const EmployeeProfile = lazy(() => import('./Pages/Employee-Profile-Page'));
@@ -48,9 +48,8 @@ const App = () => {
             <Route path='services' element={<Service/>} />
             <Route path='about' element={<About/>} />
             <Route path='contact' element={<ContactUs/>} />
-            <Route path='satisfied-clients' element={<SatisfiedClients />} />
+            {/* <Route path='satisfied-clients' element={<SatisfiedClients />} /> */}
             <Route path='profile' element={<ProfilePage />} />
-
             <Route element={<ProtectedRoute allowedRole={['admin','hr']}/>}>
               <Route path='employees' element={<Employees />} />
             </Route>
@@ -81,7 +80,7 @@ const App = () => {
                 <Route path='user-profile/:id' element={<UserProfile />} />
                 <Route path='edit-employee/:id' element={<UserEdit/>}/>
                 <Route path='add-employee' element={<AddEmployee/>} />
-                <Route path='review-leave/:id' element={<LeaveDashboard/>}/>                   
+                <Route path='track-leave/review-leave' element={<LeaveDashboard/>}/>                   
             </Route>
                 </Route>
 

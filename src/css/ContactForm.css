@@ -76,17 +76,18 @@
   
   .form form button {
     padding: 0.8rem 1.5rem;
-    background-color: #007bff;
+    background-color: #12999F;
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+    box-shadow: inherit;
   }
   
   .form form button:hover {
-    background-color: #0056b3;
+    background-color: #0a5c61;
   }
   
   /* Responsive Styling */
@@ -100,9 +101,7 @@
       width: 100%;
       margin-bottom: 1rem;
     }
-  .form{
-    
-  }
+ 
     .form form input,
     .form form textarea {
       padding: 0.8rem;

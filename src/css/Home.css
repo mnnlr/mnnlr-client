@@ -23,7 +23,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(41, 50, 100, 0.7);
+  /* background-color: rgba(41, 50, 100, 0.7); */
+  /* background-color: rgba(216, 239, 211, 0.5); */
+  background-color: rgba(0,0,0,0.7);
 }
   
   .hero {
@@ -31,7 +33,9 @@
     flex-direction: column;
     justify-content: center;
     padding: 0 2rem;
-    color: white;
+    /* color: white; */
+    /* color: rgba(18, 153, 159, 1); */
+    color: #f8f8f8;
     height: 100vh;
     position: relative;
     z-index: 1;

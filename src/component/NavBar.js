@@ -31,20 +31,26 @@ function NavBar() {
     setIsNavOpen(!isNavOpen);
   };
 
+  const handleLinkClick = () => {
+    setIsNavOpen(false);
+  };
+
   return (
     <nav className={`navbar ${scrollPosition > 0 ? 'scrolled' : ''}`}>
       <div className="navbar-logo">
         <img src={logo} alt='logo' className='w-16 h-16 rounded-full p-1'/>
        MNNLR</div>
       <div className={`navbar-links ${isNavOpen ? 'open' : ''}`}>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/services">Services</Link>
-        <Link to="/contact">Contact</Link>
+      <Link to="/"onClick={handleLinkClick}> Home</Link>
+        <Link to="/about" onClick={handleLinkClick}>About</Link>
+        <Link to="/services" onClick={handleLinkClick}>Services</Link>
+        <Link to="/contact" onClick={handleLinkClick}>Contact</Link>
         {user?.role === 'admin'&&<EmployeeButton user={user} />}
         <div><ProfileIcon/></div>
       </div>
-      <button className="navbar-toggle-btn" onClick={toggleNav}>☰</button>
+      <button className="navbar-toggle-btn" onClick={toggleNav}>
+      {isNavOpen ? <span>&#10006;</span> : <span>☰</span>}
+      </button>
     </nav>
   );
 }

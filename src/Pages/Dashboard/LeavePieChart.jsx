@@ -38,15 +38,20 @@ const LeavePieChart = ({ title, labels, leaveData, totalLeave }) => {
 
   return (
     <div className="relative w-full max-w-xs mx-auto mb-8 rounded-lg p-4">
+    <div className="w-full h-full">
       <Pie data={data} options={options} />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center lg:mr-[10px]">
-          <span className="text-xl lg:text-2xl font-bold">{totalLeave}</span>
-          <br />
-          <span className="text-sm lg:text-base text-black">{title}</span>
-        </div>
+    </div>
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="text-center">
+        <span className="text-lg sm:text-xl lg:text-xl font-bold block leading-none">
+          {totalLeave}
+        </span>
+        <span className="text-xs sm:text-sm lg:text-xs text-black block leading-none">
+          {title}
+        </span>
       </div>
     </div>
+  </div>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import img from '../assets/logo4.jpg';
 
 const OurWork = () => {
   return (
@@ -8,14 +9,11 @@ const OurWork = () => {
           "Amazing Designs and Quality Work!"
         </blockquote>
         <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 mb-8">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. At
-          voluptatibus consequatur fugiat ullam voluptatum veritatis sequi harum
-          eum doloremque repellendus? Pariatur expedita beatae nesciunt
-          accusamus illum eos commodi ducimus voluptas.
+          At our core, we are driven by the passion to deliver cutting-edge digital solutions that exceed expectations. Our team is dedicated to bringing your vision to life with creativity and precision, ensuring that your business stands out in the digital landscape. Trust us to deliver unparalleled quality and innovation.
         </p>
         <div className="flex flex-col items-center mb-10">
           <img
-            src="https://media-del2-1.cdn.whatsapp.net/v/t61.24694-24/438801814_2626423667537826_7681033577023385378_n.jpg?ccb=11-4&oh=01_Q5AaIFPwr8mqCQoqsGM8HGVwIjyq5cTed-wqAPXS2LKwdlq9&oe=6690C61E&_nc_sid=e6ed6c&_nc_cat=110"
+            src={img}
             alt="Annand Anirudh"
             className="w-16 h-16 rounded-full mb-4"
           />

@@ -24,10 +24,9 @@ function Portfolio() {
     return (
         <div>
             <section className="portfolio">
-                <h2>Portfolio</h2>
+                <h2 className='text-3xl sm:text-4xl md:text-5xl lg:text-4xl font-bold mb-6 sm:mb-8 md:mb-10'>Portfolio</h2>
                 <p className="portfolio-description">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et
-                    justo. Praesent mattis commodo augue.
+                We serve a diverse range of clients, including leaders in insurance, retail, festive shopping, and web development.
                 </p>
                 <div className="portfolio-grid">
                     {portfolioItems.map((item) => (
@@ -36,10 +35,10 @@ function Portfolio() {
                         </div>
                     ))}
                 </div>
-                <button className="explore-more">EXPLORE MORE</button>
+                <button className="explore-more  shadow-xl">EXPLORE MORE</button>
             </section>
 
-            <section className="portfolio" style={{ textAlign: 'center' }}>
+            {/* <section className="portfolio" style={{ textAlign: 'center' }}>
                 <h2>Our Customers</h2>
                 <p style={{ marginBottom: '50px', width: '40%', margin: 'auto' }}>
                     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse et justo.
@@ -55,7 +54,7 @@ function Portfolio() {
                         </div>
                     ))}
                 </div>
-            </section>
+            </section> */}
         </div>
     );
 }
