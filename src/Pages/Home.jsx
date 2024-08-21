@@ -1,15 +1,13 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import Portfolio from "../component/Portfolio";
+import Service from "../component/Service";
+import Ceo from "../component/Ceo";
+import WorkWithUs from "../component/WorkWithUs";
+import OurCustomers from "../component/OurCustormers";
 import img1 from "../assets/Hero.jpg";
 import img3 from "../assets/Heroimg1.jpg";
 import img4 from "../assets/Heroimg2.jpg";
 import "../css/Home.css";
-
-const Service = lazy(() => import("../component/Service"));
-// const Portfolio = lazy(() => import('../component/Portfolio'));
-const Ceo = lazy(() => import("../component/Ceo"));
-const WorkWithUs = lazy(() => import("../component/WorkWithUs"));
-const OurCustomers = lazy(() => import("../component/OurCustormers"));
 
 function Home() {
   const images = [img1, img3, img4];
@@ -41,17 +39,13 @@ function Home() {
           <button className="button">Get Started</button>
         </div>
       </main>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Service />
-      </Suspense>
+      <Service />
       <Portfolio />
-      <Suspense fallback={<div>Loading...</div>}>
-        <OurCustomers />
-        <Ceo />
-        <div className="bg-blue-50 pt-10 pb-20">
-          <WorkWithUs />
-        </div>
-      </Suspense>
+      <OurCustomers />
+      <Ceo />
+      <div className="bg-blue-50 pt-10 pb-20">
+        <WorkWithUs />
+      </div>
     </div>
   );
 }

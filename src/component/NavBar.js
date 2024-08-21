@@ -44,6 +44,7 @@ function NavBar() {
       <Link to="/"onClick={handleLinkClick}> Home</Link>
         <Link to="/about" onClick={handleLinkClick}>About</Link>
         <Link to="/services" onClick={handleLinkClick}>Services</Link>
+        <Link to="/career" onClick={handleLinkClick}>Career</Link>
         <Link to="/contact" onClick={handleLinkClick}>Contact</Link>
         {user?.role === 'admin'&&<EmployeeButton user={user} />}
         <div><ProfileIcon/></div>

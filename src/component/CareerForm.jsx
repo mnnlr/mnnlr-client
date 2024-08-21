@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import axios from 'axios';
 
-const ResumeForm = () => {
+const CareerForm = () => {
   const [educationFields, setEducationFields] = useState([{ school: '', city: '', startDate: '', endDate: '', description: '' }]);
   const [internshipFields, setInternshipFields] = useState([{ company: '', role: '', startDate: '', endDate: '' }]);
   const [personalDetails, setPersonalDetails] = useState({ name: '', fathersName: '', email: '', phone: '', address: '', postCode: '', city: '' });
@@ -104,8 +104,8 @@ const ResumeForm = () => {
 
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-red shadow-md rounded-md">
-      <h2 className="text-2xl font-bold mb-6 flex items-center">Resume Form</h2>
+    <div className="max-w-4xl mx-auto p-6 bg-red shadow-md rounded-md mt-28">
+      <h2 className="text-2xl font-bold mb-6 flex items-center">Career form</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-6">
           <h3 className="text-xl font-semibold mb-4">Personal Details</h3>
@@ -237,4 +237,4 @@ const ResumeForm = () => {
   );
 };
 
-export default ResumeForm;
+export default CareerForm;

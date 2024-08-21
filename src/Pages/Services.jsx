@@ -1,6 +1,5 @@
 import React from "react";
 import OurCustomers from "../component/OurCustormers";
-import OurWork from "../component/OurWork";
 import ServicesMain from "../component/ServicesMain";
 import Service from "../component/Service";
 import WorkWithUs from "../component/WorkWithUs";

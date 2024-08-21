@@ -15,6 +15,9 @@ import SendRecoveryLink from './Pages/SendRecoveryLink';
 import PasswordRecover from './Pages/Recover-Password';
 import AddEmployee from './Pages/Dashboard/AddEmployee';
 import LeaveDashboard from './Pages/Dashboard/LeaveDashboard';
+import Loading from './component/Loading';
+import Career from './Pages/Career';
+import CareerForm from './component/CareerForm';
 
 
 const Login = lazy(() => import('./Pages/LogInSinUp'));
@@ -38,7 +41,7 @@ const TrackLeave = lazy(() => import('./Pages/Dashboard/TrackLeave'));
 
 const App = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loading/>}>
       <Routes>
           <Route path='connect-with-us' element={<Login/>} />
           <Route path="get-recovery-link" element={<SendRecoveryLink />} />
@@ -47,6 +50,8 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path='services' element={<Service/>} />
             <Route path='about' element={<About/>} />
+            <Route path='career' element={<Career/>}/>
+            <Route path='career-form' element={<CareerForm/>}/>
             <Route path='contact' element={<ContactUs/>} />
             {/* <Route path='satisfied-clients' element={<SatisfiedClients />} /> */}
             <Route path='profile' element={<ProfilePage />} />
