@@ -8,7 +8,6 @@ import { useSelector,useDispatch } from "react-redux";
 import { getAllLeave } from "../../redux/actions/LeaveActions";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-
 const LeaveDashboard = () => {
 
   const { id } = useParams();

@@ -50,7 +50,7 @@ function NavBar() {
         <div><ProfileIcon/></div>
       </div>
       <button className="navbar-toggle-btn" onClick={toggleNav}>
-      {isNavOpen ? <span>&#10006;</span> : <span>☰</span>}
+        {isNavOpen ? <span>&#10006;</span> : <span>☰</span>}
       </button>
     </nav>
   );

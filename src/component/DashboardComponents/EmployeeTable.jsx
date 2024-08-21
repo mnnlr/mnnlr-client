@@ -32,54 +32,61 @@ const EmployeeTable = () => {
     }
 
     return (
-        <Table 
-          TableTitle={'Employees'}
-          TableHeaderData={["Employee","Name", "Designation", "Level", "Employed","ACTION"]} 
-        >
-            
-            <tbody>
-                {employees?.length>0&&employees?.map((Datum) => (
-                    <tr key={Datum?._id}>
-                        <td>
-                            <div className="dashboard-table-info" style={{cursor:'pointer'}} onClick={()=>navigate(`/dashboard/user-profile/${Datum?._id}`)}>
-                                <img
-                                    style={{width:'36px',height:'36px',borderRadius:'50%'}}
-                                    src={Datum?.avatar?.url}
-                                    alt={Datum?.firstName}
-                                    className=".dashboard-author-avatar"
-                                />
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <div className="dashboard-table-name">{`${Datum?.firstName} ${Datum?.lastName}`}</div>
-                                <div className="dashboard-table-email">{Datum?.email}</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div>{Datum?.designation}</div>
-                        </td>
-                        <td>
-                            <div>{Datum?.designationLevel}</div>
-                        </td>
-                        <td>
-                            <div>{Datum?.createdAt?new Date(Datum.createdAt).toDateString():'not available'}</div>
-                        </td>
-                        {Datum?.status&&<td>
-                            <span
-                                className={`dashboard-status-badge ${Datum.status.toLowerCase()}`}
-                            >
-                                {Datum.status}
-                            </span>
-                        </td>}
-                        {/* <td>{Datum.employeId}</td> */}
-                        <td>
-                            <button className="dashboard-table-edit-button" onClick={(e)=>handelNavigateToEdit(e,Datum._id)}>Edit</button>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </Table>
+        <div>
+            <Table 
+            TableTitle={'Employees'}
+            TableHeaderData={["Employee","Name", "Designation", "Level", "Employed","ACTION"]} 
+            >
+                
+                <tbody>
+                    {employees?.length>0&&employees?.map((Datum) => (
+                        <tr key={Datum?._id}>
+                            <td>
+                                <div className="dashboard-table-info" style={{cursor:'pointer'}} onClick={()=>navigate(`/dashboard/user-profile/${Datum?._id}`)}>
+                                    <img
+                                        style={{width:'36px',height:'36px',borderRadius:'50%'}}
+                                        src={Datum?.avatar?.url}
+                                        alt={Datum?.firstName}
+                                        className=".dashboard-author-avatar"
+                                    />
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div className="dashboard-table-name">{`${Datum?.firstName} ${Datum?.lastName}`}</div>
+                                    <div className="dashboard-table-email">{Datum?.email}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>{Datum?.designation}</div>
+                            </td>
+                            <td>
+                                <div>{Datum?.designationLevel}</div>
+                            </td>
+                            <td>
+                                <div>{Datum?.createdAt?new Date(Datum.createdAt).toDateString():'not available'}</div>
+                            </td>
+                            {Datum?.status&&<td>
+                                <span
+                                    className={`dashboard-status-badge ${Datum.status.toLowerCase()}`}
+                                >
+                                    {Datum.status}
+                                </span>
+                            </td>}
+                            {/* <td>{Datum.employeId}</td> */}
+                            <td>
+                                <button className="dashboard-table-edit-button" onClick={(e)=>handelNavigateToEdit(e,Datum._id)}>Edit</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+                    <div>
+                        {/* <td> */}
+                            page button
+                        {/* </td> */}
+                    </div>
+            </Table>
+        </div>
     )
 
 }

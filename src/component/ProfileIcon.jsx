@@ -99,9 +99,9 @@ const ProfileIcon = () => {
                     {(user?.role === 'admin' || user?.role === 'hr') &&<MenuItem onClick={()=>navigate('/dashboard')}>
                         <Avatar /> Dashboard
                     </MenuItem>}
-                    <MenuItem onClick={handleProfile}>
+                    {(user?.role === 'hr' || user?.role === 'employee') &&<MenuItem onClick={handleProfile}>
                         <Avatar /> Profile
-                    </MenuItem>
+                    </MenuItem>}
                     <Divider />
                     <MenuItem onClick={handleLogOut}>
                         <ListItemIcon>

@@ -1,4 +1,3 @@
-import React from 'react';
 import '../css/Portfolio.css'; // Import your CSS file
 
 import img1 from '../assets/p1.jpg';

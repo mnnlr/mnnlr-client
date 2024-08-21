@@ -7,12 +7,12 @@ const WorkWithUs = () => {
                     Would you like to start a project with us?
                 </h2>
                 <p className="text-left sm:text-base lg:text-lg font-thin mt-2 text-gray-600">
-                    To discuss your project requirements and explore how we can assist you, please reach out to us at <a href="https://main--mnnlr-emp.netlify.app/contact" className="underline text-blue-500">our contact page</a>. We look forward to partnering with you and bringing your vision to life!
+                    To discuss your project requirements and explore how we can assist you, please reach out to us at <a href="https://mnnlr-emp.netlify.app/contact" className="underline text-blue-500">our contact page</a>. We look forward to partnering with you and bringing your vision to life!
                 </p>
             </div>
             <div className="flex items-center justify-center lg:justify-end mt-6 lg:mt-0">
                 <button className="bg-[#12999F] text-white font-bold py-2 px-4 rounded-lg h-12 w-full sm:w-64 lg:w-auto shadow-xl">
-                +91 83095 60480
+                    +91 83095 60480
                 </button>
             </div>
         </div>

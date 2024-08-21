@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, lazy } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import Portfolio from "../component/Portfolio";
 import Service from "../component/Service";
 import Ceo from "../component/Ceo";

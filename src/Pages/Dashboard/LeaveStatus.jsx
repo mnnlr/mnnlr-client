@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const LeaveStatus = ({Data}) => {
+  const navigate = useNavigate()
  const privateAxios = useAxiosPrivate();
- console.log(Data);
 
   const handleReview = async (e,DataToEvaluate) => {
     try {
@@ -12,9 +12,12 @@ const LeaveStatus = ({Data}) => {
         `/leave/${Data?._id}`,
         DataToEvaluate
       );
-        console.log(data)
+      if(status === 200){
+        alert(data?.message)
+        navigate('/dashboard/track-leave')
+      }
     } catch (error) {
-      console.error(error);
+      alert(error?.response?.data?.message)
     }
   }
 

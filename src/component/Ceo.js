@@ -1,4 +1,3 @@
-import React from 'react';
 import img1 from '../assets/profile.jpeg';
 
 function Ceo() {

@@ -19,7 +19,6 @@ import Loading from './component/Loading';
 import Career from './Pages/Career';
 import CareerForm from './component/CareerForm';
 
-
 const Login = lazy(() => import('./Pages/LogInSinUp'));
 const PageLayOut = lazy(() => import('./Pages/PageLayOut'));
 const Home = lazy(() => import('./Pages/Home'));
@@ -54,7 +53,9 @@ const App = () => {
             <Route path='career-form' element={<CareerForm/>}/>
             <Route path='contact' element={<ContactUs/>} />
             {/* <Route path='satisfied-clients' element={<SatisfiedClients />} /> */}
-            <Route path='profile' element={<ProfilePage />} />
+            <Route element={<ProtectedRoute allowedRole={['employee','hr']}/>}>
+              <Route path='profile' element={<ProfilePage />} />
+            </Route>
             <Route element={<ProtectedRoute allowedRole={['admin','hr']}/>}>
               <Route path='employees' element={<Employees />} />
             </Route>
@@ -85,7 +86,7 @@ const App = () => {
                 <Route path='user-profile/:id' element={<UserProfile />} />
                 <Route path='edit-employee/:id' element={<UserEdit/>}/>
                 <Route path='add-employee' element={<AddEmployee/>} />
-                <Route path='track-leave/review-leave' element={<LeaveDashboard/>}/>                   
+                <Route path='review-leave/:id' element={<LeaveDashboard/>}/>                   
             </Route>
                 </Route>
 

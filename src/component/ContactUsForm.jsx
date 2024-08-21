@@ -2,7 +2,61 @@ import React from "react";
 import "../css/ContactForm.css";
 import { FaPhone, FaEnvelope, FaClock } from "react-icons/fa"; // Import icons from react-icons library
 
+import defaultAxios from '../customAxios/authAxios';
+
 const ContactUsForm = () => {
+
+  const [contact_us_data, setContactUsData] = React.useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+
+    e.preventDefault();
+
+    const { name, value } = e.target;
+
+    setContactUsData((prevData) => {
+      return {
+        ...prevData,
+        [name]: value,
+      };
+    });
+
+  };
+
+  const handleSubmit = async(e) => {
+    try {
+
+      e.preventDefault();
+      
+      const { name, email, message } = contact_us_data;
+
+      if(!name || !email || !message) {
+        return alert("Please fill all the fields");
+      }
+
+      const { data,status } = await defaultAxios.post("/api/v1/contact", contact_us_data);
+
+      if(status === 200) {
+        alert(data.message);
+        setContactUsData({
+          name: "",
+          email: "",
+          message: "",
+        });
+      }
+
+    } catch (error) {
+
+      alert(error.response.data.message);
+    
+    }
+  
+  };
+
   return (
     <div className="form-container">
       <div className="get-in-touch">
@@ -33,14 +87,16 @@ const ContactUsForm = () => {
       </div>
       <div className="form">
         <h1>Contact Us</h1>
-        <form>
-          <input type="text" id="name" name="name" placeholder="Name" />
+        <form onSubmit={handleSubmit}>
+          <input onChange={handleChange} type="text" id="name" name="name" value={contact_us_data?.name} placeholder="Name" />
 
-          <input type="email" id="email" name="email" placeholder="Email" />
+          <input onChange={handleChange} type="email" id="email" name="email" value={contact_us_data?.email} placeholder="Email" />
 
           <textarea
             id="message"
             name="message"
+            value={contact_us_data?.message}
+            onChange={handleChange}
             placeholder="Message"
           ></textarea>
 

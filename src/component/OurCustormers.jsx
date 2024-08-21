@@ -1,4 +1,3 @@
-import React from 'react';
 import mnnlrlogo from '../assets/logo4.jpg';
 import deskPulse from '../assets/DeskPulse.jpeg';
 

@@ -17,17 +17,12 @@ const PasswordRecover = () => {
             
             if(status === 200&&data?.success === true){
                 setData((prev)=>({isLoading:false,...data}))
-                console.log('incoming data : ',data)
             }
         
         } catch (error) {
-            console.log('error : ',error)
             setData({isLoading:false})
-            // alert(error.response.data)
         }
     }
-
-    console.log('data : ',data)
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">

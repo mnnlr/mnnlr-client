@@ -1,4 +1,3 @@
-import React from 'react'
 import '../css/Service.css'
 import Card from './Card';
 function Service() {
