@@ -13,38 +13,40 @@ const EmployeeTable = () => {
     const dispatch = useDispatch();
     const privateAxios = useAxiosPrivate();
 
-    const {user} = useSelector(state => state.login);
-    const {employees,totalEmployees} = useSelector(state => state.employees);
+    const { user } = useSelector(state => state.login);
+    const { employees, totalEmployees } = useSelector(state => state.employees);
 
 
     useEffect(() => {
         let isMounted = true;
-        if(isMounted){
-            dispatch(getEmployees({accessToken:user.accessToken,privateAxios}));
+        if (isMounted) {
+            dispatch(getEmployees({ accessToken: user.accessToken, privateAxios }));
         }
         return () => {
             isMounted = false;
         }
-    },[totalEmployees,user.accessTokens]);
-    
-    const handelNavigateToEdit = (e, employeeId) =>{
+    }, [totalEmployees, user.accessTokens]);
+
+    const handelNavigateToEdit = (e, employeeId) => {
+        e.preventDefault();
+
         navigate(`/dashboard/edit-employee/${employeeId}`)
     }
 
     return (
         <div>
-            <Table 
-            TableTitle={'Employees'}
-            TableHeaderData={["Employee","Name", "Designation", "Level", "Employed","ACTION"]} 
+            <Table
+                TableTitle={'Employees'}
+                TableHeaderData={["Employee", "Name", "Designation", "Level", "Employed", "ACTION"]}
             >
-                
+
                 <tbody>
-                    {employees?.length>0&&employees?.map((Datum) => (
+                    {employees?.length > 0 && employees?.map((Datum) => (
                         <tr key={Datum?._id}>
                             <td>
-                                <div className="dashboard-table-info" style={{cursor:'pointer'}} onClick={()=>navigate(`/dashboard/user-profile/${Datum?._id}`)}>
+                                <div className="dashboard-table-info" style={{ cursor: 'pointer' }} onClick={() => navigate(`/dashboard/user-profile/${Datum?._id}`)}>
                                     <img
-                                        style={{width:'36px',height:'36px',borderRadius:'50%'}}
+                                        style={{ width: '36px', height: '36px', borderRadius: '50%' }}
                                         src={Datum?.avatar?.url}
                                         alt={Datum?.firstName}
                                         className=".dashboard-author-avatar"
@@ -64,9 +66,9 @@ const EmployeeTable = () => {
                                 <div>{Datum?.designationLevel}</div>
                             </td>
                             <td>
-                                <div>{Datum?.createdAt?new Date(Datum.createdAt).toDateString():'not available'}</div>
+                                <div>{Datum?.createdAt ? new Date(Datum.createdAt).toDateString() : 'not available'}</div>
                             </td>
-                            {Datum?.status&&<td>
+                            {Datum?.status && <td>
                                 <span
                                     className={`dashboard-status-badge ${Datum.status.toLowerCase()}`}
                                 >
@@ -75,16 +77,16 @@ const EmployeeTable = () => {
                             </td>}
                             {/* <td>{Datum.employeId}</td> */}
                             <td>
-                                <button className="dashboard-table-edit-button" onClick={(e)=>handelNavigateToEdit(e,Datum._id)}>Edit</button>
+                                <button className="dashboard-table-edit-button" onClick={(e) => handelNavigateToEdit(e, Datum._id)}>Edit</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
-                    <div>
-                        {/* <td> */}
-                            page button
-                        {/* </td> */}
-                    </div>
+                <div>
+                    {/* <td> */}
+                    page button
+                    {/* </td> */}
+                </div>
             </Table>
         </div>
     )

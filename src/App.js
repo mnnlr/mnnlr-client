@@ -1,5 +1,5 @@
-import { lazy,Suspense } from 'react';
-import { Routes,Route } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 import ApplyLeave from './Pages/ApplyLeave';
 import Attendence from './Pages/Dashboard/Attendance';
@@ -40,55 +40,55 @@ const TrackLeave = lazy(() => import('./Pages/Dashboard/TrackLeave'));
 
 const App = () => {
   return (
-    <Suspense fallback={<Loading/>}>
+    <Suspense fallback={<Loading />}>
       <Routes>
-          <Route path='connect-with-us' element={<Login/>} />
-          <Route path="get-recovery-link" element={<SendRecoveryLink />} />
-          <Route path="reset-password/:id" element={<PasswordRecover />} />
-          <Route path="/" element={<PageLayOut />}>
-            <Route index element={<Home />} />
-            <Route path='services' element={<Service/>} />
-            <Route path='about' element={<About/>} />
-            <Route path='career' element={<Career/>}/>
-            <Route path='career-form' element={<CareerForm/>}/>
-            <Route path='contact' element={<ContactUs/>} />
-            {/* <Route path='satisfied-clients' element={<SatisfiedClients />} /> */}
-            <Route element={<ProtectedRoute allowedRole={['employee','hr']}/>}>
-              <Route path='profile' element={<ProfilePage />} />
-            </Route>
-            <Route element={<ProtectedRoute allowedRole={['admin','hr']}/>}>
-              <Route path='employees' element={<Employees />} />
-            </Route>
-            <Route element={<ProtectedRoute allowedRole={['employee']}/>}>
-              <Route path='apply-leave' element={<ApplyLeave />} />
-            </Route>
+        <Route path='connect-with-us' element={<Login />} />
+        <Route path="get-recovery-link" element={<SendRecoveryLink />} />
+        <Route path="reset-password/:id" element={<PasswordRecover />} />
+        <Route path="/" element={<PageLayOut />}>
+          <Route index element={<Home />} />
+          <Route path='services' element={<Service />} />
+          <Route path='about' element={<About />} />
+          <Route path='career' element={<Career />} />
+          <Route path='career-form' element={<CareerForm />} />
+          <Route path='contact' element={<ContactUs />} />
+          {/* <Route path='satisfied-clients' element={<SatisfiedClients />} /> */}
+          <Route element={<ProtectedRoute allowedRole={['employee', 'hr']} />}>
+            <Route path='profile' element={<ProfilePage />} />
+          </Route>
+          <Route element={<ProtectedRoute allowedRole={['admin', 'hr']} />}>
+            <Route path='employees' element={<Employees />} />
+          </Route>
+          <Route element={<ProtectedRoute allowedRole={['employee']} />}>
+            <Route path='apply-leave' element={<ApplyLeave />} />
+          </Route>
 
-            <Route element={<ProtectedRoute allowedRole={['admin','hr','employee']}/>} >
-              <Route path='employee/:id' element={<EmployeeProfile/>} />
-            </Route>
+          <Route element={<ProtectedRoute allowedRole={['admin', 'hr', 'employee']} />} >
+            <Route path='employee/:id' element={<EmployeeProfile />} />
+          </Route>
 
         </Route>
 
 
 
-          <Route element={<ProtectedRoute allowedRole={['admin','hr']}/>}>
-            <Route path='dashboard' element={<DashboardLayout />} >
-                <Route index element={<DashboardHome />} />
-                <Route path='holidays' element={<Holidays />} />  
-                <Route path='profile' element={<DashboardProfile />} />
-                <Route path='track-leave' element={<TrackLeave/>} />
-                <Route path='candidates-on-leave' element={<CandidatesOnLeave />} />
-                <Route path='new-applicants' element={<NewApplicants/>} />
-                <Route path='review-applicant/:id' element={<ReviewApplicant />} />
-                <Route path='attendance' element={<Attendence />} />
-                <Route path='attendence-history/:id' element={<AttendenceHistory />} />
-                <Route path='performances' element={<Performances />} />
-                <Route path='user-profile/:id' element={<UserProfile />} />
-                <Route path='edit-employee/:id' element={<UserEdit/>}/>
-                <Route path='add-employee' element={<AddEmployee/>} />
-                <Route path='review-leave/:id' element={<LeaveDashboard/>}/>                   
-            </Route>
-                </Route>
+        <Route element={<ProtectedRoute allowedRole={['admin', 'hr']} />}>
+          <Route path='dashboard' element={<DashboardLayout />} >
+            <Route index element={<DashboardHome />} />
+            <Route path='holidays' element={<Holidays />} />
+            <Route path='profile' element={<DashboardProfile />} />
+            <Route path='track-leave' element={<TrackLeave />} />
+            <Route path='candidates-on-leave' element={<CandidatesOnLeave />} />
+            <Route path='new-applicants' element={<NewApplicants />} />
+            <Route path='review-applicant/:id' element={<ReviewApplicant />} />
+            <Route path='attendance' element={<Attendence />} />
+            <Route path='attendence-history/:id' element={<AttendenceHistory />} />
+            <Route path='performances' element={<Performances />} />
+            <Route path='user-profile/:id' element={<UserProfile />} />
+            <Route path='edit-employee/:id' element={<UserEdit />} />
+            <Route path='add-employee' element={<AddEmployee />} />
+            <Route path='review-leave/:id' element={<LeaveDashboard />} />
+          </Route>
+        </Route>
 
 
       </Routes>
