@@ -54,7 +54,7 @@ const updateEmployee = createAsyncThunk(
             // console.log('Parameter data : ', JSON.stringify(Parameter?.data))
             // console.log(first)
             // const { data, status } = await Parameter.privateAxios.patch(`/api/v1/employee/${Parameter.id}`, Parameter.data, {
-            const { data, status } = await axios.patch(`http://localhost:8000/api/v1/employee/${Parameter.id}`, Parameter.data, {
+            const { data, status } = await Parameter.privateAxios.patch(`/api/v1/employee/${Parameter.id}`, Parameter.data, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
