@@ -102,4 +102,17 @@ const getEmployeeById = createAsyncThunk(
     }
 );
 
-export { getEmployees, getEmployeeById, addEmployee, updateEmployee };
+const deleteEmployeeById = createAsyncThunk('DeleteEmployee',
+    async (Parameter, {rejectWithValue}) => {
+        try{
+            const {data} = await Parameter.privateAxios.delete(`/api/v1/employee/${Parameter.id}`);
+            console.log('the deleted data is', data);
+            return data;
+        }catch (error) {
+            console.log('error', error.response);
+            return rejectWithValue(error.response.data.message)
+        }
+    }
+)
+
+export { getEmployees, getEmployeeById, addEmployee, updateEmployee, deleteEmployeeById };

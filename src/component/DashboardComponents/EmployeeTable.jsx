@@ -1,21 +1,22 @@
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import Table from './Table';
-import '../../css/DashboardCss/Table.css';
-
+import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import { getEmployees } from '../../redux/actions/EmployeeAction';
+import { deleteEmployeeById, getEmployees } from '../../redux/actions/EmployeeAction';
+import Table from './Table';
+import '../../css/DashboardCss/Table.css';
+import Modal from './DeleteModal';
 
 const EmployeeTable = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const privateAxios = useAxiosPrivate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
     const { user } = useSelector(state => state.login);
     const { employees, totalEmployees } = useSelector(state => state.employees);
-
 
     useEffect(() => {
         let isMounted = true;
@@ -24,14 +25,31 @@ const EmployeeTable = () => {
         }
         return () => {
             isMounted = false;
-        }
-    }, [totalEmployees, user.accessTokens]);
+        };
+    }, [totalEmployees, user.accessToken, dispatch, privateAxios]);
 
-    const handelNavigateToEdit = (e, employeeId) => {
+    const handleNavigateToEdit = (e, employeeId) => {
         e.preventDefault();
+        navigate(`/dashboard/edit-employee/${employeeId}`);
+    };
 
-        navigate(`/dashboard/edit-employee/${employeeId}`)
-    }
+    const handleOpenModal = (employeeId) => {
+        setEmployeeToDelete(employeeId);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setEmployeeToDelete(null);
+    };
+
+    const handleConfirmDelete = async () => {
+        const { payload } = await dispatch(deleteEmployeeById({ privateAxios, id: employeeToDelete }));
+        if (payload?.success) {
+            dispatch(getEmployees({ accessToken: user.accessToken, privateAxios }));
+        }
+        handleCloseModal();
+    };
 
     return (
         <div>
@@ -39,7 +57,6 @@ const EmployeeTable = () => {
                 TableTitle={'Employees'}
                 TableHeaderData={["Employee", "Name", "Designation", "Level", "Employed", "ACTION"]}
             >
-
                 <tbody>
                     {employees?.length > 0 && employees?.map((Datum) => (
                         <tr key={Datum?._id}>
@@ -75,22 +92,26 @@ const EmployeeTable = () => {
                                     {Datum.status}
                                 </span>
                             </td>}
-                            {/* <td>{Datum.employeId}</td> */}
                             <td>
-                                <button className="dashboard-table-edit-button" onClick={(e) => handelNavigateToEdit(e, Datum._id)}>Edit</button>
+                                <button className="dashboard-table-edit-button" onClick={(e) => handleNavigateToEdit(e, Datum._id)}>Edit</button>
+                            </td>
+                            <td>
+                                <button className="text-xl" onClick={() => handleOpenModal(Datum?._id)}><MdDelete /></button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
                 <div>
-                    {/* <td> */}
                     page button
-                    {/* </td> */}
                 </div>
             </Table>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                onConfirm={handleConfirmDelete}
+            />
         </div>
-    )
-
-}
+    );
+};
 
 export default EmployeeTable;
