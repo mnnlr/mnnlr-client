@@ -101,9 +101,7 @@ const EmployeeTable = () => {
                         </tr>
                     ))}
                 </tbody>
-                <div>
-                    page button
-                </div>
+                
             </Table>
             <Modal
                 isOpen={isModalOpen}
