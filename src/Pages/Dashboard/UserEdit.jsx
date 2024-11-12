@@ -16,8 +16,12 @@ const EditEmployee = () => {
   const [employeeDetails, setEmployeeDetails] = useState({});
   const [uploadedDocuments, setSelectedFile] = useState({});
 
-  const { user } = useSelector(state => state.login);
-  const { isLoading, message, error, employees } = useSelector(state => state.employees);
+  const { user } = useSelector((state) => state.login);
+  const { isLoading, message, error, employees } = useSelector(
+    (state) => state.employees
+  );
+
+  console.log(employeePrevData)
 
   // Define designation levels
   const levels = ["L0", "L1", "L2", "L3"];
@@ -25,7 +29,7 @@ const EditEmployee = () => {
   // Fetch and set previous employee data when `id` or `employees` changes
   useEffect(() => {
     if (id && employees) {
-      const employee = employees.find(employee => employee?._id === id);
+      const employee = employees.find((employee) => employee?._id === id);
       if (employee) {
         setEmployeePrevData(employee);
       }
@@ -51,7 +55,10 @@ const EditEmployee = () => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setSelectedFile((prev) => ({ ...prev, [event.target.name]: reader.result }));
+        setSelectedFile((prev) => ({
+          ...prev,
+          [event.target.name]: reader.result,
+        }));
       }
     };
     reader.readAsDataURL(file);
@@ -61,29 +68,33 @@ const EditEmployee = () => {
   const handleGenerateId = (e) => {
     e.preventDefault();
 
-    const designation = employeeDetails.designation || employeePrevData.designation;
-    const designationLevel = employeeDetails.designationLevel || employeePrevData.designationLevel;
+    const designation =
+      employeeDetails.designation || employeePrevData.designation;
+    const designationLevel =
+      employeeDetails.designationLevel || employeePrevData.designationLevel;
     const email = employeeDetails.email || employeePrevData.email;
 
     if (!designation) {
-      alert('Please select designation');
+      alert("Please select designation");
       return;
     }
 
     if (!designationLevel) {
-      alert('Please select designation level');
+      alert("Please select designation level");
       return;
     }
 
     if (!email) {
-      alert('Please enter email');
+      alert("Please enter email");
       return;
     }
 
-    const prefix = designationPrefixes[designation] || designation.substring(0, 4).toUpperCase();
+    const prefix =
+      designationPrefixes[designation] ||
+      designation.substring(0, 4).toUpperCase();
 
     if (!prefix) {
-      alert('Invalid designation for generating prefix');
+      alert("Invalid designation for generating prefix");
       return;
     }
 
@@ -103,20 +114,24 @@ const EditEmployee = () => {
     });
 
     const myForm = new FormData();
-    Object.entries({ ...updatedFields, ...uploadedDocuments }).forEach(([key, value]) => {
-      if (key !== 'previewUrl') {
-        myForm.append(key, value);
+    Object.entries({ ...updatedFields, ...uploadedDocuments }).forEach(
+      ([key, value]) => {
+        if (key !== "previewUrl") {
+          myForm.append(key, value);
+        }
       }
-    });
+    );
 
     const employeeId = employeePrevData._id;
 
-    dispatch(updateEmployee({
-      privateAxios,
-      data: myForm,
-      id: employeeId,
-      accessToken: user?.accessToken
-    }));
+    dispatch(
+      updateEmployee({
+        privateAxios,
+        data: myForm,
+        id: employeeId,
+        accessToken: user?.accessToken,
+      })
+    );
   };
 
   return (
@@ -185,7 +200,11 @@ const EditEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter First Name"
-                    value={employeeDetails.firstName || employeePrevData.firstName || ''}
+                    value={
+                      employeeDetails.firstName ||
+                      employeePrevData.firstName ||
+                      ""
+                    }
                     name="firstName"
                     onChange={handleEmployeeDetails}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -199,7 +218,11 @@ const EditEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter Last Name"
-                    value={employeeDetails.lastName || employeePrevData.lastName || ''}
+                    value={
+                      employeeDetails.lastName ||
+                      employeePrevData.lastName ||
+                      ""
+                    }
                     name="lastName"
                     onChange={handleEmployeeDetails}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -213,7 +236,11 @@ const EditEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter Father Name"
-                    value={employeeDetails.fatherName || employeePrevData.fatherName || ''}
+                    value={
+                      employeeDetails.fatherName ||
+                      employeePrevData.fatherName ||
+                      ""
+                    }
                     name="fatherName"
                     onChange={handleEmployeeDetails}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -227,7 +254,11 @@ const EditEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter Mother Name"
-                    value={employeeDetails.motherName || employeePrevData.motherName || ''}
+                    value={
+                      employeeDetails.motherName ||
+                      employeePrevData.motherName ||
+                      ""
+                    }
                     name="motherName"
                     onChange={handleEmployeeDetails}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -241,7 +272,9 @@ const EditEmployee = () => {
                   <input
                     type="email"
                     placeholder="Enter Email Address"
-                    value={employeeDetails.email || employeePrevData.email || ''}
+                    value={
+                      employeeDetails.email || employeePrevData.email || ""
+                    }
                     name="email"
                     onChange={handleEmployeeDetails}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -255,7 +288,9 @@ const EditEmployee = () => {
                   <input
                     type="text"
                     placeholder="Enter Phone Number"
-                    value={employeeDetails.phoneNo || employeePrevData.phoneNo || ''}
+                    value={
+                      employeeDetails.phoneNo || employeePrevData.phoneNo || ""
+                    }
                     name="phoneNo"
                     onChange={handleEmployeeDetails}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -270,7 +305,9 @@ const EditEmployee = () => {
                 <input
                   type="text"
                   placeholder="Enter Full Address"
-                  value={employeeDetails.address || employeePrevData.address || ''}
+                  value={
+                    employeeDetails.address || employeePrevData.address || ""
+                  }
                   name="address"
                   onChange={handleEmployeeDetails}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -284,11 +321,51 @@ const EditEmployee = () => {
                 <input
                   type="text"
                   placeholder="Write something about the employee"
-                  value={employeeDetails.description || employeePrevData.description || ''}
+                  value={
+                    employeeDetails.description ||
+                    employeePrevData.description ||
+                    ""
+                  }
                   name="description"
                   onChange={handleEmployeeDetails}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                 />
+              </div>
+              <div className="grid grid-cols-2 gap-6 mb-5 mt-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Shift
+                </label>
+                <input
+                  type="text"
+                  placeholder="Morning/Evening/Night"
+                  value={
+                    employeeDetails.shift ||
+                    employeePrevData.shift ||
+                    ""
+                  }
+                  onChange={handleEmployeeDetails}
+                  name="shift"
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Date Of Joining
+                </label>
+                <input
+                  type="date"
+                  placeholder="DOJ"
+                  onChange={handleEmployeeDetails}
+                  value={
+                    employeeDetails.dateofjoining ||
+                    employeePrevData.dateofjoining ||
+                    ""
+                  }
+                  name="dateofjoining"
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
               </div>
             </div>
 
@@ -297,14 +374,42 @@ const EditEmployee = () => {
               <h3 className="text-lg font-medium mb-2">Upload Documents</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-5">
                 {[
-                  { label: "Aadhar Card (PDF)", name: 'aadhar', accept: "application/pdf" },
-                  { label: "PAN Card (PDF)", name: 'pan', accept: "application/pdf" },
-                  { label: "Bank Detail (PDF)", name: 'Bank', accept: "application/pdf" },
-                  { label: "PF (PDF)", name: 'PF', accept: "application/pdf" },
-                  { label: "10th MarkSheet (PDF)", name: 'xthMarksheet', accept: "application/pdf" },
-                  { label: "12th MarkSheet (PDF)", name: 'xiithMarksheet', accept: "application/pdf" },
-                  { label: "Graduation MarkSheet (PDF)", name: 'graduationMarksheet', accept: "application/pdf" },
-                  { label: "PG MarkSheet (PDF)", name: 'pgMarksheet', accept: "application/pdf" },
+                  {
+                    label: "Aadhar Card (PDF)",
+                    name: "aadhar",
+                    accept: "application/pdf",
+                  },
+                  {
+                    label: "PAN Card (PDF)",
+                    name: "pan",
+                    accept: "application/pdf",
+                  },
+                  {
+                    label: "Bank Detail (PDF)",
+                    name: "Bank",
+                    accept: "application/pdf",
+                  },
+                  { label: "PF (PDF)", name: "PF", accept: "application/pdf" },
+                  {
+                    label: "10th MarkSheet (PDF)",
+                    name: "xthMarksheet",
+                    accept: "application/pdf",
+                  },
+                  {
+                    label: "12th MarkSheet (PDF)",
+                    name: "xiithMarksheet",
+                    accept: "application/pdf",
+                  },
+                  {
+                    label: "Graduation MarkSheet (PDF)",
+                    name: "graduationMarksheet",
+                    accept: "application/pdf",
+                  },
+                  {
+                    label: "PG MarkSheet (PDF)",
+                    name: "pgMarksheet",
+                    accept: "application/pdf",
+                  },
                 ].map((file, index) => (
                   <div key={index} className="mb-4">
                     <label className="block text-gray-700 mb-2">{`Upload ${file.label}`}</label>
@@ -317,11 +422,20 @@ const EditEmployee = () => {
                     />
                     {employeePrevData && employeePrevData[file.name] ? (
                       <div className="md:mt-2 rounded-full duration-300 ease-in-out hover:bg-blue-100 px-3 py-1">
-                        Previous File: <a href={employeePrevData[file.name].url} target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-700 font-semibold">{file.label}</a>
+                        Previous File:{" "}
+                        <a
+                          href={employeePrevData[file.name].url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline text-blue-700 font-semibold"
+                        >
+                          {file.label}
+                        </a>
                       </div>
                     ) : (
                       <div className="md:mt-2 rounded-full duration-300 ease-in-out hover:bg-blue-100 px-3 py-1">
-                        Previous File: <span className="text-gray-400">N/A</span>
+                        Previous File:{" "}
+                        <span className="text-gray-400">N/A</span>
                       </div>
                     )}
                   </div>
@@ -333,8 +447,17 @@ const EditEmployee = () => {
                     Choose Designation
                   </label>
                   <select
-                    value={employeeDetails.designation || employeePrevData.designation || ''}
-                    onChange={(e) => setEmployeeDetails((prev) => ({ ...prev, designation: e.target.value }))}
+                    value={
+                      employeeDetails.designation ||
+                      employeePrevData.designation ||
+                      ""
+                    }
+                    onChange={(e) =>
+                      setEmployeeDetails((prev) => ({
+                        ...prev,
+                        designation: e.target.value,
+                      }))
+                    }
                     className="block w-full p-2 border border-gray-300 rounded"
                   >
                     <option value="">Select Designation</option>
@@ -352,8 +475,17 @@ const EditEmployee = () => {
                     Choose Designation Level
                   </label>
                   <select
-                    value={employeeDetails.designationLevel || employeePrevData.designationLevel || ''}
-                    onChange={(e) => setEmployeeDetails((prev) => ({ ...prev, designationLevel: e.target.value }))}
+                    value={
+                      employeeDetails.designationLevel ||
+                      employeePrevData.designationLevel ||
+                      ""
+                    }
+                    onChange={(e) =>
+                      setEmployeeDetails((prev) => ({
+                        ...prev,
+                        designationLevel: e.target.value,
+                      }))
+                    }
                     className="block w-full p-2 border border-gray-300 rounded"
                   >
                     <option value="">Select Level</option>
@@ -378,7 +510,9 @@ const EditEmployee = () => {
               {/* Display Generated Employee ID */}
               {employeeDetails.employeeId && (
                 <div className="mb-4 p-2 bg-gray-200 text-center rounded">
-                  <p className="text-lg font-semibold">{employeeDetails.employeeId}</p>
+                  <p className="text-lg font-semibold">
+                    {employeeDetails.employeeId}
+                  </p>
                 </div>
               )}
             </div>

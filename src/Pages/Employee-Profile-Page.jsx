@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../css/Profile.css";
 import { FaFilePdf } from "react-icons/fa";
 
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { useDispatch,useSelector } from 'react-redux';
-import { getEmployeeById } from '../redux/actions/EmployeeAction';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useDispatch, useSelector } from "react-redux";
+import { getEmployeeById } from "../redux/actions/EmployeeAction";
 
 function EmployeeProfile() {
   const navigate = useNavigate();
@@ -16,12 +16,15 @@ function EmployeeProfile() {
   const [activeTab, setActiveTab] = useState("Personal Details");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const {user} = useSelector((state) => state.login);
-  const {employee,isLoading} = useSelector((state) => state.employees );
+  const { user } = useSelector((state) => state.login);
+  const { employee, isLoading } = useSelector((state) => state.employees);
+  console.log(employee);
 
   useEffect(() => {
-    dispatch(getEmployeeById({privateAxios,accessToken:user.accessToken,id}));  
-  },[id]);
+    dispatch(
+      getEmployeeById({ privateAxios, accessToken: user.accessToken, id })
+    );
+  }, [id]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -175,11 +178,13 @@ function EmployeeProfile() {
                   </div>
                   <div className="detail-item">
                     <label>Working Shift</label>
-                    <p>{employee?.Shift}</p>
+                    <p>{employee?.shift ? employee?.shift : "Morning"}</p>
                   </div>
                   <div className="detail-item">
                     <label>Joining Date</label>
-                    <p>{joiningDate}</p>
+                    <p>
+                      {employee?.dateofjoining}
+                    </p>
                   </div>
                 </div>
               )}
@@ -191,36 +196,36 @@ function EmployeeProfile() {
                   </h3>
                   <div className="relative">
                     <img
-                      src={'img'}
+                      src={"img"}
                       alt="PDF Thumbnail"
                       className="w-16 h-16 sm:w-24 sm:h-24 cursor-pointer"
                       // onClick={togglePDFViewer}
                     />
                     {/* {isOpen && ( */}
-                      <div
-                        className="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-2 sm:p-4 sm:w-full sm:h-screen"
-                        // onClick={handleBackdropClick}
-                      >
-                        <div className="relative w-full h-full sm:max-w-screen-lg sm:max-h-screen bg-white rounded-lg shadow-lg overflow-y-auto sm:overflow-y-hidden">
-                          <iframe
-                            src={'pdf'}
-                            className="w-full h-80 sm:h-full border-none"
-                            title="Document Preview"
-                          />
-                        </div>
+                    <div
+                      className="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-2 sm:p-4 sm:w-full sm:h-screen"
+                      // onClick={handleBackdropClick}
+                    >
+                      <div className="relative w-full h-full sm:max-w-screen-lg sm:max-h-screen bg-white rounded-lg shadow-lg overflow-y-auto sm:overflow-y-hidden">
+                        <iframe
+                          src={"pdf"}
+                          className="w-full h-80 sm:h-full border-none"
+                          title="Document Preview"
+                        />
                       </div>
+                    </div>
                     {/* )} */}
                   </div>
                 </div>
               )}
 
-            {activeTab === 'Leaves' && (
-              <div className="detail-group">
-                <h3>Leaves</h3>
-                <p>Leaves content goes here.</p>
-              </div>
-            )}
-          </section>
+              {activeTab === "Leaves" && (
+                <div className="detail-group">
+                  <h3>Leaves</h3>
+                  <p>Leaves content goes here.</p>
+                </div>
+              )}
+            </section>
 
             {user?.role === "admin" && (
               <div className="account-actions">
