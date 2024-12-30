@@ -75,10 +75,17 @@ const AddEmployee = () => {
         setEmployeeDetails((prev) => ({ ...prev, employeeId: result }));
     };
 
-    const handleAddEmployee = (e) => {
+    const handleAddEmployee = async (e) => {
         e.preventDefault();
 
+        if (!employeeDetails?.designation) {
+            alert("Please enter select designation");
+            return;
+        }
+
         const myForm = new FormData();
+
+
         Object.entries({ ...employeeDetails, ...uploadedDocuments }).forEach(
             ([key, value]) => {
                 if (key !== "previewUrl") {
@@ -87,19 +94,29 @@ const AddEmployee = () => {
             }
         );
 
-        dispatch(
+        const formValidity = await dispatch(
             addEmployee({
                 privateAxios,
                 data: myForm,
                 accessToken: user?.accessToken,
             })
         );
-    };
+        // console.clear()
+        console.log("res: ", formValidity);
+
+        if (formValidity.payload.success) {
+            alert(formValidity.payload.message);
+        } else if (formValidity.payload.message) {
+            alert(`Employee not added: ${formValidity.payload.message}`);
+        } else {
+            alert("Employee not added: Something went wrong.");
+        }
+    }
 
     return (
         <div className="min-h-screen bg-white flex justify-center rounded-lg shadow-lg items-center p-4 mt-6">
             <form className="min-h-screen bg-white p-6 rounded-lg w-full max-w-10xl">
-                <div className="flex justify-end items-center mb-6">
+                {/*                 <div className="flex justify-end items-center mb-6">
                     <div className="hidden lg:block">
                         {!isLoading ? (
                             <button
@@ -115,7 +132,7 @@ const AddEmployee = () => {
                             </p>
                         )}
                     </div>
-                </div>
+                </div> */}
                 <div className="flex flex-col lg:flex-row-reverse">
                     <div className="w-full lg:w-1/3 mb-6 lg:mb-0 flex flex-col items-center lg:items-start lg:mr-6">
                         <div className="mb-6 lg:ml-20">
@@ -159,9 +176,10 @@ const AddEmployee = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-5">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        First Name
+                                        <span className="text-red-600">*</span>First Name
                                     </label>
                                     <input
+                                        required
                                         type="text"
                                         placeholder="Enter First Name"
                                         name="firstName"
@@ -171,9 +189,10 @@ const AddEmployee = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Last Name
+                                        <span className="text-red-600">*</span>Last Name
                                     </label>
                                     <input
+                                        required
                                         type="text"
                                         placeholder="Enter Last Name"
                                         onChange={handleEmployeeDetails}
@@ -183,9 +202,10 @@ const AddEmployee = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Father Name
+                                        <span className="text-red-600">*</span>Father Name
                                     </label>
                                     <input
+                                        required
                                         type="text"
                                         placeholder="Enter Father Name"
                                         onChange={handleEmployeeDetails}
@@ -195,9 +215,10 @@ const AddEmployee = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Mother Name
+                                        <span className="text-red-600">*</span>Mother Name
                                     </label>
                                     <input
+                                        required
                                         type="text"
                                         placeholder="Enter Mother Name"
                                         onChange={handleEmployeeDetails}
@@ -207,9 +228,10 @@ const AddEmployee = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Email
+                                        <span className="text-red-600">*</span>Email
                                     </label>
                                     <input
+                                        required
                                         type="email"
                                         placeholder="Enter Email Address"
                                         onChange={handleEmployeeDetails}
@@ -219,9 +241,10 @@ const AddEmployee = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Phone number
+                                        <span className="text-red-600">*</span>Phone number
                                     </label>
                                     <input
+                                        required
                                         type="text"
                                         placeholder="Enter Phone Number"
                                         onChange={handleEmployeeDetails}
@@ -232,9 +255,10 @@ const AddEmployee = () => {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">
-                                    Address
+                                    <span className="text-red-600">*</span>Address
                                 </label>
                                 <input
+                                    required
                                     type="text"
                                     placeholder="Enter Full Address"
                                     onChange={handleEmployeeDetails}
@@ -244,9 +268,10 @@ const AddEmployee = () => {
                             </div>
                             <div className="mt-[10px]">
                                 <label className="block text-sm font-medium text-gray-700">
-                                    Description
+                                    <span className="text-red-600">*</span>Description
                                 </label>
                                 <input
+                                    required
                                     type="text"
                                     placeholder="write something about employee"
                                     onChange={handleEmployeeDetails}
@@ -315,7 +340,7 @@ const AddEmployee = () => {
                                 ))}
                                 <div>
                                     <label className="block text-gray-700 mb-2">
-                                        Choose Designation
+                                        <span className="text-red-600">*</span>Choose Designation
                                     </label>
                                     <select
                                         value={employeeDetails?.designation}
@@ -342,7 +367,7 @@ const AddEmployee = () => {
                                 </div>
                                 <div>
                                     <label className="block text-gray-700 mb-2">
-                                        Choose Designation Level
+                                        <span className="text-red-600">*</span>Choose Designation Level
                                     </label>
                                     <select
                                         value={
@@ -381,6 +406,23 @@ const AddEmployee = () => {
                                 </div>
                             )}
                         </div>
+                    </div>
+                </div>
+                <div className="flex justify-center items-center mb-6">
+                    <div className="">
+                        {!isLoading ? (
+                            <button
+                                type="submit"
+                                onClick={handleAddEmployee}
+                                className="px-7 py-4 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700"
+                            >
+                                Add Employee
+                            </button>
+                        ) : (
+                            <p className="px-7 py-4 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700">
+                                please wait
+                            </p>
+                        )}
                     </div>
                 </div>
             </form>

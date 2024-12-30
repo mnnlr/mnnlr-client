@@ -7,6 +7,7 @@ import { deleteEmployeeById, getEmployees } from '../../redux/actions/EmployeeAc
 import Table from './Table';
 import '../../css/DashboardCss/Table.css';
 import Modal from './DeleteModal';
+import { ToggleSwitch } from '../ToggleSwitch';
 
 const EmployeeTable = () => {
     const navigate = useNavigate();
@@ -94,6 +95,11 @@ const EmployeeTable = () => {
                             </td>}
                             <td>
                                 <button className="dashboard-table-edit-button" onClick={(e) => handleNavigateToEdit(e, Datum._id)}>Edit</button>
+                                {/* <select className="border-2 border-gray-300 rounded-lg p-1 m-1" name="status" id="status">
+                                    <option value="employee" defaultChecked>Employee Access</option>
+                                    <option value="hr">HR Access</option>
+                                    <option value="manager">Manager Access</option>
+                                </select> */}
                             </td>
                             <td>
                                 <button className="text-xl" onClick={() => handleOpenModal(Datum?._id)}><MdDelete /></button>
@@ -101,7 +107,7 @@ const EmployeeTable = () => {
                         </tr>
                     ))}
                 </tbody>
-                
+
             </Table>
             <Modal
                 isOpen={isModalOpen}
