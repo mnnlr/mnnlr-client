@@ -7,7 +7,6 @@ import { deleteEmployeeById, getEmployees } from '../../redux/actions/EmployeeAc
 import Table from './Table';
 import '../../css/DashboardCss/Table.css';
 import Modal from './DeleteModal';
-import { ToggleSwitch } from '../ToggleSwitch';
 
 const EmployeeTable = () => {
     const navigate = useNavigate();
