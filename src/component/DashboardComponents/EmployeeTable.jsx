@@ -172,7 +172,7 @@ const EmployeeTable = () => {
 
                                     :
 
-                                    (user?.role === 'admin' || user?.role === 'hr') && usersData?.users?.map(u => u?._id === Datum?.userId &&
+                                    (user?.role === 'admin' || user?.role === 'manager') && usersData?.users?.map(u => u?._id === Datum?.userId &&
                                         <select
                                             key={u._id}
                                             value={u?.role}
