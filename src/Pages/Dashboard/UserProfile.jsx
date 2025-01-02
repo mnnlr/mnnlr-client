@@ -4,15 +4,28 @@ import { useParams } from 'react-router-dom';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { FaPhone, FaEnvelope, FaUser,  } from 'react-icons/fa';
-
 import { LineChart, Line } from 'recharts';
-
 import '../../css/DashboardCss/UserProfile.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployeeById } from '../../redux/actions/EmployeeAction';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import { getAttendanceById } from '../../redux/actions/AttendanceAction';
+import { getAttendanceById, getTotalworkingHours } from '../../redux/actions/AttendanceAction';
 import AttendenceHistoryTable from '../../component/DashboardComponents/AttendanceHistoryTable';
+import EmployeePerformance from './EmployeePerformance';
+
+
+const employeesData = [
+  {
+    name: 'John Doe',
+    workingHours: [8, 7, 8, 7, 9, 8, 6], // Working hours for each day of the week
+    totalHours: 53, // Total working hours
+  },
+  {
+    name: 'Jane Smith',
+    workingHours: [7, 7, 7, 8, 8, 7, 7],
+    totalHours: 51,
+  },
+];
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -30,8 +43,9 @@ const UserProfile = () => {
   const {user} = useSelector((state) => state.login);
   const {employee} = useSelector((state) => state.employees );
   
-  const { attendance } = useSelector((state) => state.attendances);
-  console.log(attendance);
+  const { attendance} = useSelector((state) => state.attendances);
+  // console.log("attendance",attendance);
+  
 
   useEffect(() => {
     dispatch(getEmployeeById({privateAxios,accessToken:user.accessToken,id}));
@@ -39,6 +53,7 @@ const UserProfile = () => {
   useEffect(() => {
     dispatch(getAttendanceById({privateAxios,accessToken:user.accessToken,id:employee?.userId}));  
   },[employee?.userId]);
+
   return (
     <div className="user-profile">
       <div style={{cursor:'pointer'}}>
@@ -53,9 +68,10 @@ const UserProfile = () => {
       <main className="main mt-5">
         <div className="left-column">
           <ProfileCard employee={employee} attendance={attendance}/>
-          <StatsSummary />
+          {/* <StatsSummary /> */}
           {/* <TaskList /> */}
           <AttendenceHistoryTable attendance={attendance} />
+          <EmployeePerformance employee={employee} user={user} id={id}/>
         </div>
         <div className="right-column">
           <StatisticsCard />
@@ -70,7 +86,7 @@ const ProfileCard = ({employee,attendance}) => (
   <div className="profile-card">
     <div className="profile-header" style = {{alignItems : 'center', display: 'flex', flexDirection: 'column' }}>
       <img src={employee?.avatar?.url} alt="Profile" className="avatar" />
-      <h6 className="profile-name">{`${employee.firstName} ${employee?.lastName}`}</h6>
+      <h6 className="profile-name ">{`${employee.firstName} ${employee?.lastName}`}</h6>
     </div>
 
     <div className="profile-info">

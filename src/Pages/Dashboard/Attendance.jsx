@@ -11,7 +11,7 @@ const Attendence = () => {
     const navigate = useNavigate();
     const {user} = useSelector((state) => state.login);
     const {attendances} = useSelector((state) => state.attendances);
-    console.log(attendances);
+    // console.log(attendances);
     const dispatch = useDispatch();
     const privateAxios = useAxiosPrivate();
 
@@ -23,7 +23,7 @@ const Attendence = () => {
     <div style={{marginTop: '30px'}}>
       <Table 
         TableTitle={'Attendence'}
-        TableHeaderData={["Employee","Name", "Designation","LEVEL", "Status", "LOGIN","LOGOUT","HISTORY"]}  
+        TableHeaderData={["Employee","Name", "Designation","LEVEL", "Status", "LOGIN","LOGOUT","DURATION","HISTORY"]}  
       >
         <tbody>
             {attendances?.map((Datum, index) => (
@@ -39,25 +39,25 @@ const Attendence = () => {
                 </td>
                 <td>
                     <div>
-                      <div className="dashboard-table-name">{Datum.firstName} {Datum.lastName}</div>
-                      <div className="dashboard-table-email">{Datum.email}</div>
+                      <div className="dashboard-table-name font-bold">{Datum.firstName} {Datum.lastName}</div>
+                      <div className="dashboard-table-email text-sm">{Datum.email}</div>
                     </div>
                 </td>
                 <td>
-                  <div>{Datum.designation}</div>
+                  <div className='text-sm font-semibold'>{Datum.designation}</div>
                 </td>
                 <td>
-                  <div>{Datum.designationLevel}</div>
+                  <div className='text-sm'>{Datum.designationLevel}</div>
                 </td>
                 <td>
                   <span
-                    className={`dashboard-status-badge ${Datum?.attendance?'online':'offline'}`}
+                    className={`dashboard-status-badge ${Datum?.isActive ?'online':'offline'}`}
                   >
-                    {Datum?.attendance ? 'PRESENT' : 'ABSENT'}
+                    {Datum?.isActive ? 'PRESENT' : 'ABSENT'}
                   </span>
                 </td>
-                <td>{Datum?.attendance ? Datum?.attendance?.timeTracking[0]?.timeIn : 'unavailable'}</td>
-                <td>{
+                <td className='text-sm'>{Datum?.attendance ? Datum?.attendance?.timeTracking[0]?.timeIn : 'unavailable'}</td>
+                <td className='text-sm'>{
                       Datum?.attendance?.timeTracking?.length > 0 ? (
                         Datum.attendance.timeTracking[Datum.attendance.timeTracking.length - 1].timeOut ?
                         Datum.attendance.timeTracking[Datum.attendance.timeTracking.length - 1].timeOut :
@@ -66,7 +66,11 @@ const Attendence = () => {
                     }
                 </td>
                 <td>
-                  <button className="dashboard-table-edit-button" onClick={()=>navigate(`/dashboard/attendence-history/${Datum?.userId}`)}>Details</button>
+                  <button className="text-sm font-bold text-gray-500" >{Datum?.attendance?.totalWorkingHours
+                  ||"unavailable"}</button>
+                </td>
+                <td>
+                  <button className="dashboard-table-edit-button" onClick={()=>navigate(`/dashboard/user-profile/${Datum?._id}`)}>Details</button>
                 </td>
               </tr>
             ))}
