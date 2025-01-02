@@ -6,22 +6,26 @@ import { designations, designationPrefixes } from "../../utils/Designations";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { updateEmployee } from "../../redux/actions/EmployeeAction";
+import useApi from "../../hooks/useApi";
 
 const EditEmployee = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const privateAxios = useAxiosPrivate();
+  const { sendRequest } = useApi();
 
   const [employeePrevData, setEmployeePrevData] = useState({});
   const [employeeDetails, setEmployeeDetails] = useState({});
   const [uploadedDocuments, setSelectedFile] = useState({});
+  const [selectedShifts, setSelectedShifts] = useState([]);
+  const [selectedShiftsForManager, setSelectedShiftsForManager] = useState([]);
 
   const { user } = useSelector((state) => state.login);
   const { isLoading, message, error, employees } = useSelector(
     (state) => state.employees
   );
 
-  console.log(employeePrevData)
+  // console.log(employeePrevData)
 
   // Define designation levels
   const levels = ["L0", "L1", "L2", "L3"];
@@ -35,6 +39,22 @@ const EditEmployee = () => {
       }
     }
   }, [id, employees]);
+
+  const [empInfo, setEmpInfo] = useState();
+
+  useEffect(() => {
+    const fetchEmpInfo = async () => {
+      const res = await sendRequest({
+        url: `/api/v1/users`,
+      })
+      const emp = res.users.find((emp) => emp._id === employeePrevData.userId)
+      // console.log("emp : ", emp.role)
+      setEmpInfo(emp)
+    }
+    fetchEmpInfo()
+  }, [employeePrevData])
+
+  // console.log("empInfo: ", empInfo.role)
 
   // Handle input changes for employee details
   const handleEmployeeDetails = (e) => {
@@ -63,6 +83,16 @@ const EditEmployee = () => {
     };
     reader.readAsDataURL(file);
   };
+
+  useEffect(() => {
+    if (employeePrevData && employeePrevData.AssignShiftsToHR) {
+      setSelectedShifts(employeePrevData.AssignShiftsToHR);
+    }
+
+    if (employeePrevData && employeePrevData.AssignShiftsToManager) {
+      setSelectedShiftsForManager(employeePrevData.AssignShiftsToManager);
+    }
+  }, [employeePrevData]);
 
   // Generate Employee ID based on designation, level, and email
   const handleGenerateId = (e) => {
@@ -103,7 +133,7 @@ const EditEmployee = () => {
   };
 
   // Handle form submission to update employee
-  const handleUpdateEmployee = (e) => {
+  const handleUpdateEmployee = async (e) => {
     e.preventDefault();
 
     const updatedFields = {};
@@ -122,6 +152,25 @@ const EditEmployee = () => {
       }
     );
 
+    // console.log(selectedShifts)
+
+    if (empInfo?.role === "hr") {
+      // Append HR selectedShifts to the form data
+      if (selectedShifts.length === 0) {
+        alert("Please select at least one shift for HR.")
+      } else {
+        selectedShifts.forEach((shift) => myForm.append("AssignShiftsToHR", shift));
+      }
+    } else {
+      // Append Manager selectedShifts to the form data
+      if (selectedShiftsForManager.length === 0) {
+        alert("Please select at least one shift for Manager.")
+      } else {
+        selectedShiftsForManager.forEach((shift) => myForm.append("AssignShiftsToManager", shift));
+      }
+    }
+    console.log("selectedShiftsForManager: ", selectedShiftsForManager)
+
     const employeeId = employeePrevData._id;
 
     dispatch(
@@ -134,28 +183,33 @@ const EditEmployee = () => {
     );
   };
 
+  // handle shift access adding and removing for hr
+  const handleShiftChange = (e, shift) => {
+    if (e.target.checked) {
+      setSelectedShifts((prev) => [...prev, shift]); // Add selected shift
+    } else {
+      setSelectedShifts((prev) => prev.filter((item) => item !== shift)); // Remove unselected shift
+    }
+  };
+
+  // handle shift access adding and removing for manager
+  const handleShiftChangeForManager = (e, shift) => {
+    if (e.target.checked) {
+      setSelectedShiftsForManager((prev) => [...prev, shift]); // Add selected shift
+    } else {
+      setSelectedShiftsForManager((prev) => prev.filter((item) => item !== shift)); // Remove unselected shift
+    }
+  };
+
+  // console.log(empInfo)
+
+
   return (
     <div className="min-h-screen bg-white flex justify-center rounded-lg shadow-lg items-center p-4 mt-6">
       <form
         className="min-h-screen bg-white p-6 rounded-lg w-full max-w-10xl"
         onSubmit={handleUpdateEmployee}
       >
-        <div className="flex justify-end items-center mb-6">
-          <div className="hidden lg:block">
-            {!isLoading ? (
-              <button
-                type="submit"
-                className="px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700"
-              >
-                Save Changes
-              </button>
-            ) : (
-              <p className="px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700">
-                Updating employee...
-              </p>
-            )}
-          </div>
-        </div>
         <div className="flex flex-col lg:flex-row-reverse">
           {/* Profile Image Section */}
           <div className="w-full lg:w-1/3 mb-6 lg:mb-0 flex flex-col items-center lg:items-start lg:mr-6">
@@ -184,6 +238,60 @@ const EditEmployee = () => {
                 Choose File
               </label>
             </div>
+            {((user?.role === "admin" || user?.role === "manager") && empInfo?.role === "hr") &&
+              <div className="w-full flex flex-col items-end justify-center mt-7">
+                <div className="p-4 flex justify-end flex-wrap">
+                  <label className="block mb-2 text-sm font-medium text-gray-700 w-full md:w-auto text-right">
+                    Assign Shifts to HR
+                  </label>
+                  <div className="w-full md:w-auto flex flex-wrap justify-end gap-2">
+                    {["Morning", "Afternoon", "Evening", "Night"].map((shift) => (
+                      <label
+                        key={shift}
+                        className={`flex items-center gap-2 cursor-pointer border-2 border-gray-300 rounded-lg bg-white hover:bg-gray-100 focus-within:ring-2 focus-within:ring-blue-500 transition duration-200 ${selectedShifts.includes(shift.toLowerCase()) ? "bg-blue-500 text-white" : ""}`}
+                      >
+                        <input
+                          type="checkbox"
+                          value={shift.toLowerCase()}
+                          className="hidden peer"
+                          checked={selectedShifts.includes(shift.toLowerCase())} // Make the checkbox checked if shift is selected
+                          onChange={(e) => handleShiftChange(e, shift.toLowerCase())}
+                        />
+                        <span className="peer-checked:bg-blue-500 peer-checked:text-white select-none rounded-lg px-4 py-2 transition duration-200">
+                          {shift}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>}
+            {(user?.role === "admin" && empInfo?.role === "manager") &&
+              <div className="flex flex-col w-full items-end justify-center mt-7">
+                <div className="p-4 flex justify-end flex-wrap">
+                  <label className="block mb-2 text-sm font-medium text-gray-700 w-full md:w-auto text-center">
+                    Assign Shifts to manager
+                  </label>
+                  <div className="w-full md:w-auto flex flex-wrap justify-end gap-2">
+                    {["Morning", "Afternoon", "Evening", "Night"].map((shift) => (
+                      <label
+                        key={shift}
+                        className={`flex items-center gap-2 cursor-pointer border-2 border-gray-300 rounded-lg bg-white hover:bg-gray-100 focus-within:ring-2 focus-within:ring-blue-500 transition duration-200 ${selectedShiftsForManager.includes(shift.toLowerCase()) ? "bg-blue-500 text-white" : ""}`}
+                      >
+                        <input
+                          type="checkbox"
+                          value={shift.toLowerCase()}
+                          className="hidden peer"
+                          checked={selectedShiftsForManager.includes(shift.toLowerCase())} // Make the checkbox checked if shift is selected
+                          onChange={(e) => handleShiftChangeForManager(e, shift.toLowerCase())}
+                        />
+                        <span className="peer-checked:bg-blue-500 peer-checked:text-white select-none rounded-lg px-4 py-2 transition duration-200">
+                          {shift}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>}
           </div>
 
           {/* Personal Information and Documents Section */}
@@ -332,40 +440,61 @@ const EditEmployee = () => {
                 />
               </div>
               <div className="grid grid-cols-2 gap-6 mb-5 mt-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Shift
-                </label>
-                <input
-                  type="text"
-                  placeholder="Morning/Evening/Night"
-                  value={
-                    employeeDetails.shift ||
-                    employeePrevData.shift ||
-                    ""
-                  }
-                  onChange={handleEmployeeDetails}
-                  name="shift"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Date Of Joining
-                </label>
-                <input
-                  type="date"
-                  placeholder="DOJ"
-                  onChange={handleEmployeeDetails}
-                  value={
-                    employeeDetails.dateofjoining ||
-                    employeePrevData.dateofjoining ||
-                    ""
-                  }
-                  name="dateofjoining"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </div>
+                {/* <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Shift
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Morning/Evening/Night"
+                    value={
+                      employeeDetails.shift ||
+                      employeePrevData.shift ||
+                      ""
+                    }
+                    onChange={handleEmployeeDetails}
+                    name="shift"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                </div> */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Employee Shift
+                  </label>
+                  <select
+                    value={
+                      employeeDetails.shift ||
+                      employeePrevData.shift ||
+                      ""
+                    }
+                    onChange={handleEmployeeDetails}
+                    name="shift"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Select Shift</option>
+                    <option value="morning">Morning</option>
+                    <option value="afternoon">Afternoon</option>
+                    <option value="evening">Evening</option>
+                    <option value="night">Night</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Date Of Joining
+                  </label>
+                  <input
+                    type="date"
+                    placeholder="DOJ"
+                    onChange={handleEmployeeDetails}
+                    value={
+                      employeeDetails.dateofjoining ||
+                      employeePrevData.dateofjoining ||
+                      ""
+                    }
+                    name="dateofjoining"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                </div>
               </div>
             </div>
 
@@ -515,6 +644,23 @@ const EditEmployee = () => {
                   </p>
                 </div>
               )}
+
+            </div>
+            <div className="flex justify-end items-center mb-1">
+              <div className="hidden lg:block">
+                {!isLoading ? (
+                  <button
+                    type="submit"
+                    className="px-7 py-4 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700"
+                  >
+                    Save Changes
+                  </button>
+                ) : (
+                  <p className="px-7 py-4 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700">
+                    Updating employee...
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>

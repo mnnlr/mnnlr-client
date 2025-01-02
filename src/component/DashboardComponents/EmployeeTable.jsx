@@ -19,6 +19,8 @@ const EmployeeTable = () => {
     const { user } = useSelector(state => state.login);
     const { employees, totalEmployees } = useSelector(state => state.employees);
 
+    // console.log("emp", employees);
+
     const [usersData, setUsersData] = useState([]);
     const [updatedUser, setUpdatedUser] = useState(null);
 
@@ -44,7 +46,7 @@ const EmployeeTable = () => {
         fetchUsers(); // Call the async function
     }, [updatedUser, setUsersData]);
 
-    console.log("users", usersData);
+    // console.log("users", usersData);
 
     useEffect(() => {
         let isMounted = true;
@@ -99,7 +101,7 @@ const EmployeeTable = () => {
         }
     }
 
-    console.log("updatedUser", updatedUser);
+    // console.log("updatedUser", updatedUser);
 
     // Function to determine the background color based on the role
     const getBackgroundColor = (role) => {
@@ -117,6 +119,7 @@ const EmployeeTable = () => {
         }
     }
 
+    // console.log("user:", user)
 
     return (
         <div>
@@ -160,7 +163,7 @@ const EmployeeTable = () => {
                                 </span>
                             </td>}
                             <td>
-                                <button className="dashboard-table-edit-button" onClick={(e) => handleNavigateToEdit(e, Datum._id)}>Edit</button>
+                                <button className="border-2 border-gray-300 bg-gray-200 rounded-lg px-4 py-1 m-1" onClick={(e) => handleNavigateToEdit(e, Datum._id)}>Edit</button>
                                 {isApiLoading ?
 
                                     <select
@@ -181,10 +184,10 @@ const EmployeeTable = () => {
                                             name="status"
                                             id="status"
                                         >
-                                            <option className='bg-gray-200' value="employee">Employee Access</option>
-                                            <option className='bg-green-200' value="hr">HR Access</option>
-                                            <option className='bg-blue-200' value="manager">Manager Access</option>
-                                            <option className='bg-red-200' value="admin">Admin Access</option>
+                                            <option className='bg-gray-100' value="employee">Employee Access</option>
+                                            <option className='bg-green-100' value="hr">HR Access</option>
+                                            <option className='bg-blue-100' value="manager">Manager Access</option>
+                                            <option className='bg-red-100' value="admin">Admin Access</option>
                                         </select>
                                     )
                                 }

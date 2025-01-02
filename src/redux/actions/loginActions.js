@@ -5,12 +5,13 @@ const logInUser = createAsyncThunk(
     'Login',
     async (DatatoValidate, { rejectWithValue }) => {
         try {
-            const {data,status} = await defaultAxios.post('/api/v1/login', DatatoValidate,{
+            const { data, status } = await defaultAxios.post('/api/v1/login', DatatoValidate, {
                 withCredentials: true,
                 headers: {
-                  "Content-Type": "application/json",
-                }});
-            if(status === 200){
+                    "Content-Type": "application/json",
+                }
+            });
+            if (status === 200) {
 
                 return data.foundUser;
             }
