@@ -24,8 +24,9 @@ const ActualCard = ({empFun}) => {
 
   const {attendances,workingHours} = useSelector((state) => state.attendances);
   const {totalEmployees} = useSelector(state => state.employees);
+// console.log("Attendance",attendances);
 
-  console.log('workingHours : ',workingHours);
+//   console.log('workingHours : ',workingHours);
   
   useEffect(() => {
     let isMounted = true;
@@ -38,7 +39,9 @@ const ActualCard = ({empFun}) => {
     }
     }, [dispatch,privateAxios]);
 
-  const present = attendances.filter((attendance) => attendance.attendance) || <p>calculating...</p>;
+  const present = attendances.filter((attendance) => attendance.isActive) || <p>calculating...</p>;
+  // console.log(present);
+  
   const absent = attendances?.length - present?.length || <p>calculating...</p>;
 
   const cardData = [
