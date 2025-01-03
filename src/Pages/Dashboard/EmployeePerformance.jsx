@@ -122,7 +122,7 @@ const EmployeePerformance = ({ employee, user }) => {
           <ResponsiveContainer width="100%" height={400}>
             <BarChart
               data={chartData}
-              barCategoryGap={20}
+              barCategoryGap={10}
               margin={{ top: 10, right: 20, bottom: 10, left: 20 }}
             >
               <XAxis dataKey="name" />
