@@ -7,6 +7,7 @@ import { designations, designationPrefixes } from "../../utils/Designations";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { updateEmployee } from "../../redux/actions/EmployeeAction";
 import useApi from "../../hooks/useApi";
+import { RiCloseLargeFill } from "react-icons/ri";
 
 const EditEmployee = () => {
   const { id } = useParams();
@@ -19,6 +20,8 @@ const EditEmployee = () => {
   const [uploadedDocuments, setSelectedFile] = useState({});
   const [selectedShifts, setSelectedShifts] = useState([]);
   const [selectedShiftsForManager, setSelectedShiftsForManager] = useState([]);
+  const [selectedTeamForHR, setSelectedTeamForHR] = useState([]);
+  const [selectedTeamForManager, setSelectedTeamForManager] = useState([]);
 
   const { user } = useSelector((state) => state.login);
   const { isLoading, message, error, employees } = useSelector(
@@ -36,6 +39,8 @@ const EditEmployee = () => {
       const employee = employees.find((employee) => employee?._id === id);
       if (employee) {
         setEmployeePrevData(employee);
+        setSelectedTeamForHR(employee.AssignedTeamsToHR)
+        setSelectedTeamForManager(employee.AssignedTeamsToManager)
       }
     }
   }, [id, employees]);
@@ -84,15 +89,15 @@ const EditEmployee = () => {
     reader.readAsDataURL(file);
   };
 
-  useEffect(() => {
-    if (employeePrevData && employeePrevData.AssignShiftsToHR) {
-      setSelectedShifts(employeePrevData.AssignShiftsToHR);
-    }
+  // useEffect(() => {
+  //   if (employeePrevData && employeePrevData.AssignShiftsToHR) {
+  //     setSelectedShifts(employeePrevData.AssignShiftsToHR);
+  //   }
 
-    if (employeePrevData && employeePrevData.AssignShiftsToManager) {
-      setSelectedShiftsForManager(employeePrevData.AssignShiftsToManager);
-    }
-  }, [employeePrevData]);
+  //   if (employeePrevData && employeePrevData.AssignShiftsToManager) {
+  //     setSelectedShiftsForManager(employeePrevData.AssignShiftsToManager);
+  //   }
+  // }, [employeePrevData]);
 
   // Generate Employee ID based on designation, level, and email
   const handleGenerateId = (e) => {
@@ -156,20 +161,23 @@ const EditEmployee = () => {
 
     if (empInfo?.role === "hr") {
       // Append HR selectedShifts to the form data
-      if (selectedShifts.length === 0) {
-        alert("Please select at least one shift for HR.")
+      if (selectedTeamForHR.length === 0) {
+        // alert("Please select at least one shift for HR.")
+        alert("Please select at least one Team for HR.")
       } else {
-        selectedShifts.forEach((shift) => myForm.append("AssignShiftsToHR", shift));
+        // selectedShifts.forEach((shift) => myForm.append("AssignShiftsToHR", shift));
+        selectedTeamForHR.forEach((team) => myForm.append("AssignedTeamsToHR", team));
       }
-    } else {
+    } else if (empInfo?.role === "manager") {
       // Append Manager selectedShifts to the form data
-      if (selectedShiftsForManager.length === 0) {
-        alert("Please select at least one shift for Manager.")
+      if (selectedTeamForManager.length === 0) {
+        // alert("Please select at least one shift for Manager.")
+        alert("Please select at least one Team for Manager.")
       } else {
-        selectedShiftsForManager.forEach((shift) => myForm.append("AssignShiftsToManager", shift));
+        selectedTeamForManager.forEach((team) => myForm.append("AssignedTeamsToManager", team));
       }
     }
-    console.log("selectedShiftsForManager: ", selectedShiftsForManager)
+    // console.log("selectedShiftsForManager: ", selectedShiftsForManager)
 
     const employeeId = employeePrevData._id;
 
@@ -184,25 +192,80 @@ const EditEmployee = () => {
   };
 
   // handle shift access adding and removing for hr
-  const handleShiftChange = (e, shift) => {
-    if (e.target.checked) {
-      setSelectedShifts((prev) => [...prev, shift]); // Add selected shift
-    } else {
-      setSelectedShifts((prev) => prev.filter((item) => item !== shift)); // Remove unselected shift
-    }
-  };
+  // const handleShiftChange = (e, shift) => {
+  //   if (e.target.checked) {
+  //     setSelectedShifts((prev) => [...prev, shift]); // Add selected shift
+  //   } else {
+  //     setSelectedShifts((prev) => prev.filter((item) => item !== shift)); // Remove unselected shift
+  //   }
+  // };
 
   // handle shift access adding and removing for manager
-  const handleShiftChangeForManager = (e, shift) => {
-    if (e.target.checked) {
-      setSelectedShiftsForManager((prev) => [...prev, shift]); // Add selected shift
-    } else {
-      setSelectedShiftsForManager((prev) => prev.filter((item) => item !== shift)); // Remove unselected shift
-    }
-  };
+  // const handleShiftChangeForManager = (e, shift) => {
+  //   if (e.target.checked) {
+  //     setSelectedShiftsForManager((prev) => [...prev, shift]); // Add selected shift
+  //   } else {
+  //     setSelectedShiftsForManager((prev) => prev.filter((item) => item !== shift)); // Remove unselected shift
+  //   }
+  // };
 
   // console.log(empInfo)
 
+  let teams = [
+    { name: "Team-A", value: "TeamA" },
+    { name: "Team-B", value: "TeamB" },
+    { name: "Team-C", value: "TeamC" },
+    { name: "Team-D", value: "TeamD" },
+    { name: "Team-E", value: "TeamE" },
+    { name: "Team-F", value: "TeamF" },
+    { name: "Team-G", value: "TeamG" },
+    { name: "Team-H", value: "TeamH" },
+    { name: "Team-I", value: "TeamI" },
+    { name: "Team-J", value: "TeamJ" },
+    { name: "Team-K", value: "TeamK" },
+    { name: "Team-L", value: "TeamL" },
+    { name: "Team-M", value: "TeamM" },
+    { name: "Team-N", value: "TeamN" },
+    { name: "Team-O", value: "TeamO" },
+    { name: "Team-P", value: "TeamP" },
+    { name: "Team-Q", value: "TeamQ" },
+    { name: "Team-R", value: "TeamR" },
+    { name: "Team-S", value: "TeamS" },
+    { name: "Team-T", value: "TeamT" },
+    { name: "Team-U", value: "TeamU" },
+    { name: "Team-V", value: "TeamV" },
+    { name: "Team-W", value: "TeamW" },
+    { name: "Team-X", value: "TeamX" },
+    { name: "Team-Y", value: "TeamY" },
+    { name: "Team-Z", value: "TeamZ" }
+  ]
+
+  const handleSelectTeam = (event) => {
+    if (empInfo?.role === "hr") {
+      const teamValue = event.target.value;
+
+      if (teamValue && !selectedTeamForHR.includes(teamValue)) {
+        setSelectedTeamForHR((prev) => [...prev, teamValue]);
+      }
+
+      // Clear the select value after selection
+      event.target.value = "";
+    } else if (empInfo?.role === "manager") {
+      const teamValue = event.target.value;
+
+      if (teamValue && !selectedTeamForManager.includes(teamValue)) {
+        setSelectedTeamForManager((prev) => [...prev, teamValue]);
+      }
+
+      // Clear the select value after selection
+      event.target.value = "";
+    }
+  };
+
+  const handleRemoveTeam = (teamToRemove) => {
+    if (empInfo?.role === "hr") setSelectedTeamForHR((prev) => prev.filter((team) => team !== teamToRemove));
+    if (empInfo?.role === "manager") setSelectedTeamForManager((prev) => prev.filter((team) => team !== teamToRemove));
+  };
 
   return (
     <div className="min-h-screen bg-white flex justify-center rounded-lg shadow-lg items-center p-4 mt-6">
@@ -239,8 +302,8 @@ const EditEmployee = () => {
               </label>
             </div>
             {((user?.role === "admin" || user?.role === "manager") && empInfo?.role === "hr") &&
-              <div className="w-full flex flex-col items-end justify-center mt-7">
-                <div className="p-4 flex justify-end flex-wrap">
+              <div className="w-full ml-10 flex-col items-end justify-center mt-7">
+                {/* <div className="p-4 flex justify-end flex-wrap">
                   <label className="block mb-2 text-sm font-medium text-gray-700 w-full md:w-auto text-right">
                     Assign Shifts to HR
                   </label>
@@ -263,11 +326,48 @@ const EditEmployee = () => {
                       </label>
                     ))}
                   </div>
+                </div> */}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Assign Teams to HR
+                  </label>
+                  <select
+                    onChange={handleSelectTeam}
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Select a team</option>
+                    {teams.map((team) => (
+                      <option key={`${team.name}-${team.value}`} value={team.value}>
+                        {team.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="mt-4">
+                    <p className="block text-sm font-medium text-gray-500">Selected Teams:</p>
+                    <ul className="mt-2 space-y-1">
+                      {selectedTeamForHR.map((team) => (
+                        <li
+                          key={team}
+                          className="flex items-center justify-between bg-gray-100 p-2 rounded-md border"
+                        >
+                          <span className="text-gray-700 select-none">{teams.find((t) => t.value === team)?.name}</span>
+                          <button
+                            onClick={() => handleRemoveTeam(team)}
+                            className="text-red-600 hover:underline"
+                          >
+                            <RiCloseLargeFill />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>}
-            {(user?.role === "admin" && empInfo?.role === "manager") &&
-              <div className="flex flex-col w-full items-end justify-center mt-7">
-                <div className="p-4 flex justify-end flex-wrap">
+            {user?.role === "admin" && empInfo?.role === "manager" &&
+              <div div className="ml-10 flex-col w-full items-end justify-center mt-7">
+                {/* <div className="p-4 flex justify-end flex-wrap">
                   <label className="block mb-2 text-sm font-medium text-gray-700 w-full md:w-auto text-center">
                     Assign Shifts to manager
                   </label>
@@ -290,8 +390,46 @@ const EditEmployee = () => {
                       </label>
                     ))}
                   </div>
+                </div> */}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Assign Teams to Manager
+                  </label>
+                  <select
+                    onChange={handleSelectTeam}
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Select a team</option>
+                    {teams.map((team) => (
+                      <option key={`${team.name}-${team.value}`} value={team.value}>
+                        {team.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="mt-4">
+                    <p className="block text-sm font-medium text-gray-500">Selected Teams:</p>
+                    <ul className="mt-2 space-y-1">
+                      {selectedTeamForManager.map((team) => (
+                        <li
+                          key={team}
+                          className="flex items-center justify-between bg-gray-100 p-2 rounded-md border"
+                        >
+                          <span className="text-gray-700 select-none">{teams.find((t) => t.value === team)?.name}</span>
+                          <button
+                            onClick={() => handleRemoveTeam(team)}
+                            className="text-red-600 hover:underline"
+                          >
+                            <RiCloseLargeFill />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>}
+              </div>
+            }
           </div>
 
           {/* Personal Information and Documents Section */}
@@ -472,12 +610,36 @@ const EditEmployee = () => {
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   >
                     <option value="">Select Shift</option>
-                    <option value="morning">Morning</option>
-                    <option value="afternoon">Afternoon</option>
-                    <option value="evening">Evening</option>
+                    <option value="morning">Morning - 09:00 AM TO 06:00 PM</option>
+                    <option value="afternoon">Afternoon - 03:00 PM TO 11:00 PM</option>
+                    <option value="evening">Evening - None</option>
                     <option value="night">Night</option>
                   </select>
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Employee Team
+                  </label>
+                  <select
+                    value={
+                      employeeDetails.employeeTeam ||
+                      employeePrevData.employeeTeam ||
+                      ""
+                    }
+                    onChange={handleEmployeeDetails}
+                    name="employeeTeam"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Select a team</option>
+                    {teams.map((team) => (
+                      <option key={`${team.name}-${team.value}`} value={team.value}>
+                        {team.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Date Of Joining
@@ -664,8 +826,8 @@ const EditEmployee = () => {
             </div>
           </div>
         </div>
-      </form>
-    </div>
+      </form >
+    </div >
   );
 };
 

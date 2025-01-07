@@ -18,7 +18,7 @@ const useApi = () => {
                 headers: config.headers,
                 params: config.params
             });
-            console.log("res: ", response);
+            // console.log("res: ", response);
             setApiData(response.data);
             return response.data; // Optional: return data for immediate use
         } catch (err) {

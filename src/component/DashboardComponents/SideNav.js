@@ -1,6 +1,6 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { NavLink, useLocation } from 'react-router-dom';
-import { FaTachometerAlt, FaUser, FaSignInAlt} from 'react-icons/fa';
+import { FaTachometerAlt, FaUser, FaSignInAlt } from 'react-icons/fa';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 import '../../css/DashboardCss/Sidenav.css';
@@ -19,17 +19,17 @@ function SideNav() {
 
   return (
     <div className="dashbord-sidenav">
-      <NavLink style={{borderRadius:'7px',placeContent:'center',fontWeight:'bold'}} className={`dashbord-nav-item dashbord-active`}>
-          MNNLR
+      <NavLink style={{ borderRadius: '7px', placeContent: 'center', fontWeight: 'bold' }} className={`dashbord-nav-item dashbord-active`}>
+        MNNLR
       </NavLink>
-      <div style={{border:'1px solid rgba(0,0,0,0.2)',marginTop:'10px'}}></div>
+      <div style={{ border: '1px solid rgba(0,0,0,0.2)', marginTop: '10px' }}></div>
       <div>
-        <div style={{marginTop:'40px'}}>
+        <div style={{ marginTop: '40px' }}>
           <NavItem to="/dashboard" icon={FaTachometerAlt}>Dashboard</NavItem>
           <NavItem to="/dashboard/add-employee" icon={PersonAddIcon}>Add Employee</NavItem>
           <NavItem to="/dashboard/holidays" icon={CalendarMonthIcon}>Holidays</NavItem>
         </div>
-        
+
         <div className="dashbord-account-pages">
           <h1 style={{ fontSize: "18px", fontWeight: "bold", color: "black", marginTop: "10px", marginBottom: "10px" }}>ACCOUNT PAGES</h1>
           <NavItem to="/dashboard/profile" icon={FaUser}>Profile</NavItem>

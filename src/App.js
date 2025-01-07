@@ -53,17 +53,17 @@ const App = () => {
           <Route path='career-form' element={<CareerForm />} />
           <Route path='contact' element={<ContactUs />} />
           {/* <Route path='satisfied-clients' element={<SatisfiedClients />} /> */}
-          <Route element={<ProtectedRoute allowedRole={['employee', 'hr']} />}>
+          <Route element={<ProtectedRoute allowedRole={['employee', 'hr', 'admin', 'manager']} />}>
             <Route path='profile' element={<ProfilePage />} />
           </Route>
-          <Route element={<ProtectedRoute allowedRole={['admin', 'hr']} />}>
+          <Route element={<ProtectedRoute allowedRole={['admin', 'hr', 'manager']} />}>
             <Route path='employees' element={<Employees />} />
           </Route>
           <Route element={<ProtectedRoute allowedRole={['employee']} />}>
             <Route path='apply-leave' element={<ApplyLeave />} />
           </Route>
 
-          <Route element={<ProtectedRoute allowedRole={['admin', 'hr', 'employee']} />} >
+          <Route element={<ProtectedRoute allowedRole={['admin', 'hr', 'employee', 'manager']} />} >
             <Route path='employee/:id' element={<EmployeeProfile />} />
           </Route>
 
@@ -71,7 +71,7 @@ const App = () => {
 
 
 
-        <Route element={<ProtectedRoute allowedRole={['admin', 'hr']} />}>
+        <Route element={<ProtectedRoute allowedRole={['admin', 'hr', "manager"]} />}>
           <Route path='dashboard' element={<DashboardLayout />} >
             <Route index element={<DashboardHome />} />
             <Route path='holidays' element={<Holidays />} />

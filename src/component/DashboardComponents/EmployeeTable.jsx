@@ -15,11 +15,16 @@ const EmployeeTable = () => {
     const privateAxios = useAxiosPrivate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [employeeToDelete, setEmployeeToDelete] = useState(null);
+    const [updatingUserId, setUpdatingUserId] = useState(null);
 
     const { user } = useSelector(state => state.login);
     const { employees, totalEmployees } = useSelector(state => state.employees);
 
-    // console.log("emp", employees);
+    // console.log("user:", user);
+    // console.log("emps:", employees);
+    // console.log("emp", employees.find(emp => emp.userId === user._id));
+
+    const emp = employees.find(emp => emp.userId === user._id);
 
     const [usersData, setUsersData] = useState([]);
     const [updatedUser, setUpdatedUser] = useState(null);
@@ -86,7 +91,7 @@ const EmployeeTable = () => {
 
         try {
             const role = e.target.value;
-
+            setUpdatingUserId(userId);
             // console.log("role:", role, "userId:", userId);
 
             const userUpdateResponse = await sendRequest({
@@ -94,7 +99,7 @@ const EmployeeTable = () => {
                 method: "PATCH",
                 data: { role }
             });
-
+            if (userUpdateResponse) setUpdatingUserId(null)
             setUpdatedUser(userUpdateResponse);
         } catch (err) {
             console.log(err)
@@ -119,8 +124,6 @@ const EmployeeTable = () => {
         }
     }
 
-    // console.log("user:", user)
-
     return (
         <div>
             <Table
@@ -128,72 +131,99 @@ const EmployeeTable = () => {
                 TableHeaderData={["Employee", "Name", "Designation", "Level", "Employed", "ACTION"]}
             >
                 <tbody>
-                    {employees?.length > 0 && employees?.map((Datum) => (
-                        <tr key={Datum?._id}>
+                    {employees?.length > 0 && employees?.filter((empData) => {
+                        if (user?.role === 'admin') {
+                            return true; // Admin can see all employees
+                        }
+                        if (user?.role === 'hr') {
+                            // HR can see only employees in their assigned teams
+                            return emp.AssignedTeamsToHR?.includes(empData.employeeTeam);
+                        }
+                        if (user?.role === 'manager') {
+                            return emp.AssignedTeamsToManager?.includes(empData.employeeTeam);
+                        }
+                        return false;
+                    }).map((empData) => (
+                        <tr key={empData?._id}>
                             <td>
-                                <div className="dashboard-table-info" style={{ cursor: 'pointer' }} onClick={() => navigate(`/dashboard/user-profile/${Datum?._id}`)}>
+                                <div className="dashboard-table-info" style={{ cursor: 'pointer' }} onClick={() => navigate(`/dashboard/user-profile/${empData?._id}`)}>
                                     <img
                                         style={{ width: '36px', height: '36px', borderRadius: '50%' }}
-                                        src={Datum?.avatar?.url}
-                                        alt={Datum?.firstName}
+                                        src={empData?.avatar?.url}
+                                        alt={empData?.firstName}
                                         className=".dashboard-author-avatar"
                                     />
                                 </div>
                             </td>
                             <td>
                                 <div>
-                                    <div className="dashboard-table-name">{`${Datum?.firstName} ${Datum?.lastName}`}</div>
-                                    <div className="dashboard-table-email">{Datum?.email}</div>
+                                    <div className="dashboard-table-name">{`${empData?.firstName} ${empData?.lastName}`}</div>
+                                    <div className="dashboard-table-email">{empData?.email}</div>
                                 </div>
                             </td>
                             <td>
-                                <div>{Datum?.designation}</div>
+                                <div>{empData?.designation}</div>
                             </td>
                             <td>
-                                <div>{Datum?.designationLevel}</div>
+                                <div>{empData?.designationLevel}</div>
                             </td>
                             <td>
-                                <div>{Datum?.createdAt ? new Date(Datum.createdAt).toDateString() : 'not available'}</div>
+                                <div>{empData?.createdAt ? new Date(empData.createdAt).toDateString() : 'not available'}</div>
                             </td>
-                            {Datum?.status && <td>
+                            {empData?.status && <td>
                                 <span
-                                    className={`dashboard-status-badge ${Datum.status.toLowerCase()}`}
+                                    className={`dashboard-status-badge ${empData.status.toLowerCase()}`}
                                 >
-                                    {Datum.status}
+                                    {empData.status}
                                 </span>
                             </td>}
                             <td>
-                                <button className="border-2 border-gray-300 bg-gray-200 rounded-lg px-4 py-1 m-1" onClick={(e) => handleNavigateToEdit(e, Datum._id)}>Edit</button>
-                                {isApiLoading ?
-
-                                    <select
-                                        disabled
-                                        className={`border-2 border-gray-300 rounded-lg p-1 m-1 ${getBackgroundColor(user?.role)}`}
-                                    >
-                                        <option className='bg-sky-200' value="employee">Updating Access...</option>
-                                    </select>
-
-                                    :
-
-                                    (user?.role === 'admin' || user?.role === 'manager') && usersData?.users?.map(u => u?._id === Datum?.userId &&
-                                        <select
-                                            key={u._id}
-                                            value={u?.role}
-                                            onChange={(e) => handleUpdateUser(e, u?._id)}
-                                            className={`border-2 border-gray-300 rounded-lg p-1 m-1 ${getBackgroundColor(u?.role)}`}
-                                            name="status"
-                                            id="status"
-                                        >
-                                            <option className='bg-gray-100' value="employee">Employee Access</option>
-                                            <option className='bg-green-100' value="hr">HR Access</option>
-                                            <option className='bg-blue-100' value="manager">Manager Access</option>
-                                            <option className='bg-red-100' value="admin">Admin Access</option>
-                                        </select>
-                                    )
-                                }
+                                <button
+                                    className="border-2 border-gray-300 bg-gray-200 rounded-lg px-4 py-1 m-1"
+                                    onClick={(e) => handleNavigateToEdit(e, empData._id)}
+                                >
+                                    Edit
+                                </button>
+                                {usersData?.users?.map((u) =>
+                                    u?._id === empData?.userId ? (
+                                        updatingUserId === u._id ? (
+                                            <select
+                                                disabled
+                                                key={u._id}
+                                                className="border-2 border-gray-300 rounded-lg p-1 m-1 bg-sky-200"
+                                            >
+                                                <option value="employee">Updating Access...</option>
+                                            </select>
+                                        ) : (
+                                            (user?.role === 'admin' || user?.role === 'manager') && (
+                                                <select
+                                                    key={u._id}
+                                                    value={u?.role}
+                                                    onChange={(e) => handleUpdateUser(e, u?._id)}
+                                                    className={`border-2 border-gray-300 rounded-lg p-1 m-1 ${getBackgroundColor(u?.role)}`}
+                                                    name="status"
+                                                    id="status"
+                                                >
+                                                    <option className="bg-gray-100" value="employee">
+                                                        Employee Access
+                                                    </option>
+                                                    <option className="bg-green-100" value="hr">
+                                                        HR Access
+                                                    </option>
+                                                    <option className="bg-blue-100" value="manager">
+                                                        Manager Access
+                                                    </option>
+                                                    <option className="bg-red-100" value="admin">
+                                                        Admin Access
+                                                    </option>
+                                                </select>
+                                            )
+                                        )
+                                    ) : null
+                                )}
                             </td>
                             <td>
-                                <button className="text-xl" onClick={() => handleOpenModal(Datum?._id)}><MdDelete /></button>
+                                <button className="text-xl" onClick={() => handleOpenModal(empData?._id)}><MdDelete /></button>
                             </td>
                         </tr>
                     ))}

@@ -11,11 +11,11 @@ function NavBar() {
   const [scrollPosition, setScrollPosition] = useState(1);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const {user} = useSelector(state => state.login);
+  const { user } = useSelector(state => state.login);
 
   useEffect(() => {
     const handleScroll = () => {
-      const position = window.pageYOffset+1;
+      const position = window.pageYOffset + 1;
       setScrollPosition(position);
     };
 
@@ -38,16 +38,16 @@ function NavBar() {
   return (
     <nav className={`navbar ${scrollPosition > 0 ? 'scrolled' : ''}`}>
       <div className="navbar-logo">
-        <img src={logo} alt='logo' className='w-16 h-16 rounded-full p-1'/>
-       MNNLR</div>
+        <img src={logo} alt='logo' className='w-16 h-16 rounded-full p-1' />
+        MNNLR</div>
       <div className={`navbar-links ${isNavOpen ? 'open' : ''}`}>
-      <Link to="/"onClick={handleLinkClick}> Home</Link>
+        <Link to="/" onClick={handleLinkClick}> Home</Link>
         <Link to="/about" onClick={handleLinkClick}>About</Link>
         <Link to="/services" onClick={handleLinkClick}>Services</Link>
         <Link to="/career" onClick={handleLinkClick}>Career</Link>
         <Link to="/contact" onClick={handleLinkClick}>Contact</Link>
-        {user?.role === 'admin'&&<EmployeeButton user={user} />}
-        <div><ProfileIcon/></div>
+        {user?.role === 'admin' && <EmployeeButton user={user} />}
+        <div><ProfileIcon /></div>
       </div>
       <button className="navbar-toggle-btn" onClick={toggleNav}>
         {isNavOpen ? <span>&#10006;</span> : <span>☰</span>}
