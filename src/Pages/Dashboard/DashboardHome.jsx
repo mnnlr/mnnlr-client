@@ -52,10 +52,10 @@ function Dashboard() {
 
       <div className="w-full flex flex-col md:flex-row md:space-x-20 space-y-10 md:space-y-0 mt-10 mb-10">
         <div className="w-full md:w-1/2 h-6">
-          <ActiveUsers />
+          {/* <ActiveUsers /> */}
         </div>
         <div className="w-full md:w-3/4 mb-10">
-          <EmployeeOverView />
+          {/* <EmployeeOverView /> */}
         </div>
       </div>
 

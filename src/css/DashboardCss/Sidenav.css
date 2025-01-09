@@ -1,87 +1,139 @@
 .dashbord-sidenav {
-    width: '100%';
-    background-color: white;
-    height: 100vh;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  }
+  width: 100%;
+  background-color: white;
+  height: 100vh;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;  /* Added transition for sliding effect */
+}
+
+/* Dashbord Icon Container */
+.dashbord-icon-container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;  /* Added transform transition */
+}
+
+.dashbord-icon-container.dashbord-active {
+  background-color: rgb(122, 194, 188);
+  transform: scale(1.1); /* Slight scaling effect */
+}
+
+.dashbord-icon {
+  font-size: 24px;
+  margin-left: 10px;
+  transition: transform 0.3s ease;  /* Smooth scaling for icons */
+}
+
+.dashbord-icon-container:hover .dashbord-icon {
+  transform: scale(1.2);  /* Hover scale effect for icons */
+}
+
+/* Dashbord Navigation Item */
+.dashbord-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;  /* Transition for hover effect */
+}
+
+.dashbord-nav-item:hover {
+  background-color: #f0f0f0; 
+  border-radius: 10px;/* Light gray on hover */
+  transform: translateX(10px); /* Slight slide effect */
+}
+
+.dashbord-nav-item img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.dashbord-nav-item.dashbord-active {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: medium;
+  transform: translateX(5px); /* Active item slight slide */
+}
+
+/* Dashbord Account Pages */
+.dashbord-account-pages h3 {
+  font-size: 12px;
+  color: #888;
+  margin: 20px 0 10px;
+}
+
+/* Dashbord Help Box */
+.dashbord-help-box {
+  background-color: #e6f7ff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+  opacity: 0; /* Start as hidden */
+  animation: fadeIn 1s forwards;  /* Fade-in animation */
+}
+
+.dashbord-help-box img {
+  width: 24px;
+  height: 24px;
+}
+
+.dashbord-help-box h4 {
+  margin: 10px 0 5px;
+}
+
+.dashbord-help-box p {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Media Query */
+@media (max-width: 768px) {
   .dashbord-icon-container {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px; 
-    height: 40px; 
-    border-radius: 20%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-    margin-right: 10px; 
-    transition: background-color 0.3s ease;
+      width: 50px;
+      height: 50px;
   }
-  .dashbord-icon-container.dashbord-active {
-    background-color: aqua;
-  }
-  .dashbord-icon {
-    font-size: 24px;
-  }
-  
+
   .dashbord-nav-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 5px;
-    cursor: pointer;
+      padding: 15px;
+      margin-bottom: 10px;
   }
-  
-  .dashbord-nav-item img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-  
-  .dashbord-nav-item.dashbord-active {
-    background-color: #fff;
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-    font-size: medium;
-  }
-  
-  .dashbord-account-pages h3 {
-    font-size: 12px;
-    color: #888;
-    margin: 20px 0 10px;
-  }
-  
+
   .dashbord-help-box {
-    background-color: #e6f7ff;
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 20px;
+      padding: 20px;
   }
-  
-  .dashbord-help-box img {
-    width: 24px;
-    height: 24px;
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
   }
-  
-  .dashbord-help-box h4 {
-    margin: 10px 0 5px;
+  100% {
+      opacity: 1;
   }
-  
-  .dashbord-help-box p {
-    font-size: 12px;
-    color: #666;
+}
+
+/* Slide-in animation for the sidenav */
+@keyframes slideIn {
+  0% {
+      transform: translateX(-100%);
   }
-  @media (max-width: 768px) {
-    .dashbord-icon-container {
-        width: 50px;
-        height: 50px;
-      }
-    
-      .dashbord-nav-item {
-        padding: 15px;
-        margin-bottom: 10px;
-      }
-    
-      .dashbord-help-box {
-        padding: 20px;
-      }
+  100% {
+      transform: translateX(0);
   }
+}
+
+/* Optionally, add the slide-in animation on page load */
+.dashbord-sidenav {
+  animation: slideIn 0.5s ease-out;
+}

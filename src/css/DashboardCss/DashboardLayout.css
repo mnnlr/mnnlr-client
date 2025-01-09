@@ -1,91 +1,68 @@
+/* Main container for the entire dashboard */
 .dashboard-app-container {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    /* background-color: #f0f2f5; */
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* Full viewport height */
+  background-color: #f0f2f5; /* Background color */
 }
-  
-  .dashboard-side-nav {
-    flex: 0 0 20%;
-    background-color: #f0f0f0;
-  }
-  
-  
-  /* .dashboard-main-content {
-    flex: 1;
-    background-color: #e0e0e0;
-  } */
-  .dashboard-main-layout {
-    display: flex;
+
+/* Side Navigation Bar */
+.dashboard-side-nav {
+  width: 250px; /* Fixed width for larger screens */
+  flex: 0 0 250px; /* Prevent it from resizing */
+  background-color: #f0f0f0; /* Light background for side nav */
+  transition: transform 0.3s ease; /* Smooth transition if side nav is toggled */
+}
+
+/* Main Layout Container (Header + Content Area) */
+.dashboard-main-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  flex: 1;
+}
+
+/* Navigation Bar */
+.dashboard-nav-bar {
+  flex: 0 0 auto;
+}
+
+/* Main Content Area */
+.dashboard-main-content {
+  flex: 1; /* Takes up remaining space */
+  height: 100vh;
+  overflow-y: auto; /* Scrollable content */
+  padding: 20px; /* Padding for content */
+  background-color: #e0e0e0; /* Background for content */
+  box-sizing: border-box;
+}
+
+/* Global Dashboard Styles */
+.dashboard {
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto; /* Scrollable content */
+  box-sizing: border-box;
+  background-color: #f0f2f5;
+  color: var(--text-color); /* Dynamic text color */
+}
+
+/* Media Query for Smaller Screens (<= 768px) */
+@media (max-width: 768px) {
+  /* Switch layout to column for mobile */
+  .dashboard-app-container {
     flex-direction: column;
-    height: 100vh;
   }
-  
-  .dashboard-nav-bar {
-    flex: 0 0 auto;
+
+  /* Hide the Side Navigation Bar on smaller screens */
+  .dashboard-side-nav {
+    display: none;
   }
+
+  /* Make the main content area take full width */
   .dashboard-main-content {
     flex: 1;
-    height: 100vh;
-    overflow-y: auto;
-    padding: 20px;
-    background-color: #e0e0e0;
+    padding: 10px; /* Less padding for mobile */
   }
-  .dashboard {
-    font-family: 'Poppins', sans-serif;
-    padding: 20px;
-    height: 100vh;
-    overflow-y: auto;
-    box-sizing: border-box;
-    background-color: #f0f2f5;
-    color: var(--text-color);
-  }
-  
-  /* Media Query to hide SideNav on smaller screens */
-  @media (max-width: 768px) {
-    .dashboard-app-container {
-      flex-direction: column;
-    }
-  
-    .dashboard-side-nav {
-      display: none;
-    }
-  
-    .dashboard-main-content {
-      flex: 1;
-    }
-  }
-  
-/* MainLayout.css */
-  
-  /* .dashboard-app-container {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-  } */
-  
-  /* .dashboard-side-nav {
-    flex: 0 0 250px;
-    background-color: #f8f9fa;
-    border-right: 1px solid #dee2e6;
-  } */
-  
-  /* .dashboard-main-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    background-color: #ffffff;
-  } */
-  
-  /* Responsive Design */
-  
-  /* @media (max-width: 768px) {
-    .dashboard-side-nav {
-      display: none;
-    }
-  
-    .dashboard-main-content {
-      padding: 10px;
-    }
-  } */
-  
+}

@@ -18,6 +18,12 @@ import LeaveDashboard from './Pages/Dashboard/LeaveDashboard';
 import Loading from './component/Loading';
 import Career from './Pages/Career';
 import CareerForm from './component/CareerForm';
+import HrDashboardLayout from './Pages/HRDashboard/HrDashBoardLayout';
+import HrDashboard from './Pages/HRDashboard/HrDashboard';
+import HrLeaves from './Pages/HRDashboard/HrLeaves';
+import HrAttendence from './Pages/HRDashboard/HrAttendance';
+import HRPerformances from './Pages/HRDashboard/HRPerformance';
+
 
 const Login = lazy(() => import('./Pages/LogInSinUp'));
 const PageLayOut = lazy(() => import('./Pages/PageLayOut'));
@@ -42,6 +48,7 @@ const App = () => {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
+        {/* Emp Routes */}
         <Route path='connect-with-us' element={<Login />} />
         <Route path="get-recovery-link" element={<SendRecoveryLink />} />
         <Route path="reset-password/:id" element={<PasswordRecover />} />
@@ -69,9 +76,8 @@ const App = () => {
 
         </Route>
 
-
-
-        <Route element={<ProtectedRoute allowedRole={['admin', 'hr', "manager"]} />}>
+        {/* Admin Routes only */}
+        <Route element={<ProtectedRoute allowedRole={['admin']} />}>
           <Route path='dashboard' element={<DashboardLayout />} >
             <Route index element={<DashboardHome />} />
             <Route path='holidays' element={<Holidays />} />
@@ -84,15 +90,33 @@ const App = () => {
             <Route path='attendence-history/:id' element={<AttendenceHistory />} />
             <Route path='performances' element={<Performances />} />
             <Route path='user-profile/:id' element={<UserProfile />} />
-            <Route path='edit-employee/:id' element={<UserEdit />} />
-            <Route path='add-employee' element={<AddEmployee />} />
             <Route path='review-leave/:id' element={<LeaveDashboard />} />
+
+            <Route path='add-employee' element={<AddEmployee />} />
+            <Route path='edit-employee/:id' element={<UserEdit />} />
           </Route>
         </Route>
 
+        {/* Manager and Admin Routes*/}
+        <Route element={<ProtectedRoute allowedRole={['admin', 'manager']} />}>
 
+        </Route>
+
+
+        {/* HR, Manager and Admin Routes */}
+        <Route element={<ProtectedRoute allowedRole={['admin', "hr", 'manager']} />}>
+          <Route path='hr-dashboard' element={<HrDashboardLayout />} >
+            <Route index element={<HrDashboard />} />
+            <Route path='hr-performance' element={<HRPerformances />} />
+            <Route path='hr-attendance' element={<HrAttendence />} />
+            <Route path='hr-leaves' element={<HrLeaves />} />
+
+            <Route path='add-employee' element={<AddEmployee />} />
+            <Route path='edit-employee/:id' element={<UserEdit />} />
+          </Route>
+        </Route>
       </Routes>
-    </Suspense>
+    </Suspense >
   )
 }
 

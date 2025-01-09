@@ -96,10 +96,24 @@ const ProfileIcon = () => {
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
-                    {(user?.role === 'admin' || user?.role === 'hr' || user?.role === 'manager') && <MenuItem onClick={() => navigate('/dashboard')}>
-                        <Avatar /> Dashboard
-                    </MenuItem>}
-                    {(user?.role === 'hr' || user?.role === 'employee') && <MenuItem onClick={handleProfile}>
+                    {user?.role === 'admin' ?
+                        <>
+                            <MenuItem onClick={() => navigate('/dashboard')}>
+                                <Avatar /> Dashboard
+                            </MenuItem>
+                            <MenuItem onClick={() => navigate('/hr-dashboard')}>
+                                <Avatar /> HR Dashboard
+                            </MenuItem>
+                        </>
+                        :
+                        user?.role === 'hr' ?
+                            <MenuItem onClick={() => navigate('/hr-dashboard')}>
+                                <Avatar /> HR Dashboard
+                            </MenuItem>
+                            :
+                            null
+                    }
+                    {(user?.role === 'hr' || user?.role === 'manager' || user?.role === 'employee') && <MenuItem onClick={handleProfile}>
                         <Avatar /> Profile
                     </MenuItem>}
                     <Divider />

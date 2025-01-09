@@ -65,7 +65,9 @@ const EmployeeTable = () => {
 
     const handleNavigateToEdit = (e, employeeId) => {
         e.preventDefault();
-        navigate(`/dashboard/edit-employee/${employeeId}`);
+        user?.role === 'admin' ? navigate(`/dashboard/edit-employee/${employeeId}`)
+            : user?.role === 'hr' ? navigate(`/hr-dashboard/edit-employee/${employeeId}`)
+                : navigate('/')
     };
 
     const handleOpenModal = (employeeId) => {
