@@ -2,14 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getAttendance,
   getAttendanceById,
-  getAttendanceStatus,
+  getHRperformance,
   getEmployeeWorkingHours,
   getTotalworkingHours,
+  getHrPerformance,
+  getAllHrAttandance,
 } from "../actions/AttendanceAction";
 
 const initialState = {
   attendances: [],
   workingHours: [],
+  HrPerformance: { employeePerformances: [] },
+  HrAttendance:[],
   attendance: {},
   totalWorkingHours: [],
   isLoading: false,
@@ -81,6 +85,40 @@ const AttendanceSlice = createSlice({
       state.isLoading = false;
       state.error = payload;
     });
+    
+    //Hr Performance
+    builder.addCase(getHrPerformance.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    
+    builder.addCase(getHrPerformance.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.HrPerformance = payload 
+    });
+    
+    builder.addCase(getHrPerformance.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    
+    //Hr Attendance
+    builder.addCase(getAllHrAttandance.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    
+    builder.addCase(getAllHrAttandance.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.HrAttendance = payload 
+    });
+    
+    builder.addCase(getAllHrAttandance.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    
+    
   },
 });
 

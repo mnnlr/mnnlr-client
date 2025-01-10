@@ -11,7 +11,7 @@ const Attendence = () => {
     const navigate = useNavigate();
     const {user} = useSelector((state) => state.login);
     const {attendances} = useSelector((state) => state.attendances);
-    // console.log(attendances);
+     console.log(attendances);
     const dispatch = useDispatch();
     const privateAxios = useAxiosPrivate();
 

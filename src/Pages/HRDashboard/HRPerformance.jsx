@@ -2,55 +2,33 @@ import { useNavigate } from 'react-router-dom';
 import Table from '../../component/DashboardComponents/Table';
 import convertSecondsToHHMMSS from '../../utils/convertSecondsToHHMMSS';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getHrPerformance } from '../../redux/actions/AttendanceAction';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const HRPerformances = () => {
     const navigate = useNavigate();
+    const { user } = useSelector((state) => state.login);
+    const { HrPerformance, loading, error } = useSelector((state) => state.attendances);
 
-    // Fake data for employee performances
-    const workingHours = {
-        employeePerformances: [
-            {
-                avatar: { url: 'https://randomuser.me/api/portraits/men/1.jpg' },
-                firstName: 'John',
-                lastName: 'Doe',
-                email: 'john.doe@example.com',
-                designation: 'Developer',
-                status: 'Active',
-                employeedOn: '01 Jan 2022',
-                totalWorkingTime: 36000, // 10 hours in seconds
-            },
-            {
-                avatar: { url: 'https://randomuser.me/api/portraits/women/2.jpg' },
-                firstName: 'Jane',
-                lastName: 'Smith',
-                email: 'jane.smith@example.com',
-                designation: 'Designer',
-                status: 'Active',
-                employeedOn: '15 Feb 2021',
-                totalWorkingTime: 28800, // 8 hours in seconds
-            },
-            {
-                avatar: { url: 'https://randomuser.me/api/portraits/men/3.jpg' },
-                firstName: 'Mark',
-                lastName: 'Johnson',
-                email: 'mark.johnson@example.com',
-                designation: 'Manager',
-                status: 'Inactive',
-                employeedOn: '20 Mar 2020',
-                totalWorkingTime: 43200, // 12 hours in seconds
-            },
-            {
-                avatar: { url: 'https://randomuser.me/api/portraits/women/4.jpg' },
-                firstName: 'Alice',
-                lastName: 'Williams',
-                email: 'alice.williams@example.com',
-                designation: 'HR Manager',
-                status: 'Active',
-                employeedOn: '10 Nov 2019',
-                totalWorkingTime: 32400, // 9 hours in seconds
-            },
-        ]
-    };
+    const dispatch = useDispatch();
+    const privateAxios = useAxiosPrivate();
+
+    useEffect(() => {
+        if (user?.accessToken) {
+            dispatch(getHrPerformance({ privateAxios, accessToken: user?.accessToken }));
+        }
+    }, [dispatch, privateAxios, user?.accessToken]);
+
+    if (loading) {
+        return <div>Loading...</div>; 
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;  
+    }
+
+    const employeePerformances = HrPerformance?.employeePerformances || [];
 
     return (
         <div style={{ marginTop: '30px' }}>
@@ -59,7 +37,7 @@ const HRPerformances = () => {
                 TableHeaderData={["Employee", "Name", "Designation", "Employed On", "Employed"]}
             >
                 <tbody>
-                    {workingHours.employeePerformances.map((Datum, index) => (
+                    {employeePerformances.map((Datum, index) => (
                         <tr key={index}>
                             <td>
                                 <div className="dashboard-table-info" style={{ cursor: 'pointer' }} onClick={() => navigate('/dashboard/user-profile')}>
@@ -80,11 +58,7 @@ const HRPerformances = () => {
                                 <div>{Datum.designation}</div>
                             </td>
                             <td>
-                                <span
-                                    className={`dashboard-status-badge ${Datum.status.toLowerCase()}`}
-                                >
-                                    {Datum.employeedOn}
-                                </span>
+                                <span>{Datum.employeedOn}</span>
                             </td>
                             <td>{convertSecondsToHHMMSS(Datum.totalWorkingTime)}</td>
                         </tr>

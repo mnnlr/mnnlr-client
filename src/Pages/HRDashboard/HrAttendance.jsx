@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getAttendance } from '../../redux/actions/AttendanceAction';
+import { getAllHrAttandance, getAttendance, getHrPerformance } from '../../redux/actions/AttendanceAction';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 import Table from '../../component/DashboardComponents/Table';
@@ -10,6 +10,9 @@ import Table from '../../component/DashboardComponents/Table';
 const HrAttendence = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.login);
+  // console.log(user);
+  const { HrAttendance } = useSelector((state) => state.attendances);
+  // console.log(HrAttendance);  
   
   // Fake attendance data for demonstration
   const attendances = [
@@ -82,7 +85,7 @@ const HrAttendence = () => {
 
   useEffect(() => {
     // Normally, you would dispatch an action to get real data
-    // dispatch(getAttendance({ privateAxios, accessToken: user.accessToken }));
+    dispatch(getAllHrAttandance({ privateAxios, accessToken: user.accessToken }));
   }, [dispatch, privateAxios]);
 
   return (
@@ -92,7 +95,7 @@ const HrAttendence = () => {
         TableHeaderData={["Employee", "Name", "Designation", "LEVEL", "Status", "LOGIN", "LOGOUT", "DURATION", "HISTORY"]}
       >
         <tbody>
-          {attendances.map((Datum, index) => (
+          {HrAttendance.map((Datum, index) => (
             <tr key={index}>
               <td>
                 <div className="dashboard-table-info" style={{ cursor: 'pointer' }} onClick={() => navigate(`/dashboard/user-profile/${Datum._id}`)}>
