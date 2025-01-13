@@ -87,46 +87,46 @@ const present = HrAttendance.filter((attendance) => attendance.isActive) || <p>c
   return (
     <>
       <div className="flex justify-center mt-5 ">
-        <div className="bg-white shadow-lg p-6 w-full rounded-md">
+        <div className="bg-white shadow-lg py-2 px-3 w-full rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            <div className="bg-purple-100 p-4 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+            <div className="bg-purple-100 p-6 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300"  style = {{width: '250px', margin : "20px"}}>
               <div className="flex items-center">
-                <i className=" text-purple-500 text-2xl mr-3 px-3 py-3 rounded-full bg-purple-300"><FaUserTie /></i>
+                <i className=" text-purple-500 text-2xl mr-3 px-2 py-2 rounded-full bg-purple-300"><FaUserTie /></i>
                 <div>
-                  <div className="text-gray-500 text-sm">Total HR</div>
+                  <div className="text-gray-500 text-sm font-bold">Total HR</div>
                   <div className="text-xl font-bold">{hr}</div>
                 </div>
               </div>
             </div>
 
             {/* <!-- Card 2 --> */}
-            <div className="bg-green-100 p-4 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300" onClick={() => navigate('hr-attendance')}>
+            <div className="bg-green-100 p-6 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300" onClick={() => navigate('hr-attendance')} style = {{width: '250px', margin : "20px"}}>
               <div className="flex items-center">
                 <i className=" text-green-500 text-2xl mr-3  px-3 py-3 rounded-full bg-green-200"><FaUserTie /></i>
                 <div>
-                  <div className="text-gray-500 text-sm">Persent</div>
+                  <div className="text-gray-500 text-sm font-bold">Persent</div>
                   <div className="text-xl font-bold">{present.length}</div>
                 </div>
               </div>
             </div>
 
             {/* <!-- Card 3 --> */}
-            <div className="bg-orange-100 p-4 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300" onClick={() => navigate('hr-leaves')}>
+            <div className="bg-orange-100 p-6 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300" onClick={() => navigate('hr-leaves')} style = {{width: '250px', margin : "20px"}}>
               <div className="flex items-center ">
                 <i className=" text-orange-500 text-2xl mr-3 px-3 py-3 rounded-full bg-orange-300"><FaUserTie /></i>
                 <div>
-                  <div className="text-gray-500">Leaves</div>
+                  <div className="text-gray-500 font-bold">Leaves</div>
                   <div className="text-xl font-bold">0</div>
                 </div>
               </div>
             </div>
 
             {/* <!-- Card 4 --> */}
-            <div className="bg-green-100 p-4 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300" onClick={() => navigate('hr-performance')}>
+            <div className="bg-green-100 p-6 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300" onClick={() => navigate('hr-performance')} style = {{width: '250px', margin : "20px"}}>
               <div className="flex items-center">
                 <i className=" text-green-500 text-3xl mr-3 px-3 py-3 rounded-full bg-green-200"><FaRankingStar /></i>
                 <div>
-                  <div className="text-gray-500 text-sm">Performance</div>
+                  <div className="text-gray-500 text-sm font-bold">Performance</div>
                   <div className="text-xl font-bold">{convertSecondsToHHMMSS(HrPerformance?.totalWorkingTimeOfAllEmployee)}</div>
                 </div>
               </div>
