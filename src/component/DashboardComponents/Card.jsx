@@ -11,7 +11,7 @@ const Card = ({ title, amount, percentage, icon: Icon, bgColorFrom, bgColorTo })
         </div>
       </div>
       {Icon&&<div className={`bg-gradient-to-r ${bgColorFrom} ${bgColorTo} p-4 rounded-full text-white`}>
-        <Icon size={34} />
+        <Icon />
       </div>}
     </div>
   );
