@@ -84,7 +84,7 @@ const UserProfile = () => {
 };
 
 const ProfileCard =  ({ employee, attendance }) => (
-  <div className="bg-white p-6 mb-4 rounded-lg shadow-md">
+  <div className="p-6 mb-4 rounded-lg shadow-md"  style={{ backgroundColor: 'rgba(255, 241, 232, 0.46)' }}>
     {/* Profile Header */}
     <div className="flex flex-col md:flex-row items-center mb-6">
       <img
