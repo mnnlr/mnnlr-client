@@ -24,7 +24,7 @@ const ApplyLeave = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const employeeData = formData;
-  
+
     const header = {
       "content-type": "application/json",
       "Authorization": `Bearer ${user?.accessToken}`,
@@ -32,13 +32,13 @@ const ApplyLeave = () => {
 
     try {
       const response = await privateAxios.post(
-        "/leave",
-        {id:user?._id,...employeeData},
+        "/leave/leave-request",
+        { id: user?._id, ...employeeData },
         { header }
       );
       alert(response.data.message);
     } catch (error) {
-      if(error.response){
+      if (error.response) {
         alert(error.response.data.message);
       }
     }
