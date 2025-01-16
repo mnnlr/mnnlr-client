@@ -2,7 +2,7 @@ import React from 'react';
 
 const Card = ({ title, amount, percentage, icon: Icon, bgColorFrom, bgColorTo }) => {
   return (
-    <div className="flex items-center p-10 bg-white rounded-lg shadow-md cursor-pointer" style = {{width: '250px', margin : "20px"}}>
+    <div className="flex items-center p-10 bg-white rounded-lg shadow-md cursor-pointer" style={{ width: '250px', margin: "20px" }}>
       <div className="flex-grow">
         <p className="text-gray-500 font-bold text-sm">{title}</p>
         <div className="flex items-baseline">
@@ -10,7 +10,7 @@ const Card = ({ title, amount, percentage, icon: Icon, bgColorFrom, bgColorTo })
           <span className="text-green-500 ml-2">{percentage}</span>
         </div>
       </div>
-      {Icon&&<div className={`bg-gradient-to-r ${bgColorFrom} ${bgColorTo} p-4 rounded-full text-white`}>
+      {Icon && <div className={`bg-gradient-to-r ${bgColorFrom} ${bgColorTo} p-4 rounded-full text-white`}>
         <Icon size={34} />
       </div>}
     </div>

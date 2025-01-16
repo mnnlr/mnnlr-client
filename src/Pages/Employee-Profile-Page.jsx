@@ -71,7 +71,7 @@ function EmployeeProfile() {
               <div className="profile-picture">
                 <img src={employee?.avatar?.url} alt="John Soo" />
                 <h3
-                  style={{ marginTop: "70px", marginLeft: "10px" }}
+                  style={{ marginTop: "90px", marginLeft: "10px" }}
                 >{`${employee?.firstName} ${employee?.lastName}`}</h3>
               </div>
               {user?.role === "employee" && (
@@ -83,8 +83,8 @@ function EmployeeProfile() {
                 </button>
               )}
             </div>
-            <section className="profile-info">
-              <p>{employee?.description}</p>
+            <section className="py-1 px-5">
+              <p> ●  {employee?.description}</p>
             </section>
 
             <nav className="tab-menu">
@@ -114,6 +114,12 @@ function EmployeeProfile() {
                   onClick={() => setActiveTab("Leaves")}
                 >
                   Leaves
+                </li>
+                <li
+                  className={activeTab === "workin-hours" ? "active" : ""}
+                  onClick={() => setActiveTab("workin-hours")}
+                >
+                  Working Hours
                 </li>
               </ul>
             </nav>
@@ -190,39 +196,48 @@ function EmployeeProfile() {
               )}
 
               {activeTab === "Dosuments Submitted" && (
-                <div className="p-4 bg-white">
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2">
-                    Documents Submitted
-                  </h3>
-                  <div className="relative">
-                    <img
-                      src={"img"}
-                      alt="PDF Thumbnail"
-                      className="w-16 h-16 sm:w-24 sm:h-24 cursor-pointer"
-                      // onClick={togglePDFViewer}
-                    />
-                    {/* {isOpen && ( */}
-                    <div
-                      className="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-2 sm:p-4 sm:w-full sm:h-screen"
-                      // onClick={handleBackdropClick}
-                    >
-                      <div className="relative w-full h-full sm:max-w-screen-lg sm:max-h-screen bg-white rounded-lg shadow-lg overflow-y-auto sm:overflow-y-hidden">
-                        <iframe
-                          src={"pdf"}
-                          className="w-full h-80 sm:h-full border-none"
-                          title="Document Preview"
-                        />
-                      </div>
-                    </div>
-                    {/* )} */}
-                  </div>
+                // <div className="p-4 bg-white">
+                //   <h3 className="text-lg sm:text-xl font-semibold mb-2">
+                //     Documents Submitted
+                //   </h3>
+                //   <div className="relative">
+                //     <img
+                //       src={"img"}
+                //       alt="PDF Thumbnail"
+                //       className="w-16 h-16 sm:w-24 sm:h-24 cursor-pointer"
+                //     // onClick={togglePDFViewer}
+                //     />
+                //     {/* {isOpen && ( */}
+                //     <div
+                //       className="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-2 sm:p-4 sm:w-full sm:h-screen"
+                //     // onClick={handleBackdropClick}
+                //     >
+                //       <div className="relative w-full h-full sm:max-w-screen-lg sm:max-h-screen bg-white rounded-lg shadow-lg overflow-y-auto sm:overflow-y-hidden">
+                //         <iframe
+                //           src={"pdf"}
+                //           className="w-full h-80 sm:h-full border-none"
+                //           title="Document Preview"
+                //         />
+                //       </div>
+                //     </div>
+                //     {/* )} */}
+                //   </div>
+                // </div>
+
+                <div>
+                  Under Development
                 </div>
               )}
 
               {activeTab === "Leaves" && (
                 <div className="detail-group">
-                  <h3>Leaves</h3>
-                  <p>Leaves content goes here.</p>
+                  <h3>Under Development</h3>
+                </div>
+              )}
+
+              {activeTab === "working-hours" && (
+                <div className="detail-group">
+                  <h3>Under Development</h3>
                 </div>
               )}
             </section>
