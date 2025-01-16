@@ -7,7 +7,7 @@ const ProfilePage = () => {
     return (
         <div>
             {
-                user?.role === 'employee' && <div style={{ minHeight: '100vh', height: 'auto', marginTop: '100px' }}>
+                user?.role === 'employee'  && <div>
                     <EmployeeProfile />
                 </div>
             }

@@ -19,7 +19,7 @@ function EmployeeProfile() {
   const [totalWorkingHours, setTotalWorkingHours] = useState(null);
   const { user } = useSelector((state) => state.login);
   const { employee, isLoading } = useSelector((state) => state.employees);
-  const {workingHours} = useSelector((state) => state.attendances);
+  const { workingHours } = useSelector((state) => state.attendances);
 
   useEffect(() => {
     dispatch(
@@ -42,7 +42,6 @@ function EmployeeProfile() {
       }
     }
   }, [id, user.accessToken, dispatch, privateAxios]); 
-  
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -54,53 +53,13 @@ function EmployeeProfile() {
   };
 
   const joiningDate = new Date(employee?.createdAt).toDateString();
-console.log(employee);
 
   return (
     <>
       {!isLoading && (
-        <div className="profile-page  flex flex-col items-center pt-6 mb-7">
-          <div className="dropdown-wrapper relative mb-8">
-            <button
-              className="dropdown-btn bg-blue-600 text-white px-4 py-2 rounded-md"
-              onClick={toggleDropdown}
-            >
-              Menu
-            </button>
-            {dropdownOpen && (
-              <div className="dropdown-content absolute top-12 right-0 bg-white shadow-lg rounded-md w-48">
-                <ul className="list-none p-4">
-                  <li
-                    className="cursor-pointer hover:bg-gray-200 py-2 px-3"
-                    onClick={() => handleTabClick("Personal Details")}
-                  >
-                    Personal Details
-                  </li>
-                  <li
-                    className="cursor-pointer hover:bg-gray-200 py-2 px-3"
-                    onClick={() => handleTabClick("Employee Info")}
-                  >
-                    Employee Info
-                  </li>
-                  <li
-                    className="cursor-pointer hover:bg-gray-200 py-2 px-3"
-                    onClick={() => handleTabClick("Documents Submitted")}
-                  >
-                    Documents Submitted
-                  </li>
-                  <li
-                    className="cursor-pointer hover:bg-gray-200 py-2 px-3"
-                    onClick={() => handleTabClick("Leaves")}
-                  >
-                    Leaves
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          <div className="profile-main w-full max-w-4xl p-8 mt-14 rounded-lg bg-white shadow-md">
-            <div className="profile-header flex flex-col sm:flex-row items-center mb-6">
+        <div className="profile-page flex flex-col items-center mt-14 mb-16">
+          <div className="profile-main w-full max-w-3xl p-8 mt-14 rounded-lg bg-light-green shadow-md">
+            <div className="profile-header flex flex-col sm:flex-row items-center">
               <div className="profile-picture flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
                 <img
                   src={employee?.avatar?.url}
@@ -115,7 +74,7 @@ console.log(employee);
               {user?.role === "employee" && (
                 <button
                   onClick={() => navigate("/apply-leave")}
-                  className="btn bg-blue-600 text-white px-6 py-2 rounded-md mt-4 sm:mt-0 sm:ml-auto"
+                  className="btn bg-custom-green text-white px-6 py-2 rounded-md mt-4 sm:mt-0 sm:ml-auto sm:justify-center sm:items-center"
                 >
                   Apply Leave
                 </button>
@@ -127,27 +86,27 @@ console.log(employee);
             </section>
 
             <nav className="tab-menu mb-6">
-              <ul className="flex justify-between border-b-2 border-gray-300">
+              <ul className="flex justify-between border-b-2 border-white">
                 <li
-                  className={`px-4 py-2 cursor-pointer ${activeTab === "Personal Details" ? "text-blue-600 border-b-2 border-blue-600 font-bold" : ""}`}
+                  className={`px-4 py-2 cursor-pointer ${activeTab === "Personal Details" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
                   onClick={() => setActiveTab("Personal Details")}
                 >
                   Personal Details
                 </li>
                 <li
-                  className={`px-4 py-2 cursor-pointer ${activeTab === "Employee Info" ? "text-blue-600 border-b-2 border-blue-600 font-bold" : ""}`}
+                  className={`px-4 py-2 cursor-pointer ${activeTab === "Employee Info" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
                   onClick={() => setActiveTab("Employee Info")}
                 >
                   Employee Info
                 </li>
                 <li
-                  className={`px-4 py-2 cursor-pointer ${activeTab === "Documents Submitted" ? "text-blue-600 border-b-2 border-blue-600 font-bold" : ""}`}
+                  className={`px-4 py-2 cursor-pointer ${activeTab === "Documents Submitted" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
                   onClick={() => setActiveTab("Documents Submitted")}
                 >
                   Documents Submitted
                 </li>
                 <li
-                  className={`px-4 py-2 cursor-pointer ${activeTab === "Leaves" ? "text-blue-600 border-b-2 border-blue-600 font-bold" : ""}`}
+                  className={`px-4 py-2 cursor-pointer ${activeTab === "Leaves" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
                   onClick={() => setActiveTab("Leaves")}
                 >
                   Leaves
@@ -209,7 +168,7 @@ console.log(employee);
                   </div>
                   <div className="detail-item">
                     <label className="font-bold">Total WorkingHours</label>
-                    <p>{convertSecondsToHHMMSS(totalWorkingHours)|| "00:00:00"}</p>
+                    <p>{convertSecondsToHHMMSS(totalWorkingHours) || "00:00:00"}</p>
                   </div>
                 </div>
               )}
