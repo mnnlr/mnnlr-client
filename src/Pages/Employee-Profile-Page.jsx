@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "../css/Profile.css";
 import { FaFilePdf } from "react-icons/fa";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployeeById } from "../redux/actions/EmployeeAction";
+import { getEmployeeWorkingHours } from "../redux/actions/AttendanceAction";
+import convertSecondsToHHMMSS from "../utils/convertSecondsToHHMMSS";
 
 function EmployeeProfile() {
   const navigate = useNavigate();
@@ -15,16 +16,33 @@ function EmployeeProfile() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("Personal Details");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const [totalWorkingHours, setTotalWorkingHours] = useState(null);
   const { user } = useSelector((state) => state.login);
   const { employee, isLoading } = useSelector((state) => state.employees);
-  console.log(employee);
+  const {workingHours} = useSelector((state) => state.attendances);
 
   useEffect(() => {
     dispatch(
       getEmployeeById({ privateAxios, accessToken: user.accessToken, id })
     );
-  }, [id]);
+    dispatch(getEmployeeWorkingHours({ privateAxios, accessToken: user.accessToken }));
+
+    if (workingHours?.employeePerformances) {
+      const t = workingHours?.employeePerformances?.map((e) => {
+        return { time: e?.totalWorkingTime, id: e?._id }; 
+      });
+      
+      const final = t?.reduce((acc, curr) => {
+        acc[curr.id] = (acc[curr.id] || 0) + curr.time;
+        return acc;
+      }, {});
+
+      if (final[id]) {
+        setTotalWorkingHours(final[id]); 
+      }
+    }
+  }, [id, user.accessToken, dispatch, privateAxios]); 
+  
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -36,81 +54,100 @@ function EmployeeProfile() {
   };
 
   const joiningDate = new Date(employee?.createdAt).toDateString();
+console.log(employee);
 
   return (
     <>
       {!isLoading && (
-        <div className="profile-page">
-          <div className="dropdown-wrapper">
+        <div className="profile-page  flex flex-col items-center pt-6 mb-7">
+          <div className="dropdown-wrapper relative mb-8">
             <button
-              className="dropdown-btn"
-              style={{ backgroundColor: "#007bff" }}
+              className="dropdown-btn bg-blue-600 text-white px-4 py-2 rounded-md"
               onClick={toggleDropdown}
             >
               Menu
             </button>
             {dropdownOpen && (
-              <div className="dropdown-content">
-                <ul>
-                  <li onClick={() => handleTabClick("Account")}>
+              <div className="dropdown-content absolute top-12 right-0 bg-white shadow-lg rounded-md w-48">
+                <ul className="list-none p-4">
+                  <li
+                    className="cursor-pointer hover:bg-gray-200 py-2 px-3"
+                    onClick={() => handleTabClick("Personal Details")}
+                  >
                     Personal Details
                   </li>
-                  <li onClick={() => handleTabClick("Employee Info")}>
+                  <li
+                    className="cursor-pointer hover:bg-gray-200 py-2 px-3"
+                    onClick={() => handleTabClick("Employee Info")}
+                  >
                     Employee Info
                   </li>
-                  <li onClick={() => handleTabClick("Notifications")}>
-                    Dosuments Submitted
+                  <li
+                    className="cursor-pointer hover:bg-gray-200 py-2 px-3"
+                    onClick={() => handleTabClick("Documents Submitted")}
+                  >
+                    Documents Submitted
                   </li>
-                  <li onClick={() => handleTabClick("Saved")}>Leaves</li>
+                  <li
+                    className="cursor-pointer hover:bg-gray-200 py-2 px-3"
+                    onClick={() => handleTabClick("Leaves")}
+                  >
+                    Leaves
+                  </li>
                 </ul>
               </div>
             )}
           </div>
-          <main className="profile-main">
-            <div className="profile-header">
-              <div className="profile-picture">
-                <img src={employee?.avatar?.url} alt="John Soo" />
-                <h3
-                  style={{ marginTop: "70px", marginLeft: "10px" }}
-                >{`${employee?.firstName} ${employee?.lastName}`}</h3>
+
+          <div className="profile-main w-full max-w-4xl p-8 mt-14 rounded-lg bg-white shadow-md">
+            <div className="profile-header flex flex-col sm:flex-row items-center mb-6">
+              <div className="profile-picture flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
+                <img
+                  src={employee?.avatar?.url}
+                  alt="Employee"
+                  className="w-32 h-32 rounded-full border-4 border-custom-green"
+                />
+                <h3 className="ml-4 text-xl font-semibold text-gray-800">
+                  {`${employee?.firstName} ${employee?.lastName}`}
+                </h3>
               </div>
+
               {user?.role === "employee" && (
                 <button
                   onClick={() => navigate("/apply-leave")}
-                  className="btn"
+                  className="btn bg-blue-600 text-white px-6 py-2 rounded-md mt-4 sm:mt-0 sm:ml-auto"
                 >
                   Apply Leave
                 </button>
               )}
             </div>
-            <section className="profile-info">
-              <p>{employee?.description}</p>
+
+            <section className="profile-info text-gray-700 mb-6">
+              <p className="text-lg">{employee?.description}</p>
             </section>
 
-            <nav className="tab-menu">
-              <ul>
+            <nav className="tab-menu mb-6">
+              <ul className="flex justify-between border-b-2 border-gray-300">
                 <li
-                  className={activeTab === "Personal Details" ? "active" : ""}
+                  className={`px-4 py-2 cursor-pointer ${activeTab === "Personal Details" ? "text-blue-600 border-b-2 border-blue-600 font-bold" : ""}`}
                   onClick={() => setActiveTab("Personal Details")}
                 >
                   Personal Details
                 </li>
                 <li
-                  className={activeTab === "Employee Info" ? "active" : ""}
+                  className={`px-4 py-2 cursor-pointer ${activeTab === "Employee Info" ? "text-blue-600 border-b-2 border-blue-600 font-bold" : ""}`}
                   onClick={() => setActiveTab("Employee Info")}
                 >
                   Employee Info
                 </li>
                 <li
-                  className={
-                    activeTab === "Dosuments Submitted" ? "active" : ""
-                  }
-                  onClick={() => setActiveTab("Dosuments Submitted")}
+                  className={`px-4 py-2 cursor-pointer ${activeTab === "Documents Submitted" ? "text-blue-600 border-b-2 border-blue-600 font-bold" : ""}`}
+                  onClick={() => setActiveTab("Documents Submitted")}
                 >
-                  Dosuments Submitted
+                  Documents Submitted
                 </li>
                 <li
-                  className={activeTab === "Leaves" ? "active" : ""}
+                  className={`px-4 py-2 cursor-pointer ${activeTab === "Leaves" ? "text-blue-600 border-b-2 border-blue-600 font-bold" : ""}`}
                   onClick={() => setActiveTab("Leaves")}
                 >
                   Leaves
@@ -120,119 +157,89 @@ function EmployeeProfile() {
 
             <section className="account-details">
               {activeTab === "Personal Details" && (
-                <div
-                  className="detail-group"
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr auto",
-                    gridTemplateRows: "1fr 1fr auto",
-                  }}
-                >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="detail-item">
-                    <label>Name</label>
+                    <label className="font-bold">Name</label>
                     <p>{`${employee?.firstName} ${employee?.lastName}`}</p>
                   </div>
                   <div className="detail-item">
-                    <label>Father Name</label>
+                    <label className="font-bold">Father Name</label>
                     <p>{employee?.fatherName}</p>
                   </div>
                   <div className="detail-item">
-                    <label>Mobile Number</label>
+                    <label className="font-bold">Mobile Number</label>
                     <p>{employee?.phoneNo}</p>
                   </div>
                   <div className="detail-item">
-                    <label>E-mail</label>
+                    <label className="font-bold">Email</label>
                     <p>{employee?.email}</p>
                   </div>
                   <div className="detail-item">
-                    <label>Mother Name</label>
+                    <label className="font-bold">Mother Name</label>
                     <p>{employee?.motherName}</p>
                   </div>
                   <div className="detail-item">
-                    <label>Address</label>
+                    <label className="font-bold">Address</label>
                     <p>{employee?.address}</p>
                   </div>
                 </div>
               )}
 
               {activeTab === "Employee Info" && (
-                <div
-                  className="detail-group"
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr auto",
-                    gridTemplateRows: "1fr 1fr auto",
-                  }}
-                >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="detail-item">
-                    <label>Employee ID</label>
+                    <label className="font-bold">Employee ID</label>
                     <p>{employee?.employeeId}</p>
                   </div>
                   <div className="detail-item">
-                    <label>Designation</label>
+                    <label className="font-bold">Designation</label>
                     <p>{employee?.designation}</p>
                   </div>
                   <div className="detail-item">
-                    <label>Designation Level</label>
+                    <label className="font-bold">Designation Level</label>
                     <p>{employee?.designationLevel}</p>
                   </div>
                   <div className="detail-item">
-                    <label>Working Shift</label>
-                    <p>{employee?.shift ? employee?.shift : "Morning"}</p>
+                    <label className="font-bold">Working Shift</label>
+                    <p>{employee?.shift || "Morning"}</p>
                   </div>
                   <div className="detail-item">
-                    <label>Joining Date</label>
-                    <p>
-                      {employee?.dateofjoining}
-                    </p>
+                    <label className="font-bold">Joining Date</label>
+                    <p>{joiningDate}</p>
+                  </div>
+                  <div className="detail-item">
+                    <label className="font-bold">Total WorkingHours</label>
+                    <p>{convertSecondsToHHMMSS(totalWorkingHours)|| "00:00:00"}</p>
                   </div>
                 </div>
               )}
 
-              {activeTab === "Dosuments Submitted" && (
-                <div className="p-4 bg-white">
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2">
-                    Documents Submitted
-                  </h3>
-                  <div className="relative">
-                    <img
-                      src={"img"}
-                      alt="PDF Thumbnail"
-                      className="w-16 h-16 sm:w-24 sm:h-24 cursor-pointer"
-                      // onClick={togglePDFViewer}
-                    />
-                    {/* {isOpen && ( */}
-                    <div
-                      className="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-2 sm:p-4 sm:w-full sm:h-screen"
-                      // onClick={handleBackdropClick}
-                    >
-                      <div className="relative w-full h-full sm:max-w-screen-lg sm:max-h-screen bg-white rounded-lg shadow-lg overflow-y-auto sm:overflow-y-hidden">
-                        <iframe
-                          src={"pdf"}
-                          className="w-full h-80 sm:h-full border-none"
-                          title="Document Preview"
-                        />
-                      </div>
-                    </div>
-                    {/* )} */}
+              {activeTab === "Documents Submitted" && (
+                <div>
+                  <h3 className="text-lg font-semibold">Documents Submitted</h3>
+                  <div className="mt-4 flex items-center">
+                    <FaFilePdf className="text-red-500 text-2xl" />
+                    <p className="ml-2">PDF Document</p>
                   </div>
                 </div>
               )}
 
               {activeTab === "Leaves" && (
-                <div className="detail-group">
-                  <h3>Leaves</h3>
-                  <p>Leaves content goes here.</p>
+                <div>
+                  <h3 className="text-lg font-semibold">Leaves</h3>
+                  <p>Leave information goes here.</p>
                 </div>
               )}
             </section>
 
             {user?.role === "admin" && (
-              <div className="account-actions">
-                <button className="btn delete-btn">Remove Employee</button>
+              <div className="account-actions flex justify-end mt-6">
+                <button className="btn bg-red-600 text-white px-6 py-2 rounded-md">
+                  Remove Employee
+                </button>
               </div>
             )}
-          </main>
+          </div>
         </div>
       )}
     </>

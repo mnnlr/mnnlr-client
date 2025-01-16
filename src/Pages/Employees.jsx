@@ -12,13 +12,13 @@ import '../css/Employee.css';
 import { useSelector } from 'react-redux';
 
 const Table = () => {
-
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6); // Number of items per page
   const [view, setView] = useState('card'); // View state, 'table' or 'card'
 
-  const {employees} = useSelector((state) => state.employees);
+  const { employees } = useSelector((state) => state.employees);
+
   // Logic to calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -29,11 +29,11 @@ const Table = () => {
 
   return (
     <div className='employee-container'>
-      <div style={{display:'flex',justifyContent:'flex-end',padding:'10px'}}>
-        <Tooltip title='Table View' onClick={() => setView('table')} style={{color:'gray',cursor:'pointer'}}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px', marginTop: '10px' }}>
+        <Tooltip title='Table View' onClick={() => setView('table')} style={{ color: 'gray', cursor: 'pointer' }}>
           <ViewListIcon />
         </Tooltip>
-        <Tooltip title='Card View' onClick={() => setView('card')} style={{color:'gray',cursor:'pointer'}}>
+        <Tooltip title='Card View' onClick={() => setView('card')} style={{ color: 'gray', cursor: 'pointer' }}>
           <ViewModuleIcon />
         </Tooltip>
       </div>
@@ -44,20 +44,25 @@ const Table = () => {
             <table className='tableStyle'>
               <thead>
                 <tr>
-                  <th className='thStyle' >Employee</th>
-                  <th className='thStyle' >Name</th>
-                  <th className='thStyle' >E-mail</th>
-                  <th className='thStyle' >Mobile Number</th>
-                  <th className='thStyle' >Level</th>
-                  <th className='thStyle' >Designation</th>
+                  <th className='thStyle'>Employee</th>
+                  <th className='thStyle'>Name</th>
+                  <th className='thStyle'>E-mail</th>
+                  <th className='thStyle'>Mobile Number</th>
+                  <th className='thStyle'>Level</th>
+                  <th className='thStyle'>Designation</th>
                 </tr>
               </thead>
               <tbody>
                 {currentItems?.map((employee, index) => (
                   <tr key={index}>
-                    <td className='tdStyle' onClick={()=>navigate(`/employee/${employee?._id}`)}>
+                    <td className='tdStyle' onClick={() => navigate(`/employee/${employee?._id}`)}>
                       <div className='employeeCellStyle'>
-                        <img src={employee?.avatar?.url} alt={employee.firatName} className='avatarStyle' onClick={()=>navigate('/profile')} />
+                        <img
+                          src={employee?.avatar?.url || 'path/to/default/avatar.png'} // Fallback to default image
+                          alt={employee.firstName}
+                          className='avatarStyle'
+                          onClick={() => navigate('/profile')}
+                        />
                       </div>
                     </td>
                     <td className='tdStyle'>{`${employee.firstName} ${employee.lastName}`}</td>
@@ -71,36 +76,46 @@ const Table = () => {
             </table>
           </div>
           <ul className='paginationStyle'>
-            <li className={currentPage === 1 ? 'disabledPageItemStyle' : 'pageItemStyle'} onClick={() => currentPage > 1&&paginate(currentPage - 1)}>{'<'}</li>
+            <li
+              className={currentPage === 1 ? 'disabledPageItemStyle' : 'pageItemStyle'}
+              onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+            >
+              {'<'}
+            </li>
             {[...Array(Math.ceil(employees.length / itemsPerPage))].map((_, index) => (
-              <li key={index} className={currentPage === index + 1 ? 'activePageItemStyle' : 'pageItemStyle'} onClick={() => paginate(index + 1)}>
+              <li
+                key={index}
+                className={currentPage === index + 1 ? 'activePageItemStyle' : 'pageItemStyle'}
+                onClick={() => paginate(index + 1)}
+              >
                 {index + 1}
               </li>
             ))}
-            <li className={currentPage === Math.ceil(employees.length / itemsPerPage) ? 'disabledPageItemStyle' : 'pageItemStyle'} onClick={() => currentPage < Math.ceil(employees.length / itemsPerPage)&&paginate(currentPage + 1)}>{'>'}</li>
+            <li
+              className={currentPage === Math.ceil(employees.length / itemsPerPage) ? 'disabledPageItemStyle' : 'pageItemStyle'}
+              onClick={() => currentPage < Math.ceil(employees.length / itemsPerPage) && paginate(currentPage + 1)}
+            >
+              {'>'}
+            </li>
           </ul>
         </>
       ) : (
-        <div className='employee-card-ontainer'>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {employees?.map((employee, index) => (
-            <EmployeeCard 
+            <EmployeeCard
+
               key={index}
-              id={employee._id} 
-              img={employee.avatar.url} 
-              name={`${employee.firstName} 
-              ${employee.lastName}`} 
-              designation={employee.designation} 
-              level={employee.designationLevel} />
-            ))}
-            {/* <button className='loadMoreButtonStyle' onClick={() => paginate(currentPage + 1)}>Load More</button> */}
+              id={employee._id}
+              img={employee?.avatar?.url || 'path/to/default/avatar.png'} // Fallback to default image
+              name={`${employee.firstName} ${employee.lastName}`}
+              designation={employee.designation}
+              level={employee.designationLevel}
+            />
+          ))}
         </div>
       )}
-
     </div>
   );
 };
 
 export default Table;
-
-
-
