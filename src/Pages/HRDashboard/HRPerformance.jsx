@@ -21,11 +21,11 @@ const HRPerformances = () => {
     }, [dispatch, privateAxios, user?.accessToken]);
 
     if (loading) {
-        return <div>Loading...</div>; 
+        return <div>Loading...</div>;
     }
 
     if (error) {
-        return <div>Error: {error}</div>;  
+        return <div>Error: {error}</div>;
     }
 
     const employeePerformances = HrPerformance?.employeePerformances || [];

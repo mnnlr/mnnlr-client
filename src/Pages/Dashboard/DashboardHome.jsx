@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import ActualCard from "../../component/DashboardComponents/AcutualCard";
 import EmployeeOverView from "../../component/DashboardComponents/EmployeeOverView";
-import ActiveUsers from "../../component/DashboardComponents/ActiveUsers"; 
+import ActiveUsers from "../../component/DashboardComponents/ActiveUsers";
 
 import "../../css/DashboardCss/DashboardHome.css";
 import EmployeeTable from "../../component/DashboardComponents/EmployeeTable";
