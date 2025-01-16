@@ -1,11 +1,11 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import LeaveStatus from "./LeaveStatus";
 import LeavePieChart from "./LeavePieChart";
 
-import { useSelector,useDispatch } from "react-redux";
-import { getAllLeave } from "../../redux/actions/LeaveActions";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllLeaveRequest } from "../../redux/actions/LeaveActions";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const LeaveDashboard = () => {
@@ -14,7 +14,7 @@ const LeaveDashboard = () => {
   const dispatch = useDispatch();
   const privateAxios = useAxiosPrivate();
 
-  const [Data,setData] = useState([]);
+  const [Data, setData] = useState([]);
 
   const { user } = useSelector((state) => state.login);
   const { leaves } = useSelector((state) => state.leaves);
@@ -36,7 +36,7 @@ const LeaveDashboard = () => {
     };
 
     if (leaves?.length === 0) {
-      dispatch(getAllLeave({accessToken:user?.accessToken,privateAxios}));
+      dispatch(getAllLeaveRequest({ accessToken: user?.accessToken, privateAxios }));
     }
 
     findLeave();
@@ -45,6 +45,8 @@ const LeaveDashboard = () => {
       isMounted = false;
     };
   }, [id, leaves?.length]);
+
+  // console.log("Data : ", Data)
 
   return (
     <div className="p-6 min-h-screen">
@@ -60,26 +62,26 @@ const LeaveDashboard = () => {
           />
         ))} */}
         <LeavePieChart
-         title="Sick Leave"
-         labels={['Balance', 'Used']}
-         leaveData={[Data?.sickLeaveBalance,Data?.totalSickLeaveUsed]}
-         totalLeave={Data?.sickLeaveBalance}/>
+          title="Sick Leave"
+          labels={['Balance', 'Used']}
+          leaveData={[Data?.sickLeaveBalance, Data?.totalSickLeaveUsed]}
+          totalLeave={Data?.sickLeaveBalance} />
         <LeavePieChart
-           title="Casual Leave"
-           labels={['Balance', 'Used']}
-           leaveData={[Data?.casualLeaveBalance,Data?.totalCasualLeaveUsed]}
-           totalLeave={Data?.casualLeaveBalance}
+          title="Casual Leave"
+          labels={['Balance', 'Used']}
+          leaveData={[Data?.casualLeaveBalance, Data?.totalCasualLeaveUsed]}
+          totalLeave={Data?.casualLeaveBalance}
         />
         <LeavePieChart
-           title="Total Leave"
-           labels={['Balance', 'Used']}
-           leaveData={[Data?.leaveBalance,Data?.totalCasualLeaveUsed+Data?.totalSickLeaveUsed]}
-           totalLeave={Data?.leaveBalance}
+          title="Total Leave"
+          labels={['Balance', 'Used']}
+          leaveData={[Data?.leaveBalance, Data?.totalCasualLeaveUsed + Data?.totalSickLeaveUsed]}
+          totalLeave={Data?.leaveBalance}
         />
       </div>
-      
+
       <div className="bg-white rounded-lg p-6 shadow-lg mt-10">
-        <LeaveStatus Data = {Data}/>
+        <LeaveStatus Data={Data} />
       </div>
     </div>
   );

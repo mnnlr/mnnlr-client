@@ -1,18 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-const LeaveStatus = ({Data}) => {
+const LeaveStatus = ({ Data }) => {
   const navigate = useNavigate()
- const privateAxios = useAxiosPrivate();
+  const privateAxios = useAxiosPrivate();
 
-  const handleReview = async (e,DataToEvaluate) => {
+  const handleReview = async (e, DataToEvaluate) => {
+    e.preventDefault();
     try {
-      console.log('DataToEvaluate : ',DataToEvaluate)
+      console.log('DataToEvaluate : ', DataToEvaluate)
       const { data, status } = await privateAxios.put(
         `/leave/${Data?._id}`,
         DataToEvaluate
       );
-      if(status === 200){
+      if (status === 200) {
         alert(data?.message)
         navigate('/dashboard/track-leave')
       }
@@ -25,15 +26,15 @@ const LeaveStatus = ({Data}) => {
   return (
     <div className="p-4 bg-white mx-2 sm:mx-4 md:mx-6 lg:mx-8">
       <div className="flex flex-col items-center md:mb-12 lg:flex-row lg:justify-start lg:space-x-4">
-          <img
-            src={
-              Data?.avatar?.url ? 
+        <img
+          src={
+            Data?.avatar?.url ?
               Data?.avatar?.url :
               "https://cdn.pixabay.com/photo/2023/07/04/07/25/self-consciousness-8105584_640.jpg"
-            }
-            alt="Employee"
-            className="w-14 h-14 rounded-full mb-4 lg:w-24 lg:h-24"
-          />
+          }
+          alt="Employee"
+          className="w-14 h-14 rounded-full mb-4 lg:w-24 lg:h-24"
+        />
         <div className="text-center sm:text-left lg:space-y-2">
           <h2 className="text-lg lg:text-4xl">{Data?.name}</h2>
           <p className="text-sm text-gray-500">Designation : {Data?.designation}</p>
@@ -77,7 +78,7 @@ const LeaveStatus = ({Data}) => {
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
                   {/* dutation of leave */}
-                  {Math.abs(new Date(record?.endDate) - new Date(record?.startDate)) / (1000 * 60 * 60 * 24)+1} Day
+                  {Math.abs(new Date(record?.endDate) - new Date(record?.startDate)) / (1000 * 60 * 60 * 24) + 1} Day
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
                   {record?.status}
@@ -132,30 +133,29 @@ const LeaveStatus = ({Data}) => {
                 {Data?.duration} Day
               </td>
               <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                {Data?.status}  
+                {Data?.status}
               </td>
             </tr>
           </tbody>
         </table>
-       {Data?.status?.toLowerCase() === 'pending' ? <div className="flex flex-col md:flex-row md:justify-end space-y-4 md:space-y-0 md:space-x-4 mt-10">
-          <button onClick={(e)=>handleReview(e,{leaveId:Data?.leaveId,reviewStatus:false})} className="bg-red-500 hover:bg-red-700 text-white text-lg px-4 py-2 rounded-lg shadow-lg">
+        {Data?.status?.toLowerCase() === 'pending' ? <div className="flex flex-col md:flex-row md:justify-end space-y-4 md:space-y-0 md:space-x-4 mt-10">
+          <button onClick={(e) => handleReview(e, { leaveId: Data?.leaveId, reviewStatus: false })} className="bg-red-500 hover:bg-red-700 text-white text-lg px-4 py-2 rounded-lg shadow-lg">
             Reject
           </button>
-          <button onClick={(e)=>handleReview(e,{leaveId:Data?.leaveId,reviewStatus:true})} className="bg-blue-500 hover:bg-blue-700 text-white text-lg px-4 py-2 rounded-lg shadow-lg">
+          <button onClick={(e) => handleReview(e, { leaveId: Data?.leaveId, reviewStatus: true })} className="bg-blue-500 hover:bg-blue-700 text-white text-lg px-4 py-2 rounded-lg shadow-lg">
             Approve
           </button>
-        </div> : 
-        <p
-          className={`text-right mt-4 text-lg ${
-            Data?.status?.toLowerCase() === 'rejected'
+        </div> :
+          <p
+            className={`text-right mt-4 text-lg ${Data?.status?.toLowerCase() === 'rejected'
               ? 'text-red-500'
               : Data?.status?.toLowerCase() === 'approved'
-              ? 'text-green-500'
-              : 'text-gray-500'
-          }`}
-        >
-          You have already {Data?.status} this leave
-        </p>}
+                ? 'text-green-500'
+                : 'text-gray-500'
+              }`}
+          >
+            You have already {Data?.status} this leave
+          </p>}
       </div>
     </div>
   );

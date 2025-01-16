@@ -6,6 +6,7 @@ import { FaFilePdf } from "react-icons/fa";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployeeById } from "../redux/actions/EmployeeAction";
+import EmpLeaveInfo from "../component/EmpLeaveInfo";
 
 function EmployeeProfile() {
   const navigate = useNavigate();
@@ -68,11 +69,15 @@ function EmployeeProfile() {
           </div>
           <main className="profile-main">
             <div className="profile-header">
-              <div className="profile-picture">
-                <img src={employee?.avatar?.url} alt="John Soo" />
-                <h3
-                  style={{ marginTop: "70px", marginLeft: "10px" }}
-                >{`${employee?.firstName} ${employee?.lastName}`}</h3>
+              <div className="profile-picture flex flex-col items-center space-y-2">
+                <img
+                  src={employee?.avatar?.url}
+                  alt="John Soo"
+                  className="w-16 h-16 rounded-full object-cover"
+                />
+                <h3 className="text-lg md:text-xl lg:pt-[87px] font-semibold pt-16 ml-2">
+                  {`${employee?.firstName} ${employee?.lastName}`}
+                </h3>
               </div>
               {user?.role === "employee" && (
                 <button
@@ -199,12 +204,12 @@ function EmployeeProfile() {
                       src={"img"}
                       alt="PDF Thumbnail"
                       className="w-16 h-16 sm:w-24 sm:h-24 cursor-pointer"
-                      // onClick={togglePDFViewer}
+                    // onClick={togglePDFViewer}
                     />
                     {/* {isOpen && ( */}
                     <div
                       className="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-2 sm:p-4 sm:w-full sm:h-screen"
-                      // onClick={handleBackdropClick}
+                    // onClick={handleBackdropClick}
                     >
                       <div className="relative w-full h-full sm:max-w-screen-lg sm:max-h-screen bg-white rounded-lg shadow-lg overflow-y-auto sm:overflow-y-hidden">
                         <iframe
@@ -220,10 +225,11 @@ function EmployeeProfile() {
               )}
 
               {activeTab === "Leaves" && (
-                <div className="detail-group">
-                  <h3>Leaves</h3>
-                  <p>Leaves content goes here.</p>
-                </div>
+                // <div className="detail-group">
+                //   <h3>Leaves</h3>
+                //   <p>Leaves content goes here.</p>
+                // </div>
+                <EmpLeaveInfo />
               )}
             </section>
 

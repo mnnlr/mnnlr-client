@@ -1,31 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllLeaveRequest } from "../actions/LeaveActions";
+import { getAllLeaves } from "../actions/LeaveActions";
 
 const initialState = {
-    leaves: [],
+    AllLeave: [],
     error: null,
     loading: false,
 };
 
-const leaveSlice = createSlice({
-    name: "leave",
+const getLeaveSlice = createSlice({
+    name: "AllLeave",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         // Get all leave
-        builder.addCase(getAllLeaveRequest.pending, (state) => {
+        builder.addCase(getAllLeaves.pending, (state) => {
             state.loading = true;
         });
-        builder.addCase(getAllLeaveRequest.fulfilled, (state, action) => {
+        builder.addCase(getAllLeaves.fulfilled, (state, action) => {
             state.loading = false;
-            state.leaves = action.payload;
+            state.AllLeave = action.payload;
             state.error = null;
         });
-        builder.addCase(getAllLeaveRequest.rejected, (state, action) => {
+        builder.addCase(getAllLeaves.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         });
     }
 });
 
-export default leaveSlice.reducer;
+export default getLeaveSlice.reducer;
