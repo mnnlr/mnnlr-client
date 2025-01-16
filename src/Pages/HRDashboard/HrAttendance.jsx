@@ -13,7 +13,7 @@ const HrAttendence = () => {
   // console.log(user);
   const { HrAttendance } = useSelector((state) => state.attendances);
   // console.log(HrAttendance);  
-
+  
   // Fake attendance data for demonstration
   const attendances = [
     {

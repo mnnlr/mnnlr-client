@@ -13,7 +13,7 @@ const initialState = {
   attendances: [],
   workingHours: [],
   HrPerformance: { employeePerformances: [] },
-  HrAttendance: [],
+  HrAttendance:[],
   attendance: {},
   totalWorkingHours: [],
   isLoading: false,
@@ -78,47 +78,47 @@ const AttendanceSlice = createSlice({
 
     builder.addCase(getTotalworkingHours.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.totalWorkingHours = payload || [];
+      state.totalWorkingHours = payload || []; 
     });
 
     builder.addCase(getTotalworkingHours.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     });
-
+    
     //Hr Performance
     builder.addCase(getHrPerformance.pending, (state) => {
       state.isLoading = true;
       state.error = null;
     });
-
+    
     builder.addCase(getHrPerformance.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.HrPerformance = payload
+      state.HrPerformance = payload 
     });
-
+    
     builder.addCase(getHrPerformance.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     });
-
+    
     //Hr Attendance
     builder.addCase(getAllHrAttandance.pending, (state) => {
       state.isLoading = true;
       state.error = null;
     });
-
+    
     builder.addCase(getAllHrAttandance.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.HrAttendance = payload
+      state.HrAttendance = payload 
     });
-
+    
     builder.addCase(getAllHrAttandance.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     });
-
-
+    
+    
   },
 });
 
