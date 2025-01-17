@@ -4,7 +4,7 @@ import { FaFilePdf } from "react-icons/fa";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployeeById } from "../redux/actions/EmployeeAction";
-import { getEmployeeWorkingHours } from "../redux/actions/AttendanceAction";
+import { getEmployeeWorkingHours, employeeWeeklyandMonthlyAttendance } from "../redux/actions/AttendanceAction";
 import convertSecondsToHHMMSS from "../utils/convertSecondsToHHMMSS";
 
 function EmployeeProfile() {
@@ -18,29 +18,20 @@ function EmployeeProfile() {
   const [totalWorkingHours, setTotalWorkingHours] = useState(null);
   const { user } = useSelector((state) => state.login);
   const { employee, isLoading } = useSelector((state) => state.employees);
-  const { workingHours } = useSelector((state) => state.attendances);
+  const {  WeeklyandMonthlyAttendance } = useSelector((state) => state.attendances);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+  // console.log("employee : ", employee);
+  // console.log("workingHours : ", workingHours);
+  // console.log(user);
+
+
+  // console.log(WeeklyandMonthlyAttendance);`
 
   useEffect(() => {
     dispatch(
       getEmployeeById({ privateAxios, accessToken: user.accessToken, id })
     );
-    dispatch(getEmployeeWorkingHours({ privateAxios, accessToken: user.accessToken }));
-
-    if (workingHours?.employeePerformances) {
-      const t = workingHours?.employeePerformances?.map((e) => {
-        return { time: e?.totalWorkingTime, id: e?._id };
-      });
-
-      const final = t?.reduce((acc, curr) => {
-        acc[curr.id] = (acc[curr.id] || 0) + curr.time;
-        return acc;
-      }, {});
-
-      if (final[id]) {
-        setTotalWorkingHours(final[id]);
-      }
-    }
+    dispatch(employeeWeeklyandMonthlyAttendance({ privateAxios, accessToken: user.accessToken, id: user._id }));
   }, [id, user.accessToken, dispatch, privateAxios]);
 
   const handleResize = () => {
@@ -121,12 +112,21 @@ function EmployeeProfile() {
                             {tab}
                           </li>
                         ))}
+                        {user?.role === "employee" && (
+                          <li
+                            key="Attendance History"
+                            className={`px-4 py-2 cursor-pointer ${activeTab === "Attendance History" ? "bg-custom-green text-white" : ""}`}
+                            onClick={() => handleTabClick("Attendance History")}
+                          >
+                            Attendance History
+                          </li>
+                        )}
                       </ul>
                     </div>
                   )}
                 </div>
               ) : (
-                <ul className="flex justify-between border-b-2 border-white">
+                <ul className="flex justify-between border-b-2 border-custom-green">
                   {["Personal Details", "Employee Info", "Documents Submitted", "Leaves"].map((tab) => (
                     <li
                       key={tab}
@@ -136,6 +136,15 @@ function EmployeeProfile() {
                       {tab}
                     </li>
                   ))}
+                  {user?.role === "employee" && (
+                    <li
+                      key="Attendance History"
+                      className={`px-4 py-2 ml-6 cursor-pointer ${activeTab === "Attendance History" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
+                      onClick={() => handleTabClick("Attendance History")}
+                    >
+                      Attendance History
+                    </li>
+                  )}
                 </ul>
               )}
             </nav>
@@ -193,10 +202,6 @@ function EmployeeProfile() {
                     <label className="font-bold">Joining Date</label>
                     <p>{joiningDate}</p>
                   </div>
-                  <div className="detail-item">
-                    <label className="font-bold">Total Working Hours</label>
-                    <p>{convertSecondsToHHMMSS(totalWorkingHours) || "00:00:00"}</p>
-                  </div>
                 </div>
               )}
 
@@ -216,6 +221,42 @@ function EmployeeProfile() {
                   <p>Leave information goes here.</p>
                 </div>
               )}
+
+              {activeTab === "Attendance History" && (
+                <div>
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="px-4 py-2 text-left">Description</th>
+                        <th className="px-4 py-2 text-left">Working Hours</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-t">
+                        <td className="px-4 py-2 font-bold text-sm">Total Working Hours Today</td>
+                        <td className="px-4 py-2 text-sm">{convertSecondsToHHMMSS(WeeklyandMonthlyAttendance?.today) || "00:00:00"}</td>
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="px-4 py-2 font-bold text-sm">Total Working Hours This Week</td>
+                        <td className="px-4 py-2 text-sm">{convertSecondsToHHMMSS(WeeklyandMonthlyAttendance?.thisWeek) || "00:00:00"}</td>
+                      </tr>
+
+                      <tr className="border-t">
+                        <td className="px-4 py-2 font-bold text-sm">Total Working Hours This Month</td>
+                        <td className="px-4 py-2 text-sm">{convertSecondsToHHMMSS(WeeklyandMonthlyAttendance?.thisMonth) || "00:00:00"}</td>
+                      </tr>
+
+                      <tr>
+                        <td className="px-4 py-2 font-bold text-sm">Total Working Hours Overall</td>
+                        <td className="px-4 py-2 text-sm">{convertSecondsToHHMMSS(WeeklyandMonthlyAttendance?.totalWorkingHours) || "00:00:00"}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+
             </section>
 
             {user?.role === "admin" && (

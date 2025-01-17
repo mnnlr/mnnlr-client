@@ -88,6 +88,24 @@ const getAttendanceById = createAsyncThunk(
         }
     }
 );
+
+const employeeWeeklyandMonthlyAttendance=createAsyncThunk(
+    'employeeWeeklyandMonthlyAttendance',
+    async (Parameter,{rejectWithValue}) => {
+        try {
+            const {data} = await Parameter.privateAxios.get(`/api/v1/performance/workingHours/${Parameter.id}`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${Parameter?.accessToken}`,
+                },
+            });
+            console.log('employeeWeeklyandMonthlyAttendance data : ',data);
+            return data?.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);  
 const getHrPerformance = createAsyncThunk(
     'getHrPerformance',
     async (Parameter,{rejectWithValue}) => {
@@ -124,4 +142,4 @@ const getAllHrAttandance=createAsyncThunk(
     }
 );
 
-export {getAttendance,getAttendanceById,getEmployeeWorkingHours,getTotalworkingHours,getHrPerformance,getAllHrAttandance};
+export {getAttendance,getAttendanceById,getEmployeeWorkingHours,getTotalworkingHours,getHrPerformance,getAllHrAttandance,employeeWeeklyandMonthlyAttendance};

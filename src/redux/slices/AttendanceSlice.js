@@ -7,6 +7,7 @@ import {
   getTotalworkingHours,
   getHrPerformance,
   getAllHrAttandance,
+  employeeWeeklyandMonthlyAttendance,
 } from "../actions/AttendanceAction";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   HrAttendance:[],
   attendance: {},
   totalWorkingHours: [],
+  WeeklyandMonthlyAttendance:[],
   isLoading: false,
   error: null,
 };
@@ -118,6 +120,21 @@ const AttendanceSlice = createSlice({
       state.error = payload;
     });
     
+    //Employee Weekly and Monthly Attendance
+    builder.addCase(employeeWeeklyandMonthlyAttendance.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    
+    builder.addCase(employeeWeeklyandMonthlyAttendance.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.WeeklyandMonthlyAttendance = payload 
+    });
+    
+    builder.addCase(employeeWeeklyandMonthlyAttendance.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
     
   },
 });

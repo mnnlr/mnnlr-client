@@ -53,6 +53,7 @@ const ActualCard = ({empFun}) => {
       fun:empFun,
       bgColorFrom: "from-blue-400",
       bgColorTo: "to-blue-600",
+      textsize:'xl'
     },
     {
       title: "Present",
@@ -61,6 +62,7 @@ const ActualCard = ({empFun}) => {
       icon: BsPersonFillCheck,
       bgColorFrom: "from-green-400",
       bgColorTo: "to-green-600",
+      textsize:'xl',
       fun:()=>navigate('/dashboard/attendance')
     },
     {
@@ -70,6 +72,7 @@ const ActualCard = ({empFun}) => {
       icon: BsPersonFillX,
       bgColorFrom: "from-red-400",
       bgColorTo: "to-red-600",
+      textsize:'xl',
       fun:()=>navigate('/dashboard/attendance')
     },
     {
@@ -79,6 +82,7 @@ const ActualCard = ({empFun}) => {
       icon: FaChartLine,
       bgColorFrom: "from-purple-400",
       bgColorTo: "to-purple-600",
+      textsize:'md',
       fun:()=>navigate('/dashboard/performances')
     },
   ];
@@ -95,6 +99,7 @@ const ActualCard = ({empFun}) => {
             icon={data?.icon}
             bgColorFrom={data.bgColorFrom}
             bgColorTo={data.bgColorTo}
+            textsize={data.textsize}
           />
         </div>
       ))}
