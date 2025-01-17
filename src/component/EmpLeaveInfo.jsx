@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { getAllLeaves } from '../redux/actions/LeaveActions';
 import LeavePieChart from '../Pages/Dashboard/LeavePieChart';
+import { useParams } from 'react-router-dom';
 // import LeaveStatus from '../Pages/Dashboard/LeaveStatus';
 
 export default function EmpLeaveInfo() {
     const dispatch = useDispatch();
     const privateAxios = useAxiosPrivate();
+    const { id } = useParams();  // Fetch the empId from the URL
 
     const [Data, setData] = useState([]);
     const [isEmp, setEmp] = useState([]);
@@ -36,32 +38,40 @@ export default function EmpLeaveInfo() {
         }
     }
 
-    // Fetching leaves
+    // Fetching leaves 
     useEffect(() => {
-        if (user?.accessToken) {
-            dispatch(getAllLeaves({ accessToken: user.accessToken, privateAxios }));
+        dispatch(getAllLeaves({ accessToken: user.accessToken, privateAxios }));
+        if (user.role !== "admin" && user?.accessToken) {
+            getAllEmpsAndfindOne();
         }
-        getAllEmpsAndfindOne()
-    }, [user?.accessToken]);
+    }, [user?.accessToken, user?.role]);
+
 
     // finding employee leave data and assigning to data
     useEffect(() => {
         if (AllLeave && isEmp?._id) {
-            const userData = AllLeave.find(data =>
-                data?.employeeId?._id && data.employeeId._id === isEmp._id
-            );
-            console.log(userData);
+            const userData = AllLeave.find(data => {
+                return data?.employeeId?._id === isEmp._id;
+            });
             setData(userData);
         }
-    }, [AllLeave, isEmp?._id]);
+        if (AllLeave && id) {
+            console.log(AllLeave)
+            const userData = AllLeave.find(data => {
+                return data?.employeeId?._id === id;
+            });
+            setData(userData);
+        }
+    }, [AllLeave, isEmp?._id])
 
     // console.log("All Leaves from Redux: ", AllLeave);
     // console.log("Data in Local State: ", Data);
 
     return (
-        <div className="p-6 min-h-screen">
+        <div className="p-6 bg-[#c7d5c9]">
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 bg-white shadow-sm rounded-lg">
+            {/* Leave Pie Charts Section */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 bg-slate-100 shadow-sm rounded-lg">
                 <LeavePieChart
                     title="Sick Leave"
                     labels={['Balance', 'Used']}
@@ -91,12 +101,9 @@ export default function EmpLeaveInfo() {
                 />
             </div>
 
-            {/* <div className="bg-white rounded-lg p-6 shadow-lg mt-10">
-                <LeaveStatus Data={Data} />
-            </div> */}
-
-            <h2 className="text-xl font-semibold mb-1 mt-16">Leave Information</h2>
-            <div className="overflow-x-auto">
+            {/* Leave Information Section */}
+            <h2 className="text-xl font-semibold mb-1 mt-16 text-gray-800">Leave Information</h2>
+            <div className="overflow-x-auto bg-slate-100 rounded-lg shadow-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr>
@@ -130,7 +137,7 @@ export default function EmpLeaveInfo() {
                                     {record?.endDate?.split('T')[0]}
                                 </td>
                                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                                    {/* dutation of leave */}
+                                    {/* Duration of leave */}
                                     {Math.abs(new Date(record?.endDate) - new Date(record?.startDate)) / (1000 * 60 * 60 * 24) + 1} Day
                                 </td>
                                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">

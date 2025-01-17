@@ -98,7 +98,7 @@ const getEmployeeById = createAsyncThunk(
     'EmployeeById',
     async (Parameter, { rejectWithValue }) => {
         try {
-
+            // console.log("id: ", Parameter.id, "userId: ", Parameter.userId);
             let url = '';
             if (!Parameter.id) {
                 url = '/api/v1/employee';

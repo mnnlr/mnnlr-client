@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getEmployeeById } from "../redux/actions/EmployeeAction";
 import { getEmployeeWorkingHours, employeeWeeklyandMonthlyAttendance } from "../redux/actions/AttendanceAction";
 import convertSecondsToHHMMSS from "../utils/convertSecondsToHHMMSS";
+import EmpLeaveInfo from "../component/EmpLeaveInfo";
 
 function EmployeeProfile() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function EmployeeProfile() {
   const [totalWorkingHours, setTotalWorkingHours] = useState(null);
   const { user } = useSelector((state) => state.login);
   const { employee, isLoading } = useSelector((state) => state.employees);
-  const {  WeeklyandMonthlyAttendance } = useSelector((state) => state.attendances);
+  const { WeeklyandMonthlyAttendance } = useSelector((state) => state.attendances);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   // console.log("employee : ", employee);
   // console.log("workingHours : ", workingHours);
@@ -28,16 +29,22 @@ function EmployeeProfile() {
   // console.log(WeeklyandMonthlyAttendance);`
 
   useEffect(() => {
-    dispatch(
-      getEmployeeById({ privateAxios, accessToken: user.accessToken, id })
-    );
+    if (user.role === 'hr') {
+      dispatch(
+        getEmployeeById({ privateAxios, accessToken: user.accessToken, id: user._id })
+      );
+    } else {
+      dispatch(
+        getEmployeeById({ privateAxios, accessToken: user.accessToken, id })
+      );
+    }
     dispatch(employeeWeeklyandMonthlyAttendance({ privateAxios, accessToken: user.accessToken, id: user._id }));
   }, [id, user.accessToken, dispatch, privateAxios]);
 
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 640);
   };
-
+  // console.log("user: ", user)
   useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
@@ -52,8 +59,9 @@ function EmployeeProfile() {
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
     setDropdownOpen(false);
-
   };
+
+  // console.log("emp: ", employee)
 
 
   const joiningDate = new Date(employee?.createdAt).toDateString();
@@ -217,8 +225,10 @@ function EmployeeProfile() {
 
               {activeTab === "Leaves" && (
                 <div>
-                  <h3 className="text-lg font-semibold">Leaves</h3>
-                  <p>Leave information goes here.</p>
+                  {/* <h3 className="text-lg font-semibold">Leaves</h3>
+                  <p>Leave information goes here.</p> */}
+                  <EmpLeaveInfo />
+
                 </div>
               )}
 

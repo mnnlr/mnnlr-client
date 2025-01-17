@@ -7,11 +7,11 @@ const ProfilePage = () => {
     return (
         <div>
             {
-                user?.role === 'employee'  && 
-                    <EmployeeProfile />
+                (user?.role === 'employee' || user?.role === 'hr') &&
+                <EmployeeProfile />
             }
             {
-                (user?.role === 'admin' || user?.role === 'hr') && <div >{user?.role.toUpperCase()} Profile</div>
+                (user?.role === 'admin') && <div >{user?.role.toUpperCase()} Profile</div>
             }
         </div>
     );
