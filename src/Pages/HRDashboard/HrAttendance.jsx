@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ const HrAttendence = () => {
   // console.log(user);
   const { HrAttendance } = useSelector((state) => state.attendances);
   // console.log(HrAttendance);  
-  
+
   // Fake attendance data for demonstration
   const attendances = [
     {
@@ -48,54 +48,76 @@ const HrAttendence = () => {
         totalWorkingHours: '7 hours',
       },
     },
-    {
-      _id: '3',
-      avatar: { url: 'https://randomuser.me/api/portraits/men/3.jpg' },
-      firstName: 'Mark',
-      lastName: 'Johnson',
-      email: 'mark.johnson@example.com',
-      designation: 'Product Manager',
-      designationLevel: 'Lead',
-      isActive: true,
-      attendance: {
-        timeTracking: [
-          { timeIn: '08:30 AM', timeOut: '04:30 PM' },
-        ],
-        totalWorkingHours: '8 hours',
-      },
-    },
-    {
-      _id: '4',
-      avatar: { url: 'https://randomuser.me/api/portraits/women/4.jpg' },
-      firstName: 'Alice',
-      lastName: 'Williams',
-      email: 'alice.williams@example.com',
-      designation: 'Marketing Manager',
-      designationLevel: 'Lead',
-      isActive: false,
-      attendance: {
-        timeTracking: [],
-        totalWorkingHours: 'unavailable',
-      },
-    },
   ];
+
+  const [filter, setFilter] = useState('present'); // State for filtering
+
+  // Filter the data based on the selected tab
+  const filteredAttendances = HrAttendance?.filter(user => {
+    if (filter === 'present') return user.isActive === true;
+    if (filter === 'absent') return user.isActive === false;
+    return true; // For 'all'
+  });
 
   const dispatch = useDispatch();
   const privateAxios = useAxiosPrivate();
 
   useEffect(() => {
-    // Normally, you would dispatch an action to get real data
     dispatch(getAllHrAttandance({ privateAxios, accessToken: user.accessToken }));
   }, [dispatch, privateAxios]);
 
   return (
     <div style={{ marginTop: '30px' }}>
+      {/* Tabs for filtering */}
+      <div className="flex justify-start mb-6">
+        <div className="flex space-x-4 bg-gray-100 rounded-lg p-2 shadow-md">
+          <button
+            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${filter === "present"
+              ? "bg-green-300 text-green-600"
+              : "bg-white text-gray-700 hover:bg-gray-200"
+              }`}
+            onClick={() => setFilter("present")}
+          >
+            Present
+          </button>
+          <button
+            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${filter === "absent"
+              ? "bg-red-300 text-red-600"
+              : "bg-white text-gray-700 hover:bg-gray-200"
+              }`}
+            onClick={() => setFilter("absent")}
+          >
+            Absent
+          </button>
+          <button
+            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${filter === "all"
+              ? "bg-gray-800 text-white"
+              : "bg-white text-gray-700 hover:bg-gray-200"
+              }`}
+            onClick={() => setFilter("all")}
+          >
+            All
+          </button>
+        </div>
+      </div>
+
+      {/* Attendance Table */}
       <Table
-        TableTitle={'Attendance'}
-        TableHeaderData={["Employee", "Name", "Designation", "LEVEL", "Status", "LOGIN", "LOGOUT", "DURATION", "HISTORY"]}
+        TableTitle={"Attendance"}
+        TableHeaderData={[
+          "Employee",
+          "Name",
+          "Designation",
+          "LEVEL",
+          "Status",
+          "LOGIN",
+          "LOGOUT",
+          "DURATION",
+          "HISTORY",
+        ]}
       >
         <tbody>
-          {HrAttendance.map((Datum, index) => (
+          {filteredAttendances.map((Datum, index) => (
             <tr key={index}>
               <td>
                 <div className="dashboard-table-info" style={{ cursor: 'pointer' }} onClick={() => navigate(`/dashboard/user-profile/${Datum._id}`)}>

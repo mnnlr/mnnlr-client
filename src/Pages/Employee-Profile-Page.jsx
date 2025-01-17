@@ -69,8 +69,8 @@ function EmployeeProfile() {
   return (
     <>
       {!isLoading && (
-        <div className="profile-page flex flex-col items-center mt-14 mb-16">
-          <div className="profile-main w-full max-w-3xl md:min-w-2xl p-8 mt-14 rounded-lg bg-light-green shadow-md">
+        <div className="profile-page w-full flex flex-col items-center mt-14 mb-16">
+          <div className="profile-main w-full max-w-3xl md:min-w-2xl lg:max-w-6xl p-8 mt-14 rounded-lg bg-light-green shadow-md">
             <div className="profile-header flex flex-col sm:flex-row items-center mb-6">
               <div className="profile-picture flex flex-col items-center sm:items-start justify-center mb-4 sm:mb-0">
                 <img
