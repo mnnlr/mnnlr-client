@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaFilePdf } from "react-icons/fa";
-
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployeeById } from "../redux/actions/EmployeeAction";
@@ -20,6 +19,7 @@ function EmployeeProfile() {
   const { user } = useSelector((state) => state.login);
   const { employee, isLoading } = useSelector((state) => state.employees);
   const { workingHours } = useSelector((state) => state.attendances);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
 
   useEffect(() => {
     dispatch(
@@ -29,19 +29,30 @@ function EmployeeProfile() {
 
     if (workingHours?.employeePerformances) {
       const t = workingHours?.employeePerformances?.map((e) => {
-        return { time: e?.totalWorkingTime, id: e?._id }; 
+        return { time: e?.totalWorkingTime, id: e?._id };
       });
-      
+
       const final = t?.reduce((acc, curr) => {
         acc[curr.id] = (acc[curr.id] || 0) + curr.time;
         return acc;
       }, {});
 
       if (final[id]) {
-        setTotalWorkingHours(final[id]); 
+        setTotalWorkingHours(final[id]);
       }
     }
-  }, [id, user.accessToken, dispatch, privateAxios]); 
+  }, [id, user.accessToken, dispatch, privateAxios]);
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 640);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -50,7 +61,9 @@ function EmployeeProfile() {
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
     setDropdownOpen(false);
+
   };
+
 
   const joiningDate = new Date(employee?.createdAt).toDateString();
 
@@ -58,18 +71,20 @@ function EmployeeProfile() {
     <>
       {!isLoading && (
         <div className="profile-page flex flex-col items-center mt-14 mb-16">
-          <div className="profile-main w-full max-w-3xl p-8 mt-14 rounded-lg bg-light-green shadow-md">
-            <div className="profile-header flex flex-col sm:flex-row items-center">
-              <div className="profile-picture flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
+          <div className="profile-main w-full max-w-3xl md:min-w-2xl p-8 mt-14 rounded-lg bg-light-green shadow-md">
+            <div className="profile-header flex flex-col sm:flex-row items-center mb-6">
+              <div className="profile-picture flex flex-col items-center sm:items-start justify-center mb-4 sm:mb-0">
                 <img
                   src={employee?.avatar?.url}
                   alt="Employee"
                   className="w-32 h-32 rounded-full border-4 border-custom-green"
                 />
-                <h3 className="ml-4 text-xl font-semibold text-gray-800">
+                <h3 className="mt-2 sm:mt-4 md:mt-6 xl:mt-8 text-xl font-semibold text-gray-800 text-center sm:text-left">
                   {`${employee?.firstName} ${employee?.lastName}`}
                 </h3>
               </div>
+
+
 
               {user?.role === "employee" && (
                 <button
@@ -85,35 +100,47 @@ function EmployeeProfile() {
               <p className="text-lg">{employee?.description}</p>
             </section>
 
-            <nav className="tab-menu mb-6">
-              <ul className="flex justify-between border-b-2 border-white">
-                <li
-                  className={`px-4 py-2 cursor-pointer ${activeTab === "Personal Details" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
-                  onClick={() => setActiveTab("Personal Details")}
-                >
-                  Personal Details
-                </li>
-                <li
-                  className={`px-4 py-2 cursor-pointer ${activeTab === "Employee Info" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
-                  onClick={() => setActiveTab("Employee Info")}
-                >
-                  Employee Info
-                </li>
-                <li
-                  className={`px-4 py-2 cursor-pointer ${activeTab === "Documents Submitted" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
-                  onClick={() => setActiveTab("Documents Submitted")}
-                >
-                  Documents Submitted
-                </li>
-                <li
-                  className={`px-4 py-2 cursor-pointer ${activeTab === "Leaves" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
-                  onClick={() => setActiveTab("Leaves")}
-                >
-                  Leaves
-                </li>
-              </ul>
+            <nav className={`tab-menu mb-6 ${isMobile ? "block" : "hidden sm:block"}`}>
+              {isMobile ? (
+                <div className="relative">
+                  <button
+                    onClick={toggleDropdown}
+                    className="bg-custom-green text-white py-2 px-4 rounded-md"
+                  >
+                    {activeTab}
+                  </button>
+                  {dropdownOpen && (
+                    <div className="absolute left-0 w-full bg-white shadow-md mt-2 rounded-md">
+                      <ul>
+                        {["Personal Details", "Employee Info", "Documents Submitted", "Leaves"].map((tab) => (
+                          <li
+                            key={tab}
+                            onClick={() => handleTabClick(tab)}
+                            className={`px-4 py-2 cursor-pointer ${activeTab === tab ? "bg-custom-green text-white" : ""}`}
+                          >
+                            {tab}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <ul className="flex justify-between border-b-2 border-white">
+                  {["Personal Details", "Employee Info", "Documents Submitted", "Leaves"].map((tab) => (
+                    <li
+                      key={tab}
+                      className={`px-4 py-2 cursor-pointer ${activeTab === tab ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
+                      onClick={() => handleTabClick(tab)}
+                    >
+                      {tab}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </nav>
 
+            {/* Tab Content */}
             <section className="account-details">
               {activeTab === "Personal Details" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -167,7 +194,7 @@ function EmployeeProfile() {
                     <p>{joiningDate}</p>
                   </div>
                   <div className="detail-item">
-                    <label className="font-bold">Total WorkingHours</label>
+                    <label className="font-bold">Total Working Hours</label>
                     <p>{convertSecondsToHHMMSS(totalWorkingHours) || "00:00:00"}</p>
                   </div>
                 </div>
