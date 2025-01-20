@@ -39,7 +39,8 @@ function EmployeeProfile() {
         getEmployeeById({ privateAxios, accessToken: user.accessToken, id })
       );
     }
-    dispatch(employeeWeeklyandMonthlyAttendance({ privateAxios, accessToken: user.accessToken, id: user._id }));
+    if(user.role === "employee"){
+      dispatch(employeeWeeklyandMonthlyAttendance({ privateAxios, accessToken: user.accessToken, id: user._id }));}
   }, [id, user.accessToken, dispatch, privateAxios]);
 
   const handleResize = () => {
