@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Breadcrumb from './BreadCrumb';
-import Search from './Search';
-import Icons from './Icons';
 import '../../css/DashboardCss/Navbar.css';
 import SideNav from './SideNav';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
-  const [isIconsVisible, setIsIconsVisible] = useState(false);
   const [isSideNavVisible, setIsSideNavVisible] = useState(false);
 
   const handleScroll = () => {
@@ -16,8 +13,8 @@ const Navbar = () => {
   };
 
   const handleResize = () => {
-    setIsMobileView(window.innerWidth <= 670); 
-    setIsIconsVisible(false); 
+    setIsMobileView(window.innerWidth <= 670);
+    setIsSideNavVisible(false); // Reset SideNav visibility on resize
   };
 
   useEffect(() => {
@@ -30,50 +27,38 @@ const Navbar = () => {
     };
   }, []);
 
-  const toggleMobileIcons = () => {
-    setIsIconsVisible(!isIconsVisible);
-  };
-
   const toggleSideNav = () => {
-    setIsSideNavVisible(!isSideNavVisible);
+    setIsSideNavVisible(!isSideNavVisible); // Toggle side navigation visibility
   };
 
   return (
     <nav className={`dashbord-navbar ${isScrolled ? 'dashbord-scrolled' : ''}`}>
-      <div className="dashbord-navbar-content">
+      <div className="dashbord-navbar-content flex justify-between items-center w-full">
         <div className="dashbord-breadcrumb-container">
           <Breadcrumb />
         </div>
+
+        {/* Mobile view */}
         {isMobileView ? (
           <>
-            <button className="dashbord-navbar-toggler" onClick={toggleMobileIcons}>
-              {isIconsVisible ? (
-                <span>&times;</span>
-              ) : (
-                <span>&#9776;</span>
-              )}
+            {/* Toggle side navigation */}
+            <button
+              className="dashbord-navbar-toggler md:hidden"
+              onClick={toggleSideNav}
+            >
+              {isSideNavVisible ? <span>&times;</span> : <span>&#9776;</span>}
             </button>
-            <div className={`dashbord-mobile-icons-container ${isIconsVisible ? 'dashbord-visible' : ''}`}>
-              <Search />
-              <Icons />
-              <button className="dashbord-sidenav-toggler" onClick={toggleSideNav}>
-                {isSideNavVisible ? (
-                  <span>&times;</span>
-                ) : (
-                  <span>&#9776;</span>
-                )}
-              </button>
-            </div>
           </>
         ) : (
-          <div className="dashbord-search-icons-container">
-            <Search />
-            <Icons />
+          <div className="dashbord-search-icons-container flex items-center">
+            {/* You can add any additional elements here for larger screens */}
           </div>
         )}
       </div>
+
+      {/* SideNav for mobile */}
       {isSideNavVisible && (
-        <div className="dashbord-sidenav-container visible">
+        <div className="dashbord-sidenav-container visible md:hidden">
           <SideNav />
         </div>
       )}
@@ -82,4 +67,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
