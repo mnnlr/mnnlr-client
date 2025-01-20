@@ -109,9 +109,11 @@
     width: 100vw;
     height: 100vh;
     margin-left: -15px;
-    background-color: rgba(94, 94, 223, 0.9);
+    background-color: #677d6a73;
+    backdrop-filter: blur(10px);
     top: 0;
   }
+  
 
   .navbar-links a,
   .dropdown-btn {
