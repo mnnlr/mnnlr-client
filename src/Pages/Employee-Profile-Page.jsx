@@ -4,7 +4,7 @@ import { FaFilePdf } from "react-icons/fa";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployeeById } from "../redux/actions/EmployeeAction";
-import { getEmployeeWorkingHours, employeeWeeklyandMonthlyAttendance } from "../redux/actions/AttendanceAction";
+import { employeeWeeklyandMonthlyAttendance } from "../redux/actions/AttendanceAction";
 import convertSecondsToHHMMSS from "../utils/convertSecondsToHHMMSS";
 import EmpLeaveInfo from "../component/EmpLeaveInfo";
 import { toast } from "react-hot-toast";
@@ -17,7 +17,6 @@ function EmployeeProfile() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("Personal Details");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [totalWorkingHours, setTotalWorkingHours] = useState(null);
   const { user } = useSelector((state) => state.login);
   const { employee, isLoading } = useSelector((state) => state.employees);
   const { WeeklyandMonthlyAttendance } = useSelector((state) => state.attendances);
@@ -39,8 +38,9 @@ function EmployeeProfile() {
         getEmployeeById({ privateAxios, accessToken: user.accessToken, id })
       );
     }
-    if(user.role === "employee"){
-      dispatch(employeeWeeklyandMonthlyAttendance({ privateAxios, accessToken: user.accessToken, id: user._id }));}
+    if (user.role === "employee") {
+      dispatch(employeeWeeklyandMonthlyAttendance({ privateAxios, accessToken: user.accessToken, id: user._id }));
+    }
   }, [id, user.accessToken, dispatch, privateAxios]);
 
   const handleResize = () => {
@@ -67,9 +67,8 @@ function EmployeeProfile() {
     if (WeeklyandMonthlyAttendance?.today < 7.5 * 3600) {
       toast.custom((t) => (
         <div
-          className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          className={`${t.visible ? "animate-enter" : "animate-leave"
+            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
         >
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
@@ -103,9 +102,8 @@ function EmployeeProfile() {
     } else if (WeeklyandMonthlyAttendance?.today >= 7.5 * 3600) {
       toast.custom((t) => (
         <div
-          className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          className={`${t.visible ? "animate-enter" : "animate-leave"
+            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
         >
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
@@ -139,8 +137,9 @@ function EmployeeProfile() {
     }
   }, [WeeklyandMonthlyAttendance?.today, employee]);
 
-
-  const joiningDate = new Date(employee?.createdAt).toDateString();
+  const joiningDate = employee?.dateofjoining
+    ? new Date(employee.dateofjoining).toDateString()
+    : "null";
 
   return (
     <>
