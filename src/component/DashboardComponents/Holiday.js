@@ -1,35 +1,55 @@
-
-import { useState,useRef } from 'react';
+import { useState, useRef } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../../css/DashboardCss/Holiday.css';
-import { IoCloseCircleSharp } from "react-icons/io5"
+import { IoCloseCircleSharp } from "react-icons/io5";
+
 const months = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
 const holidayData = {
-  "2024-01-01": "New Year's Day",
-  "2024-01-15": "Martin Luther King Jr. Day",
-  "2024-02-14": "Valentine's Day",
-  "2024-03-17": "St. Patrick's Day",
-  "2024-04-22": "Earth Day",
-  "2024-05-27": "Memorial Day",
-  "2024-06-19": "Juneteenth",
-  "2024-07-04": "Independence Day",
-  "2024-09-02": "Labor Day",
-  "2024-10-31": "Halloween",
-  "2024-11-28": "Thanksgiving Day",
-  "2024-12-25": "Christmas Day"
+  "2025-01-01": "New Year's Day",
+  "2025-01-14": "Makar Sankranti",
+  "2025-01-15": "Pongal",
+  "2025-01-26": "Republic Day",
+  "2025-03-01": "Maha Shivaratri",
+  "2025-03-03": "Holi",
+  "2025-03-21": "Ugadi",
+  "2025-03-30": "Ram Navami",
+  "2025-04-06": "Mahavir Jayanti",
+  "2025-04-18": "Good Friday",
+  "2025-04-25": "Eid al-Fitr",
+  "2025-05-19": "Eid al-Fitr (Second Day)",
+  "2025-06-01": "No Holiday",
+  "2025-06-05": "Ganga Dussehra",
+  "2025-07-06": "Rath Yatra",
+  "2025-08-15": "Independence Day",
+  "2025-08-27": "Onam",
+  "2025-09-05": "Teachers' Day",
+  "2025-09-30": "Gandhi Jayanti",
+  "2025-10-02": "Mahatma Gandhi Jayanti",
+  "2025-10-21": "Dussehra",
+  "2025-10-23": "Eid al-Adha",
+  "2025-11-01": "No Holiday",
+  "2025-11-04": "Diwali",
+  "2025-11-11": "Bhai Dooj",
+  "2025-12-25": "Christmas Day",
+  "2025-12-31": "New Year's Eve",
+  "2025-07-14": "Bakrid (Eid al-Adha)",
+  "2025-11-14": "Govardhan Puja",
+  "2025-12-12": "Gita Jayanti",
+  "2025-12-14": "Hanukkah"
 };
 
+
 function Holiday() {
-    const [selectedMonth, setSelectedMonth] = useState(null);
-      const [showModal, setShowModal] = useState(false);
-      const [modalHolidayName, setModalHolidayName] = useState('');
-      const [modalDateString, setModalDateString] = useState('');
-      const calendarRef = useRef(null);
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalHolidayName, setModalHolidayName] = useState('');
+  const [modalDateString, setModalDateString] = useState('');
+  const calendarRef = useRef(null);
 
   const handleCardClick = (month) => {
     setSelectedMonth(months.indexOf(month));
@@ -54,33 +74,32 @@ function Holiday() {
   };
 
   const tileContent = ({ date, view }) => {
-        if (view === 'month' && isHoliday(date)) {
-          const year = date.getFullYear();
-          const month = (date.getMonth() + 1).toString().padStart(2, '0');
-          const day = date.getDate().toString().padStart(2, '0');
-          const dateString = `${year}-${month}-${day}`;
-          const holidayName = holidayData[dateString];
-    
-          return (
-            <div
-              className="holiday-indicator"
-              title={holidayName}
-              onMouseEnter={() => {
-                setModalHolidayName(holidayName);
-                setModalDateString(dateString);
-                setShowModal(true);
-              }}
-              
-            >
-              {/* Holiday indicator content */}
-            </div>
-          );
-        }
-        return null;
-      };
+    if (view === 'month' && isHoliday(date)) {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      const dateString = `${year}-${month}-${day}`;
+      const holidayName = holidayData[dateString];
+
+      return (
+        <div
+          className="holiday-indicator"
+          title={holidayName}
+          onMouseEnter={() => {
+            setModalHolidayName(holidayName);
+            setModalDateString(dateString);
+            setShowModal(true);
+          }}
+        >
+          {/* Holiday indicator content */}
+        </div>
+      );
+    }
+    return null;
+  };
 
   const Card = ({ title, amount, gradient, onClick }) => (
-    <div 
+    <div
       className={`rounded-xl relative p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 shadow-lg ${gradient}`}
       onClick={onClick}
     >
@@ -93,24 +112,24 @@ function Holiday() {
       </div>
     </div>
   );
+
   const Modal = ({ isOpen, onClose, holidayName, dateString }) => {
-        return (
-          <div
-            className={`fixed top-0 left-0 w-full h-full flex justify-center items-center ${isOpen ? 'block' : 'hidden'}`}
-          >
-           
-            <div className="bg-white rounded-lg shadow-lg p-6">
-           
-            <IoCloseCircleSharp onClick={onClose} style={{float : 'right', cursor: 'pointer', height : '20px', width: '20px'}}/>
-              
-              <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">{holidayName}</h2>
-              <p className="text-lg font-bold">{dateString}</p>
-             
-            </div>
-          </div>
-        );
-      };
-    
+    return (
+      <div
+        className={`fixed top-0 left-0 w-full h-full flex justify-center items-center ${isOpen ? 'block' : 'hidden'}`}
+      >
+        <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+          <IoCloseCircleSharp
+            onClick={onClose}
+            style={{ float: 'right', cursor: 'pointer', height: '20px', width: '20px' }}
+          />
+          <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">{holidayName}</h2>
+          <p className="text-lg font-bold text-center text-gray-600">{dateString}</p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="dashbord-container mx-auto p-8 rounded-xl bg-gray-100 min-h-screen">
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Holiday Calendar</h1>
@@ -119,24 +138,26 @@ function Holiday() {
           <Card
             key={month}
             title={month}
-            amount={Object.entries(holidayData).filter(([date]) => date.startsWith(`2024-${(index + 1).toString().padStart(2, '0')}`)).length}
+            amount={Object.entries(holidayData).filter(([date]) =>
+              date.startsWith(`2025-${(index + 1).toString().padStart(2, '0')}`)
+            ).length}
             gradient={`bg-gradient-to-br ${getGradient(index)}`}
             onClick={() => handleCardClick(month)}
           />
         ))}
       </div>
+
       {selectedMonth !== null && (
         <div ref={calendarRef} className="mt-12 bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
-            {months[selectedMonth]} Holidays
-          </h2>
-          <Calendar 
-            value={new Date(2024, selectedMonth, 1)}
+         
+          {/* Ensure we pass the correct date for the year 2025 */}
+          <Calendar
+            value={new Date(2025, selectedMonth, 1)} 
             tileClassName={tileClassName}
             tileContent={tileContent}
             className="mx-auto custom-calendar"
           />
-           {showModal && (
+          {showModal && (
             <Modal
               isOpen={showModal}
               onClose={() => setShowModal(false)}
