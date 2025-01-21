@@ -1,13 +1,40 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Table from '../../component/DashboardComponents/Table';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { getAllLeaveRequest } from "../../redux/actions/LeaveActions";
+import { useGetEmpLeavesForHr } from '../../hooks/useGetEmpLeavesForHr'
 
 const HrLeaves = () => {
   const navigate = useNavigate();
+  const { leaves } = useSelector((state) => state.leaves);
+  const user = useSelector(state => state.login);
+  const privateAxios = useAxiosPrivate();
+  const dispatch = useDispatch();
+  const { isLoading, isEmpData, getEmpLeavesForHr } = useGetEmpLeavesForHr();
 
-  // Mock leave data
-  const leaves = [
+  useEffect(() => {
+    const fun = async () => {
+      //console.log(user.user._id)
+      await getEmpLeavesForHr({ id: user.user._id });
+    }
+    if (user.user.role === 'hr') {
+      fun();
+    }
+  }, [privateAxios])
+
+  console.log("empData: ", isEmpData);
+
+  useEffect(() => {
+    dispatch(getAllLeaveRequest({ accessToken: user?.accessToken, privateAxios }));
+  }, [user?.accessToken]);
+
+  console.log(leaves);
+
+  //Mock leave data
+  const MockLeaves = [
     {
       leaveId: '1',
       avatar: { url: 'https://randomuser.me/api/portraits/men/1.jpg' },
@@ -28,27 +55,9 @@ const HrLeaves = () => {
       status: 'Pending',
       duration: '5',
     },
-    {
-      leaveId: '3',
-      avatar: { url: 'https://randomuser.me/api/portraits/men/3.jpg' },
-      name: 'Mark Johnson',
-      email: 'mark.johnson@example.com',
-      employeeId: 'EMP12347',
-      leaveType: 'Maternity Leave',
-      status: 'Rejected',
-      duration: '30',
-    },
-    {
-      leaveId: '4',
-      avatar: { url: 'https://randomuser.me/api/portraits/women/4.jpg' },
-      name: 'Alice Williams',
-      email: 'alice.williams@example.com',
-      employeeId: 'EMP12348',
-      leaveType: 'Personal Leave',
-      status: 'Approved',
-      duration: '2',
-    },
   ];
+
+  const data = user.user.role === 'admin' ? [...leaves] : isEmpData;
 
   return (
     <div style={{ marginTop: '30px' }}>
@@ -57,7 +66,7 @@ const HrLeaves = () => {
         TableHeaderData={["Employee", "Name", "Employee Id", "Type", "Status", "Duration", "Action"]}
       >
         <tbody>
-          {leaves.map((Datum, index) => (
+          {data?.sort((a, b) => new Date(b.dateApplied) - new Date(a.dateApplied)).map((Datum, index) => (
             <tr key={index}>
               <td>
                 <div className="dashboard-table-info" style={{ cursor: 'pointer' }} onClick={() => navigate(`/dashboard/user-profile/${Datum.leaveId}`)}>
@@ -93,8 +102,14 @@ const HrLeaves = () => {
               <td>
                 <button
                   className="dashboard-table-edit-button"
-                  onClick={() => navigate(`/dashboard/review-leave/${Datum.leaveId}`)}
-                >
+                  onClick={() => {
+                    if (user.user.role) {
+                      // Apply hr-dashboard class logic here (if needed for a side effect)
+                      navigate(`/hr-dashboard/review-leave/${Datum.leaveId}`)
+                    } else {
+                      navigate(`/dashboard/review-leave/${Datum.leaveId}`);
+                    }
+                  }}>
                   {Datum.status.toLowerCase() !== 'pending' ? 'View' : 'Review'}
                 </button>
               </td>

@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllHrAttandance, getHrPerformance } from '../../redux/actions/AttendanceAction';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import convertSecondsToHHMMSS from '../../utils/convertSecondsToHHMMSS';
+import { getAllLeaveRequest } from "../../redux/actions/LeaveActions";
+import { useGetEmpLeavesForHr } from '../../hooks/useGetEmpLeavesForHr'
 
 // Register chart elements
 ChartJS.register(
@@ -31,7 +33,7 @@ const HrDashboard = () => {
   // console.log(HrAttendance);  
 
   const { HrPerformance } = useSelector((state) => state.attendances);
-// console.log(HrPerformance);  
+  // console.log(HrPerformance);  
   const dispatch = useDispatch();
   const privateAxios = useAxiosPrivate();
 
@@ -42,10 +44,30 @@ const HrDashboard = () => {
 
   }, [dispatch, privateAxios]);
 
-const hr= HrAttendance.length
+  const hr = HrAttendance.length
+  const { leaves } = useSelector((state) => state.leaves);
+  const { isLoading, isEmpData, getEmpLeavesForHr } = useGetEmpLeavesForHr();
 
-const present = HrAttendance.filter((attendance) => attendance.isActive) || <p>calculating...</p>;
-// console.log(present);
+  useEffect(() => {
+    const fun = async () => {
+      //console.log(user.user._id)
+      await getEmpLeavesForHr({ id: user._id });
+    }
+    if (user.role === 'hr') {
+      fun();
+    }
+  }, [privateAxios])
+
+  //console.log("empData: ", isEmpData);
+
+  useEffect(() => {
+    dispatch(getAllLeaveRequest({ accessToken: user?.accessToken, privateAxios }));
+  }, [user?.accessToken]);
+
+  //console.log(leaves);
+
+  const present = HrAttendance.filter((attendance) => attendance.isActive) || <p>calculating...</p>;
+  // console.log(present);
 
 
   const salaryData = {
@@ -86,7 +108,7 @@ const present = HrAttendance.filter((attendance) => attendance.isActive) || <p>c
 
   return (
     <>
-         <div className="flex justify-center mt-5">
+      <div className="flex justify-center mt-5">
         <div className="bg-white shadow-xl w-full rounded-lg p-4 md:p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-6">
 
@@ -123,8 +145,8 @@ const present = HrAttendance.filter((attendance) => attendance.isActive) || <p>c
                   <FaUserTie />
                 </i>
                 <div>
-                  <div className="text-white text-sm font-semibold">Leaves</div>
-                  <div className="text-2xl font-extrabold text-white">0</div>
+                  <div className="text-gray-500 font-bold">Leaves</div>
+                  <div className="text-xl font-bold">{isEmpData?.length || leaves?.length || 0}</div>
                 </div>
               </div>
             </div>

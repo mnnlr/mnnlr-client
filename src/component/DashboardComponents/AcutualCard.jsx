@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import GroupsIcon from '@mui/icons-material/Groups';
-import { BsPersonFillX } from "react-icons/bs";
 import { BsPersonFillCheck } from "react-icons/bs";
 import { FaChartLine } from 'react-icons/fa';
 import Card from './Card';
@@ -11,6 +10,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 import { useSelector,useDispatch } from 'react-redux';
 import { getAttendance,getEmployeeWorkingHours } from '../../redux/actions/AttendanceAction';
+import { getAllLeaveRequest } from "../../redux/actions/LeaveActions";
 import convertSecondsToHHMMSS from '../../utils/convertSecondsToHHMMSS';
 import '../../css/DashboardCss/ActualCard.css' 
 
@@ -21,13 +21,18 @@ const ActualCard = ({empFun}) => {
   const privateAxios = useAxiosPrivate();
 
   const {user} = useSelector((state) => state.login);
-
+  const {leaves} = useSelector(state => state.leaves);
   const {attendances,workingHours} = useSelector((state) => state.attendances);
   const {totalEmployees} = useSelector(state => state.employees);
+
 // console.log("Attendance",attendances);
 
 //   console.log('workingHours : ',workingHours);
   
+  useEffect(() => {
+    dispatch(getAllLeaveRequest({ accessToken: user?.accessToken, privateAxios }));
+  }, [user?.accessToken]);
+
   useEffect(() => {
     let isMounted = true;
     if(isMounted){
@@ -41,8 +46,7 @@ const ActualCard = ({empFun}) => {
 
   const present = attendances.filter((attendance) => attendance.isActive) || <p>calculating...</p>;
   // console.log(present);
-  
-  const absent = attendances?.length - present?.length || <p>calculating...</p>;
+  //const absent = attendances?.length - present?.length || <p>calculating...</p>;
 
   const cardData = [
     {
@@ -65,15 +69,25 @@ const ActualCard = ({empFun}) => {
       textsize:'xl',
       fun:()=>navigate('/dashboard/attendance')
     },
+    //{
+    //  title: "Absent",
+    //  amount: absent,
+    //  percentage: "+25%",
+    //  icon: BsPersonFillX,
+    //  bgColorFrom: "from-red-400",
+    //  bgColorTo: "to-red-600",
+    //  textsize:'xl',
+    //  fun:()=>navigate('/dashboard/attendance')
+    //},
     {
-      title: "Absent",
-      amount: absent,
-      percentage: "+25%",
-      icon: BsPersonFillX,
+      title: "Leave's",
+      amount: leaves?.length,
+      percentage: "+5%",
+      icon: FaChartLine,
       bgColorFrom: "from-red-400",
-      bgColorTo: "to-red-600",
-      textsize:'xl',
-      fun:()=>navigate('/dashboard/attendance')
+      bgColorTo: "to-red-800",
+      textsize:'md',
+      fun:()=>navigate('/dashboard/track-leave')
     },
     {
       title: "Performance",
