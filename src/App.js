@@ -112,6 +112,7 @@ const App = () => {
             <Route path='hr-leaves' element={<HrLeaves />} />
 
             <Route path='add-employee' element={<AddEmployee />} />
+            <Route path='review-leave/:id' element={<LeaveDashboard />} />
             <Route path='edit-employee/:id' element={<UserEdit />} />
           </Route>
         </Route>
