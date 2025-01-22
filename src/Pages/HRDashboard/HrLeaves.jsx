@@ -61,7 +61,8 @@ const HrLeaves = () => {
 
   return (
     <div style={{ marginTop: '30px' }}>
-      <Table
+      {data ?
+        <Table
         TableTitle={'Track Leave'}
         TableHeaderData={["Employee", "Name", "Employee Id", "Type", "Status", "Duration", "Action"]}
       >
@@ -117,6 +118,9 @@ const HrLeaves = () => {
           ))}
         </tbody>
       </Table>
+      :
+        <p>Loading...</p>
+      }
     </div>
   );
 };

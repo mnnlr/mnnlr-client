@@ -59,7 +59,6 @@ const HrDashboard = () => {
   }, [privateAxios])
 
   //console.log("empData: ", isEmpData);
-
   useEffect(() => {
     dispatch(getAllLeaveRequest({ accessToken: user?.accessToken, privateAxios }));
   }, [user?.accessToken]);
