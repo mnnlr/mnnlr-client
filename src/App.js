@@ -23,6 +23,7 @@ import HrDashboard from './Pages/HRDashboard/HrDashboard';
 import HrLeaves from './Pages/HRDashboard/HrLeaves';
 import HrAttendence from './Pages/HRDashboard/HrAttendance';
 import HRPerformances from './Pages/HRDashboard/HRPerformance';
+import BestEmployee from './component/DashboardComponents/BestEmployee';
 
 
 const Login = lazy(() => import('./Pages/LogInSinUp'));
@@ -81,6 +82,7 @@ const App = () => {
           <Route path='dashboard' element={<DashboardLayout />} >
             <Route index element={<DashboardHome />} />
             <Route path='holidays' element={<Holidays />} />
+            <Route path='bestEmployees' element={<BestEmployee />} />
             <Route path='profile' element={<DashboardProfile />} />
             <Route path='track-leave' element={<TrackLeave />} />
             <Route path='candidates-on-leave' element={<CandidatesOnLeave />} />

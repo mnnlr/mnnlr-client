@@ -6,15 +6,16 @@ import ApplicantReducers from './slices/ApplicantsSlice';
 import AttendanceResucer from "./slices/AttendanceSlice";
 import leaveReducer from "./slices/leaveSlice";
 import getLeaveSlice from "./slices/getLeavesSlice";
+import BestEmployeeSlice from "./slices/BestEmployeeSlice";
 
 const reducers = combineReducers({
-    // Add your reducers here
     login: loginReducer,
     employees: employeeReducer,
     Applicants: ApplicantReducers,
     attendances: AttendanceResucer,
     leaves: leaveReducer,
-    AllLeaves: getLeaveSlice
+    AllLeaves: getLeaveSlice,
+    bestEmployee:BestEmployeeSlice
 });
 
 const store = configureStore({
