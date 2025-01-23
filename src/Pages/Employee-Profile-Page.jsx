@@ -21,9 +21,9 @@ function EmployeeProfile() {
   const { employee, isLoading } = useSelector((state) => state.employees);
   const { WeeklyandMonthlyAttendance } = useSelector((state) => state.attendances);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
-  // console.log("employee : ", employee);
+  //  console.log("employee : ", employee);
   // console.log("workingHours : ", workingHours);
-  // console.log(user);
+  //  console.log(user);
 
 
   // console.log(WeeklyandMonthlyAttendance);`
@@ -38,7 +38,7 @@ function EmployeeProfile() {
         getEmployeeById({ privateAxios, accessToken: user.accessToken, id })
       );
     }
-    if (user.role === "employee") {
+    if (user.role === "employee"|| user.role === "hr") {
       dispatch(employeeWeeklyandMonthlyAttendance({ privateAxios, accessToken: user.accessToken, id: user._id }));
     }
   }, [id, user.accessToken, dispatch, privateAxios]);
@@ -219,7 +219,7 @@ function EmployeeProfile() {
                       {tab}
                     </li>
                   ))}
-                  {user?.role === "employee" && (
+                  {user?.role === "employee" || user?.role === "hr" && (
                     <li
                       key="Attendance History"
                       className={`px-4 py-2 ml-6 cursor-pointer ${activeTab === "Attendance History" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
