@@ -239,7 +239,7 @@ function EmployeeProfile() {
                       {tab}
                     </li>
                   ))}
-                  {user?.role === "employee" || user?.role === "hr" && (
+                  {(user?.role === "employee" || user?.role === "hr") && (
                     <li
                       key="Attendance History"
                       className={`px-4 py-2 ml-6 cursor-pointer ${activeTab === "Attendance History" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
