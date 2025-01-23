@@ -7,6 +7,7 @@ import ActiveUsers from "../../component/DashboardComponents/ActiveUsers";
 
 import "../../css/DashboardCss/DashboardHome.css";
 import EmployeeTable from "../../component/DashboardComponents/EmployeeTable";
+import BestEmployee from "../../component/DashboardComponents/BestEmployee";
 
 function Dashboard() {
   const employeeTableRef = useRef(null);
@@ -32,13 +33,13 @@ function Dashboard() {
           </NavLink>
         </div>
         <div className="dashboard-card dashboard-dark-card">
-          <h2>Manage Candidates Leave</h2>
-          <p>
-            Manage and track the leave status of candidates. Ensure smooth workflow
-            by staying informed about who is currently on leave.
-          </p>
-          <NavLink to='/dashboard/track-leave' className="dashboard-read-more">
-            Track Leave →
+          <h2>Best Employees</h2>
+         <p>
+  Effectively manage the leave status of your best employees to ensure continued productivity. Stay informed about their availability and plan resources accordingly for optimal workflow.
+</p>
+
+          <NavLink to='/dashboard/bestEmployees' className="dashboard-read-more">
+            Review →
           </NavLink>
         </div>
         <div className="dashboard-card dashboard-light-card">
