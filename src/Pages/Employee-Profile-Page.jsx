@@ -180,7 +180,7 @@ function EmployeeProfile() {
 
 
 
-              {user?.role === "employee" && (
+              {(user?.role === "employee" || user?.role === "hr")  && (
                 <button
                   onClick={() => navigate("/apply-leave")}
                   className="btn bg-custom-green text-white px-6 py-2 rounded-md mt-4 sm:mt-0 sm:ml-auto sm:justify-center sm:items-center"
@@ -215,7 +215,7 @@ function EmployeeProfile() {
                             {tab}
                           </li>
                         ))}
-                        {user?.role === "employee" && (
+                        {(user?.role === "employee" || user?.role === "hr")  && (
                           <li
                             key="Attendance History"
                             className={`px-4 py-2 cursor-pointer ${activeTab === "Attendance History" ? "bg-custom-green text-white" : ""}`}
