@@ -3,11 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FaFilePdf } from "react-icons/fa";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
-import { getEmployeeById } from "../redux/actions/EmployeeAction";
+import { getEmployeeById, getEmployees } from "../redux/actions/EmployeeAction";
 import { employeeWeeklyandMonthlyAttendance } from "../redux/actions/AttendanceAction";
 import convertSecondsToHHMMSS from "../utils/convertSecondsToHHMMSS";
 import EmpLeaveInfo from "../component/EmpLeaveInfo";
 import { toast } from "react-hot-toast";
+import { ShowDoc } from "../component/ShowDoc";
 
 function EmployeeProfile() {
   const navigate = useNavigate();
@@ -21,13 +22,32 @@ function EmployeeProfile() {
   const { employee, isLoading } = useSelector((state) => state.employees);
   const { WeeklyandMonthlyAttendance } = useSelector((state) => state.attendances);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
-  // console.log("employee : ", employee);
-  // console.log("workingHours : ", workingHours);
-  // console.log(user);
+  const [isEmployee, setEmployee] = useState([]);
 
+  const { employees } = useSelector(
+    (state) => state.employees
+  );
 
-  // console.log(WeeklyandMonthlyAttendance);`
+  useEffect(() => {
+    dispatch(
+      getEmployees({
+        privateAxios,
+        accessToken: user?.accessToken,
+      })
+    )
+  }, [id, dispatch])
 
+  useEffect(() => {
+    if (employees) {
+      // console.log("emp: ", employees)
+      const employee = employees.find((employee) => employee?.userId === user?._id);
+      if(employee){
+        setEmployee(employee)
+      }
+    }
+  }, [id, employees])
+
+  console.log("emp: ", isEmployee);
   useEffect(() => {
     if (user.role === 'hr') {
       dispatch(
@@ -219,7 +239,7 @@ function EmployeeProfile() {
                       {tab}
                     </li>
                   ))}
-                  {user?.role === "employee" && (
+                  {(user?.role === "employee") && (
                     <li
                       key="Attendance History"
                       className={`px-4 py-2 ml-6 cursor-pointer ${activeTab === "Attendance History" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
@@ -292,8 +312,7 @@ function EmployeeProfile() {
                 <div>
                   <h3 className="text-lg font-semibold">Documents Submitted</h3>
                   <div className="mt-4 flex items-center">
-                    <FaFilePdf className="text-red-500 text-2xl" />
-                    <p className="ml-2">PDF Document</p>
+                    <ShowDoc isEmployee={isEmployee}/>
                   </div>
                 </div>
               )}

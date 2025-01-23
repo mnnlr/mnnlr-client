@@ -27,7 +27,7 @@ function HRSideNav() {
         <div style={{ marginTop: '40px', alignItems: 'center' }}>
           <NavItem to="/hr-dashboard" icon={FaTachometerAlt}>HR Dashboard</NavItem>
           <NavItem to="/hr-dashboard/add-employee" icon={PersonAddIcon}>Add Employee</NavItem>
-          <NavItem to="/dashboard/holidays" icon={CalendarMonthIcon}>Holidays</NavItem>
+          <NavItem to="/hr-dashboard/holidays" icon={CalendarMonthIcon}>Holidays</NavItem>
         </div>
 
         <div className="dashbord-account-pages">

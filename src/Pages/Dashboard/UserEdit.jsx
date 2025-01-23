@@ -66,6 +66,7 @@ const EditEmployee = () => {
     const { name, value } = e.target;
     setEmployeeDetails((prev) => ({ ...prev, [name]: value }));
   };
+  console.log(employeePrevData)
 
   // Handle file uploads with size validation
   const handleFileChange = (event) => {

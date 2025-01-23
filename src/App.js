@@ -131,6 +131,7 @@ const App = () => {
 
             <Route path="add-employee" element={<AddEmployee />} />
             <Route path="review-leave/:id" element={<LeaveDashboard />} />
+            <Route path="holidays" element={<Holidays />} />
             <Route path="edit-employee/:id" element={<UserEdit />} />
           </Route>
         </Route>
