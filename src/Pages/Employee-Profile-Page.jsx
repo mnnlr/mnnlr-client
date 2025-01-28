@@ -96,10 +96,12 @@ function EmployeeProfile() {
   };
 
   useEffect(() => {
-    if (WeeklyandMonthlyAttendance?.today < 7.5 * 3600) {
-      const remainingSeconds = 7.5 * 3600 - WeeklyandMonthlyAttendance?.today;
+    if (WeeklyandMonthlyAttendance?.today < 8.5 * 3600) {
+      const remainingSeconds = 8.5 * 3600 - WeeklyandMonthlyAttendance?.today;
       const remainingHours = Math.floor(remainingSeconds / 3600);
-      const remainingMinutes = Math.floor((remainingSeconds % 3600) / 60);
+      const remainingMinutes = Math.floor((remainingSeconds % 3600) / 60)
+        .toString()
+        .padStart(2, "0");
       toast.custom((t) => (
         <div
           className={`${
@@ -138,10 +140,12 @@ function EmployeeProfile() {
           </div>
         </div>
       ));
-    } else if (WeeklyandMonthlyAttendance?.today >= 7.5 * 3600) {
+    } else if (WeeklyandMonthlyAttendance?.today >= 8.5 * 3600) {
       const completedSeconds = WeeklyandMonthlyAttendance?.today;
       const completedHours = Math.floor(completedSeconds / 3600);
-      const completedMinutes = Math.floor((completedSeconds % 3600) / 60);
+      const completedMinutes = Math.floor((completedSeconds % 3600) / 60)
+        .toString()
+        .padStart(2, "0");
       toast.custom((t) => (
         <div
           className={`${
