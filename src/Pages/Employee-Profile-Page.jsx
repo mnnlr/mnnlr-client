@@ -20,46 +20,58 @@ function EmployeeProfile() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user } = useSelector((state) => state.login);
   const { employee, isLoading } = useSelector((state) => state.employees);
-  const { WeeklyandMonthlyAttendance } = useSelector((state) => state.attendances);
+  const { WeeklyandMonthlyAttendance } = useSelector(
+    (state) => state.attendances,
+  );
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [isEmployee, setEmployee] = useState([]);
 
-  const { employees } = useSelector(
-    (state) => state.employees
-  );
+  const { employees } = useSelector((state) => state.employees);
 
   useEffect(() => {
     dispatch(
       getEmployees({
         privateAxios,
         accessToken: user?.accessToken,
-      })
-    )
-  }, [id, dispatch])
+      }),
+    );
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (employees) {
       // console.log("emp: ", employees)
-      const employee = employees.find((employee) => employee?.userId === user?._id);
+      const employee = employees.find(
+        (employee) => employee?.userId === user?._id,
+      );
       if (employee) {
-        setEmployee(employee)
+        setEmployee(employee);
       }
     }
-  }, [id, employees])
+  }, [id, employees]);
 
-  console.log("emp: ", isEmployee);
+  // console.log("emp: ", isEmployee);
   useEffect(() => {
-    if (user.role === 'hr') {
+    if (user.role === "hr") {
       dispatch(
-        getEmployeeById({ privateAxios, accessToken: user.accessToken, id: user._id })
+        getEmployeeById({
+          privateAxios,
+          accessToken: user.accessToken,
+          id: user._id,
+        }),
       );
     } else {
       dispatch(
-        getEmployeeById({ privateAxios, accessToken: user.accessToken, id })
+        getEmployeeById({ privateAxios, accessToken: user.accessToken, id }),
       );
     }
     if (user.role === "employee" || user.role === "hr") {
-      dispatch(employeeWeeklyandMonthlyAttendance({ privateAxios, accessToken: user.accessToken, id: user._id }));
+      dispatch(
+        employeeWeeklyandMonthlyAttendance({
+          privateAxios,
+          accessToken: user.accessToken,
+          id: user._id,
+        }),
+      );
     }
   }, [id, user.accessToken, dispatch, privateAxios]);
 
@@ -85,10 +97,14 @@ function EmployeeProfile() {
 
   useEffect(() => {
     if (WeeklyandMonthlyAttendance?.today < 7.5 * 3600) {
+      const remainingSeconds = 7.5 * 3600 - WeeklyandMonthlyAttendance?.today;
+      const remainingHours = Math.floor(remainingSeconds / 3600);
+      const remainingMinutes = Math.floor((remainingSeconds % 3600) / 60);
       toast.custom((t) => (
         <div
-          className={`${t.visible ? "animate-enter" : "animate-leave"
-            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
         >
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
@@ -101,10 +117,13 @@ function EmployeeProfile() {
               </div>
               <div className="ml-3 flex-1">
                 <p className="text-sm font-medium text-gray-900">
-                  {employee?.firstName} {employee?.lastName}, your working time is low today
+                  {employee?.firstName} {employee?.lastName}, your working time
+                  is low today
                 </p>
                 <p className="mt-1 text-sm text-gray-500">
-                  You need to complete more hours today.
+                  You need to complete
+                  {` ${remainingHours}:${remainingMinutes} `}
+                  remaining hours.
                 </p>
               </div>
             </div>
@@ -120,10 +139,14 @@ function EmployeeProfile() {
         </div>
       ));
     } else if (WeeklyandMonthlyAttendance?.today >= 7.5 * 3600) {
+      const completedSeconds = WeeklyandMonthlyAttendance?.today;
+      const completedHours = Math.floor(completedSeconds / 3600);
+      const completedMinutes = Math.floor((completedSeconds % 3600) / 60);
       toast.custom((t) => (
         <div
-          className={`${t.visible ? "animate-enter" : "animate-leave"
-            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
         >
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
@@ -136,10 +159,12 @@ function EmployeeProfile() {
               </div>
               <div className="ml-3 flex-1">
                 <p className="text-sm font-medium text-gray-900">
-                  {employee?.firstName} {employee?.lastName}, your working hours are completed
+                  {employee?.firstName} {employee?.lastName}, your working hours
+                  are completed
                 </p>
                 <p className="mt-1 text-sm text-gray-500">
-                  You have completed your required working hours for today.
+                  You have completed your required working hours
+                  {` ${completedHours}:${completedMinutes} `} for today.
                 </p>
               </div>
             </div>
@@ -178,9 +203,7 @@ function EmployeeProfile() {
                 </h3>
               </div>
 
-
-
-              {(user?.role === "employee" || user?.role === "hr")  && (
+              {(user?.role === "employee" || user?.role === "hr") && (
                 <button
                   onClick={() => navigate("/apply-leave")}
                   className="btn bg-custom-green text-white px-6 py-2 rounded-md mt-4 sm:mt-0 sm:ml-auto sm:justify-center sm:items-center"
@@ -194,7 +217,9 @@ function EmployeeProfile() {
               <p className="text-lg">{employee?.description}</p>
             </section>
 
-            <nav className={`tab-menu mb-6 ${isMobile ? "block" : "hidden sm:block"}`}>
+            <nav
+              className={`tab-menu mb-6 ${isMobile ? "block" : "hidden sm:block"}`}
+            >
               {isMobile ? (
                 <div className="relative">
                   <button
@@ -206,7 +231,12 @@ function EmployeeProfile() {
                   {dropdownOpen && (
                     <div className="absolute left-0 w-full bg-white shadow-md mt-2 rounded-md">
                       <ul>
-                        {["Personal Details", "Employee Info", "Documents Submitted", "Leaves"].map((tab) => (
+                        {[
+                          "Personal Details",
+                          "Employee Info",
+                          "Documents Submitted",
+                          "Leaves",
+                        ].map((tab) => (
                           <li
                             key={tab}
                             onClick={() => handleTabClick(tab)}
@@ -215,7 +245,7 @@ function EmployeeProfile() {
                             {tab}
                           </li>
                         ))}
-                        {(user?.role === "employee" || user?.role === "hr")  && (
+                        {(user?.role === "employee" || user?.role === "hr") && (
                           <li
                             key="Attendance History"
                             className={`px-4 py-2 cursor-pointer ${activeTab === "Attendance History" ? "bg-custom-green text-white" : ""}`}
@@ -230,7 +260,12 @@ function EmployeeProfile() {
                 </div>
               ) : (
                 <ul className="flex justify-between border-b-2 border-custom-green">
-                  {["Personal Details", "Employee Info", "Documents Submitted", "Leaves"].map((tab) => (
+                  {[
+                    "Personal Details",
+                    "Employee Info",
+                    "Documents Submitted",
+                    "Leaves",
+                  ].map((tab) => (
                     <li
                       key={tab}
                       className={`px-4 py-2 cursor-pointer ${activeTab === tab ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
@@ -322,7 +357,6 @@ function EmployeeProfile() {
                   {/* <h3 className="text-lg font-semibold">Leaves</h3>
                   <p>Leave information goes here.</p> */}
                   <EmpLeaveInfo />
-
                 </div>
               )}
 
@@ -337,30 +371,52 @@ function EmployeeProfile() {
                     </thead>
                     <tbody>
                       <tr className="border-t">
-                        <td className="px-4 py-2 font-bold text-sm">Total Working Hours Today</td>
-                        <td className="px-4 py-2 text-sm">{convertSecondsToHHMMSS(WeeklyandMonthlyAttendance?.today) || "00:00:00"}</td>
+                        <td className="px-4 py-2 font-bold text-sm">
+                          Total Working Hours Today
+                        </td>
+                        <td className="px-4 py-2 text-sm">
+                          {convertSecondsToHHMMSS(
+                            WeeklyandMonthlyAttendance?.today,
+                          ) || "00:00:00"}
+                        </td>
                       </tr>
 
                       <tr className="border-t">
-                        <td className="px-4 py-2 font-bold text-sm">Total Working Hours This Week</td>
-                        <td className="px-4 py-2 text-sm">{convertSecondsToHHMMSS(WeeklyandMonthlyAttendance?.thisWeek) || "00:00:00"}</td>
+                        <td className="px-4 py-2 font-bold text-sm">
+                          Total Working Hours This Week
+                        </td>
+                        <td className="px-4 py-2 text-sm">
+                          {convertSecondsToHHMMSS(
+                            WeeklyandMonthlyAttendance?.thisWeek,
+                          ) || "00:00:00"}
+                        </td>
                       </tr>
 
                       <tr className="border-t">
-                        <td className="px-4 py-2 font-bold text-sm">Total Working Hours This Month</td>
-                        <td className="px-4 py-2 text-sm">{convertSecondsToHHMMSS(WeeklyandMonthlyAttendance?.thisMonth) || "00:00:00"}</td>
+                        <td className="px-4 py-2 font-bold text-sm">
+                          Total Working Hours This Month
+                        </td>
+                        <td className="px-4 py-2 text-sm">
+                          {convertSecondsToHHMMSS(
+                            WeeklyandMonthlyAttendance?.thisMonth,
+                          ) || "00:00:00"}
+                        </td>
                       </tr>
 
                       <tr>
-                        <td className="px-4 py-2 font-bold text-sm">Total Working Hours Overall</td>
-                        <td className="px-4 py-2 text-sm">{convertSecondsToHHMMSS(WeeklyandMonthlyAttendance?.totalWorkingHours) || "00:00:00"}</td>
+                        <td className="px-4 py-2 font-bold text-sm">
+                          Total Working Hours Overall
+                        </td>
+                        <td className="px-4 py-2 text-sm">
+                          {convertSecondsToHHMMSS(
+                            WeeklyandMonthlyAttendance?.totalWorkingHours,
+                          ) || "00:00:00"}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
               )}
-
-
             </section>
 
             {user?.role === "admin" && (

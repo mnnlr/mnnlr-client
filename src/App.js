@@ -11,19 +11,19 @@ import AttendenceHistory from "./Pages/Dashboard/AttendanceHistory";
 
 import UserEdit from "./Pages/Dashboard/UserEdit";
 
-import SendRecoveryLink from './Pages/SendRecoveryLink';
-import PasswordRecover from './Pages/Recover-Password';
-import AddEmployee from './Pages/Dashboard/AddEmployee';
-import LeaveDashboard from './Pages/Dashboard/LeaveDashboard';
-import Loading from './component/Loading';
-import Career from './Pages/Career';
-import CareerForm from './component/CareerForm';
-import HrDashboardLayout from './Pages/HRDashboard/HrDashBoardLayout';
-import HrDashboard from './Pages/HRDashboard/HrDashboard';
-import HrLeaves from './Pages/HRDashboard/HrLeaves';
-import HrAttendence from './Pages/HRDashboard/HrAttendance';
-import HRPerformances from './Pages/HRDashboard/HRPerformance';
-import BestEmployee from './component/DashboardComponents/BestEmployee';
+import SendRecoveryLink from "./Pages/SendRecoveryLink";
+import PasswordRecover from "./Pages/Recover-Password";
+import AddEmployee from "./Pages/Dashboard/AddEmployee";
+import LeaveDashboard from "./Pages/Dashboard/LeaveDashboard";
+import Loading from "./component/Loading";
+import Career from "./Pages/Career";
+import CareerForm from "./component/CareerForm";
+import HrDashboardLayout from "./Pages/HRDashboard/HrDashBoardLayout";
+import HrDashboard from "./Pages/HRDashboard/HrDashboard";
+import HrLeaves from "./Pages/HRDashboard/HrLeaves";
+import HrAttendence from "./Pages/HRDashboard/HrAttendance";
+import HRPerformances from "./Pages/HRDashboard/HRPerformance";
+import BestEmployee from "./component/DashboardComponents/BestEmployee";
 
 const Login = lazy(() => import("./Pages/LogInSinUp"));
 const PageLayOut = lazy(() => import("./Pages/PageLayOut"));
@@ -95,18 +95,21 @@ const App = () => {
         <Route element={<ProtectedRoute allowedRole={["admin"]} />}>
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardHome />} />
-            <Route path='holidays' element={<Holidays />} />
-            <Route path='bestEmployees' element={<BestEmployee />} />
-            <Route path='profile' element={<DashboardProfile />} />
-            <Route path='track-leave' element={<TrackLeave />} />
-            <Route path='candidates-on-leave' element={<CandidatesOnLeave />} />
-            <Route path='new-applicants' element={<NewApplicants />} />
-            <Route path='review-applicant/:id' element={<ReviewApplicant />} />
-            <Route path='attendance' element={<Attendence />} />
-            <Route path='attendence-history/:id' element={<AttendenceHistory />} />
-            <Route path='performances' element={<Performances />} />
-            <Route path='user-profile/:id' element={<UserProfile />} />
-            <Route path='review-leave/:id' element={<LeaveDashboard />} />
+            <Route path="holidays" element={<Holidays />} />
+            <Route path="bestEmployees" element={<BestEmployee />} />
+            <Route path="profile" element={<DashboardProfile />} />
+            <Route path="track-leave" element={<TrackLeave />} />
+            <Route path="candidates-on-leave" element={<CandidatesOnLeave />} />
+            <Route path="new-applicants" element={<NewApplicants />} />
+            <Route path="review-applicant/:id" element={<ReviewApplicant />} />
+            <Route path="attendance" element={<Attendence />} />
+            <Route
+              path="attendence-history/:id"
+              element={<AttendenceHistory />}
+            />
+            <Route path="performances" element={<Performances />} />
+            <Route path="user-profile/:id" element={<UserProfile />} />
+            <Route path="review-leave/:id" element={<LeaveDashboard />} />
 
             <Route path="add-employee" element={<AddEmployee />} />
             <Route path="edit-employee/:id" element={<UserEdit />} />
