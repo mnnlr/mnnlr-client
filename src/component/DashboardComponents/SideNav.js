@@ -1,4 +1,5 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { FaProjectDiagram } from "react-icons/fa";
 import { NavLink, useLocation } from 'react-router-dom';
 import { FaTachometerAlt, FaUser, FaSignInAlt } from 'react-icons/fa';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -28,6 +29,7 @@ function SideNav() {
           <NavItem to="/dashboard" icon={FaTachometerAlt}>Dashboard</NavItem>
           <NavItem to="/dashboard/add-employee" icon={PersonAddIcon}>Add Employee</NavItem>
           <NavItem to="/dashboard/holidays" icon={CalendarMonthIcon}>Holidays</NavItem>
+          <NavItem to="/dashboard/workspace-info" icon={FaProjectDiagram}>Workspace Data</NavItem>
         </div>
 
         <div className="dashbord-account-pages">

@@ -24,6 +24,7 @@ import HrLeaves from "./Pages/HRDashboard/HrLeaves";
 import HrAttendence from "./Pages/HRDashboard/HrAttendance";
 import HRPerformances from "./Pages/HRDashboard/HRPerformance";
 import BestEmployee from "./component/DashboardComponents/BestEmployee";
+import { WorkspaceData } from "./Pages/Dashboard/WorkspaceData";
 
 const Login = lazy(() => import("./Pages/LogInSinUp"));
 const PageLayOut = lazy(() => import("./Pages/PageLayOut"));
@@ -111,6 +112,7 @@ const App = () => {
             <Route path="user-profile/:id" element={<UserProfile />} />
             <Route path="review-leave/:id" element={<LeaveDashboard />} />
 
+            <Route path="workspace-info" element={<WorkspaceData />} />
             <Route path="add-employee" element={<AddEmployee />} />
             <Route path="edit-employee/:id" element={<UserEdit />} />
           </Route>
