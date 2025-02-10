@@ -20,7 +20,9 @@ const TrackLeave = () => {
     status: '',
     duration: '',
   });
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [employesToshow, setemployesToshow] = useState(null);
 
   useEffect(() => {
     dispatch(getAllLeaveRequest({ accessToken: user?.accessToken, privateAxios }));
@@ -40,7 +42,7 @@ const TrackLeave = () => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
   };
 
-  const filteredLeaves = leaves?.filter((leave) => {
+  const filteredLeaves = employesToshow?.filter((leave) => {
     return (
       (filters.appliedDate ? leave.dateApplied === filters.appliedDate : true) &&
       (filters.type ? leave.leaveType === filters.type : true) &&
@@ -114,6 +116,8 @@ const TrackLeave = () => {
       <Table
         TableTitle={'Leave Requests'}
         TableHeaderData={["Employee", "Name", "Employee Id", "Applied date", "Type", "Status", "Duration", "ACTION"]}
+        employesToshow={leaves}
+        setemployesToshow={setemployesToshow}
       >
         <tbody>
           {filteredLeaves

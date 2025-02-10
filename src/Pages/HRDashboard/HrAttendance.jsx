@@ -16,6 +16,8 @@ const HrAttendence = () => {
   const { attendances } = useSelector((state) => state.attendances);
   const { employees } = useSelector((state) => state.employees);
   const [isEmp, setEmp] = useState(null);
+  const [employesToshow, setemployesToshow] = useState(null);
+
 
   // Fake attendance data for demonstration
   const attendanc = [
@@ -141,9 +143,11 @@ const HrAttendence = () => {
           "DURATION",
           "HISTORY",
         ]}
+        employesToshow={filteredAttendances}
+        setemployesToshow={setemployesToshow}
       >
         <tbody>
-          {filteredAttendances.map((Datum, index) => (
+          {employesToshow?.map((Datum, index) => (
             <tr key={index}>
               <td>
                 <div

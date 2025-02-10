@@ -14,6 +14,7 @@ const HrLeaves = () => {
   const privateAxios = useAxiosPrivate();
   const dispatch = useDispatch();
   const { isLoading, isEmpData, getEmpLeavesForHr } = useGetEmpLeavesForHr();
+  const [employesToshow, setemployesToshow] = useState(null);
 
   useEffect(() => {
     const fun = async () => {
@@ -75,9 +76,11 @@ const HrLeaves = () => {
             "Duration",
             "Action",
           ]}
+          employesToshow={data}
+        setemployesToshow={setemployesToshow}
         >
           <tbody>
-            {data
+            {employesToshow
               ?.sort(
                 (a, b) => new Date(b.dateApplied) - new Date(a.dateApplied),
               )

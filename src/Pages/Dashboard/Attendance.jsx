@@ -11,13 +11,14 @@ const Attendence = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.login);
   const { attendances } = useSelector((state) => state.attendances);
+ const [employesToshow, setemployesToshow] = useState(null);
+ 
   const dispatch = useDispatch();
   const privateAxios = useAxiosPrivate();
 
   const [filter, setFilter] = useState('present'); // State for filtering
-
-  // Filter the data based on the selected tab
-  const filteredAttendances = attendances?.filter(user => {
+console.log(attendances)
+  const filteredAttendances = employesToshow?.filter(user => {
     if (filter === 'present') return user.isActive === true;
     if (filter === 'absent') return user.isActive === false;
     return true; // For 'all'
@@ -78,6 +79,8 @@ const Attendence = () => {
           "DURATION",
           "HISTORY",
         ]}
+        employesToshow={attendances}
+        setemployesToshow={setemployesToshow}
       >
         <tbody>
           {filteredAttendances?.map((Datum, index) => (

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -15,6 +15,7 @@ const NewCandidates = () => {
     const dispatch = useDispatch();
     const privateAxios = useAxiosPrivate();
     const navigate = useNavigate();
+    const [employesToshow, setemployesToshow] = useState(null);
 
     const user = useSelector(state => state.login.user);
     const {newApplicants} = useSelector(state => state.Applicants);
@@ -29,9 +30,11 @@ const NewCandidates = () => {
        <Table 
         TableTitle={'New Applicants'}
         TableHeaderData={["Candidate","Name","PHONE NUMBER","INTERVIEW STATUS","SELECTION STATUS","ACTION"]}  
+        employesToshow={newApplicants}
+        setemployesToshow={setemployesToshow}
       >
         <tbody>
-            {newApplicants.map((newApplicant) => (
+            {employesToshow?.map((newApplicant) => (
               <tr key={newApplicant?._id} >
                 <td>
                   <div className="dashboard-table-info" >

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Table from '../../component/DashboardComponents/Table';
 import convertSecondsToHHMMSS from '../../utils/convertSecondsToHHMMSS';
@@ -10,6 +11,7 @@ const HRPerformances = () => {
     const navigate = useNavigate();
     const { user } = useSelector((state) => state.login);
     const { HrPerformance, loading, error } = useSelector((state) => state.attendances);
+    const [employesToshow, setemployesToshow] = useState(null);
 
     const dispatch = useDispatch();
     const privateAxios = useAxiosPrivate();
@@ -35,15 +37,17 @@ const HRPerformances = () => {
             <Table
                 TableTitle={'Attendance'}
                 TableHeaderData={["Employee", "Name", "Designation", "Employed On", "Employed"]}
+                employesToshow={employeePerformances}
+                setemployesToshow={setemployesToshow}
             >
                 <tbody>
-                    {employeePerformances.map((Datum, index) => (
+                    {employesToshow?.map((Datum, index) => (
                         <tr key={index}>
                             <td>
                                 <div className="dashboard-table-info" style={{ cursor: 'pointer' }} onClick={() => navigate('/dashboard/user-profile')}>
                                     <img
-                                        src={Datum.avatar.url}
-                                        alt={Datum.firstName}
+                                        src={Datum?.avatar?.url}
+                                        alt={Datum?.firstName}
                                         className="dashboard-author-avatar"
                                     />
                                 </div>

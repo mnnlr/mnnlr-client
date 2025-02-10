@@ -13,15 +13,16 @@ import Modal from "./DeleteModal";
 import useApi from "../../hooks/useApi";
 
 const EmployeeTable = () => {
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.login);
+    const { employees, totalEmployees } = useSelector((state) => state.employees);
     const privateAxios = useAxiosPrivate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [employeeToDelete, setEmployeeToDelete] = useState(null);
     const [updatingUserId, setUpdatingUserId] = useState(null);
-
-    const { user } = useSelector((state) => state.login);
-    const { employees, totalEmployees } = useSelector((state) => state.employees);
+    const [employesToshow, setemployesToshow] = useState(null);
 
     // console.log("user:", user);
     // console.log("emps:", employees);
@@ -145,10 +146,13 @@ const EmployeeTable = () => {
                     "Employed",
                     "ACTION",
                 ]}
+                employesToshow={employees}
+                setemployesToshow={setemployesToshow}
             >
+
                 <tbody>
-                    {employees?.length > 0 &&
-                        employees
+                    {employesToshow?.length > 0 &&
+                        employesToshow
                             ?.filter((empData) => {
                                 if (user?.role === "admin") {
                                     return true; // Admin can see all employees
