@@ -175,7 +175,11 @@ const EmployeeTable = () => {
                                             className="dashboard-table-info"
                                             style={{ cursor: "pointer" }}
                                             onClick={() =>
-                                                navigate(`/dashboard/user-profile/${empData?._id}`)
+                                                user.role === "admin"
+                                                    ? navigate(`/dashboard/user-profile/${empData?._id}`)
+                                                    : navigate(
+                                                        `/hr-dashboard/user-profile/${empData?._id}`,
+                                                    )
                                             }
                                         >
                                             <img

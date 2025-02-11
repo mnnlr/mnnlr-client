@@ -73,8 +73,8 @@ const HrAttendence = () => {
   const HrTeam =
     isEmp?.AssignedTeamsToHR.length > 0
       ? employees.filter((e) =>
-          isEmp?.AssignedTeamsToHR?.includes(e.employeeTeam),
-        )
+        isEmp?.AssignedTeamsToHR?.includes(e.employeeTeam),
+      )
       : [];
 
   // Filtering HR Team's Attendance
@@ -97,31 +97,28 @@ const HrAttendence = () => {
       <div className="flex justify-start mb-6">
         <div className="flex space-x-4 bg-gray-100 rounded-lg p-2 shadow-md">
           <button
-            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${
-              filter === "present"
+            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${filter === "present"
                 ? "bg-green-300 text-green-600"
                 : "bg-white text-gray-700 hover:bg-gray-200"
-            }`}
+              }`}
             onClick={() => setFilter("present")}
           >
             Present
           </button>
           <button
-            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${
-              filter === "absent"
+            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${filter === "absent"
                 ? "bg-red-300 text-red-600"
                 : "bg-white text-gray-700 hover:bg-gray-200"
-            }`}
+              }`}
             onClick={() => setFilter("absent")}
           >
             Absent
           </button>
           <button
-            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${
-              filter === "all"
+            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${filter === "all"
                 ? "bg-gray-800 text-white"
                 : "bg-white text-gray-700 hover:bg-gray-200"
-            }`}
+              }`}
             onClick={() => setFilter("all")}
           >
             All
@@ -195,11 +192,11 @@ const HrAttendence = () => {
               <td className="text-sm">
                 {Datum.attendance?.timeTracking?.length > 0
                   ? Datum.attendance.timeTracking[
+                    Datum.attendance.timeTracking.length - 1
+                  ].timeOut
+                    ? Datum.attendance.timeTracking[
                       Datum.attendance.timeTracking.length - 1
                     ].timeOut
-                    ? Datum.attendance.timeTracking[
-                        Datum.attendance.timeTracking.length - 1
-                      ].timeOut
                     : "working"
                   : "unavailable"}
               </td>

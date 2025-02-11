@@ -118,12 +118,12 @@ const App = () => {
           </Route>
         </Route>
 
-        {/* Manager and Admin Routes*/}
+        {/* Manager Routes*/}
         <Route
           element={<ProtectedRoute allowedRole={["admin", "manager"]} />}
         ></Route>
 
-        {/* HR, Manager and Admin Routes */}
+        {/* HR Routes */}
         <Route
           element={<ProtectedRoute allowedRole={["admin", "hr", "manager"]} />}
         >
@@ -133,6 +133,7 @@ const App = () => {
             <Route path="hr-attendance" element={<HrAttendence />} />
             <Route path="hr-leaves" element={<HrLeaves />} />
 
+            <Route path="user-profile/:id" element={<UserProfile />} />
             <Route path="add-employee" element={<AddEmployee />} />
             <Route path="review-leave/:id" element={<LeaveDashboard />} />
             <Route path="holidays" element={<Holidays />} />
