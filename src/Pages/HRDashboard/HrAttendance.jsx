@@ -18,7 +18,6 @@ const HrAttendence = () => {
   const [isEmp, setEmp] = useState(null);
   const [employesToshow, setemployesToshow] = useState(null);
 
-
   // Fake attendance data for demonstration
   const attendanc = [
     {
@@ -76,7 +75,6 @@ const HrAttendence = () => {
         isEmp?.AssignedTeamsToHR?.includes(e.employeeTeam),
       )
       : [];
-
   // Filtering HR Team's Attendance
   const HrTeamAttendance = attendances.filter((obj) =>
     HrTeam.some((member) => member.userId === obj.userId),
@@ -88,6 +86,10 @@ const HrAttendence = () => {
   const filteredAttendances = HrTeamAttendance?.filter((user) => {
     if (filter === "present") return user.isActive === true;
     if (filter === "absent") return user.isActive === false;
+    if (filter === "lateLogin")
+      return user.isMorningLate || user.isAfternoonLate;
+    if (filter === "earlyLogout")
+      return user.isMorningEarlyLogout || user.isAfternoonEarlyLogout;
     return true; // For 'all'
   });
 
@@ -114,6 +116,26 @@ const HrAttendence = () => {
           >
             Absent
           </button>
+          <div className="border border-gray-300"></div>
+          <button
+            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${filter === "lateLogin"
+                ? "bg-gray-300 text-gray-600"
+                : "bg-white text-gray-700 hover:bg-gray-200"
+              }`}
+            onClick={() => setFilter("lateLogin")}
+          >
+            Late Login
+          </button>
+          <button
+            className={`py-2 px-4 rounded-lg text-sm font-medium transition ${filter === "earlyLogout"
+                ? "bg-gray-300 text-gray-600"
+                : "bg-white text-gray-700 hover:bg-gray-200"
+              }`}
+            onClick={() => setFilter("earlyLogout")}
+          >
+            Early Logout
+          </button>
+          <div className="border border-gray-300"></div>
           <button
             className={`py-2 px-4 rounded-lg text-sm font-medium transition ${filter === "all"
                 ? "bg-gray-800 text-white"
@@ -178,11 +200,33 @@ const HrAttendence = () => {
                 <div className="text-sm">{Datum.designationLevel}</div>
               </td>
               <td>
-                <span
-                  className={`dashboard-status-badge ${Datum.isActive ? "online" : "offline"}`}
-                >
-                  {Datum.isActive ? "PRESENT" : "ABSENT"}
-                </span>
+                <div className="flex flex-col gap-1">
+                  <span
+                    className={`bg-green-200 text-green-700 rounded-lg inline-flex items-center  text-sm lg:text-md py-1 px-2 ${Datum.isActive ? "online" : "offline"}`}
+                  >
+                    {Datum.isActive ? "PRESENT" : "ABSENT"}
+                  </span>
+                  {Datum?.isMorningLate && (
+                    <span className="bg-gray-200 text-gray-700 rounded-lg inline-flex items-center text-sm lg:text-md py-1 px-2">
+                      LATE-LOGIN Morning
+                    </span>
+                  )}
+                  {Datum?.isAfternoonLate && (
+                    <span className="bg-gray-200 text-gray-700 dashboard-status-badge inline-flex items-center  text-sm lg:text-md py-1 px-2">
+                      LATE-LOGIN Afternoon
+                    </span>
+                  )}
+                  {Datum?.isMorningEarlyLogout && (
+                    <span className="bg-gray-200 text-gray-700 inline-flex items-center  text-sm lg:text-md py-1 px-2">
+                      EARLY-LOGOUT Morning
+                    </span>
+                  )}
+                  {Datum?.isAfternoonEarlyLogout && (
+                    <span className="bg-gray-200 text-gray-700 inline-flex items-center  text-sm lg:text-md py-1 px-2">
+                      EARLY-LOGOUT Afternoon
+                    </span>
+                  )}
+                </div>
               </td>
               <td className="text-sm">
                 {Datum.attendance

@@ -147,34 +147,33 @@ const Attendence = () => {
 
               {/* Attendance Status */}
               <td>
-                <span
-                  className={`dashboard-status-badge ${Datum?.isActive ? "online" : "offline"
-                    }`}
-                >
-                  {Datum?.isActive ? "PRESENT" : "ABSENT"}
-                </span>
-
-                {Datum?.isMorningLate && (
-                  <span className="bg-gray-200 text-gray-700 dashboard-status-badge">
-                    LATE-LOGIN Morning
+                <div className="flex flex-col gap-1">
+                  <span
+                    className={`bg-green-200 text-green-700 rounded-lg inline-flex items-center  text-sm lg:text-md py-1 px-2 ${Datum.isActive ? "online" : "offline"}`}
+                  >
+                    {Datum.isActive ? "PRESENT" : "ABSENT"}
                   </span>
-                )}
-                {Datum?.isAfternoonLate && (
-                  <span className="bg-gray-200 text-gray-700 dashboard-status-badge">
-                    LATE-LOGIN Afternoon
-                  </span>
-                )}
-
-                {Datum?.isMorningEarlyLogout && (
-                  <span className="dashboard-status-badge">
-                    EARLY-LOGOUT Morning
-                  </span>
-                )}
-                {Datum?.isAfternoonEarlyLogout && (
-                  <span className="dashboard-status-badge">
-                    EARLY-LOGOUT Afternoon
-                  </span>
-                )}
+                  {Datum?.isMorningLate && (
+                    <span className="bg-gray-200 text-gray-700 rounded-lg inline-flex items-center text-sm lg:text-md py-1 px-2">
+                      LATE-LOGIN Morning
+                    </span>
+                  )}
+                  {Datum?.isAfternoonLate && (
+                    <span className="bg-gray-200 text-gray-700 dashboard-status-badge inline-flex items-center  text-sm lg:text-md py-1 px-2">
+                      LATE-LOGIN Afternoon
+                    </span>
+                  )}
+                  {Datum?.isMorningEarlyLogout && (
+                    <span className="bg-gray-200 text-gray-700 inline-flex items-center  text-sm lg:text-md py-1 px-2">
+                      EARLY-LOGOUT Morning
+                    </span>
+                  )}
+                  {Datum?.isAfternoonEarlyLogout && (
+                    <span className="bg-gray-200 text-gray-700 inline-flex items-center  text-sm lg:text-md py-1 px-2">
+                      EARLY-LOGOUT Afternoon
+                    </span>
+                  )}
+                </div>
               </td>
 
               {/* Time Tracking */}
