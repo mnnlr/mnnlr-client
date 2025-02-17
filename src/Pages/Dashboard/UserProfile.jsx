@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-// import LightModeIcon from "@mui/icons-material/LightMode";
-// import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import {
   FaPhone,
   FaEnvelope,
@@ -13,16 +13,13 @@ import {
 import { LineChart, Line } from "recharts";
 import "../../css/DashboardCss/UserProfile.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getEmployeeById,
-  getEmployees,
-} from "../../redux/actions/EmployeeAction";
+import { getEmployeeById } from "../../redux/actions/EmployeeAction";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { IoLogIn } from "react-icons/io5";
 import { BiSolidLogOut } from "react-icons/bi";
 import {
   getAttendanceById,
-  // getTotalworkingHours,
+  getTotalworkingHours,
 } from "../../redux/actions/AttendanceAction";
 import AttendenceHistoryTable from "../../component/DashboardComponents/AttendanceHistoryTable";
 import EmployeePerformance from "./EmployeePerformance";
@@ -45,17 +42,16 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const privateAxios = useAxiosPrivate();
 
-  // const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("light");
 
-  // const toggleTheme = () => {
-  //   const newTheme = theme === "light" ? "dark" : "light";
-  //   setTheme(newTheme);
-  //   document.documentElement.setAttribute("data-theme", newTheme);
-  // };
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
 
   const { user } = useSelector((state) => state.login);
   const { employee } = useSelector((state) => state.employees);
-  // const { employees } = useSelector((state) => state.employees);
 
   const { attendance } = useSelector((state) => state.attendances);
   // console.log("attendance",attendance);
@@ -64,7 +60,6 @@ const UserProfile = () => {
     dispatch(
       getEmployeeById({ privateAxios, accessToken: user.accessToken, id }),
     );
-    // dispatch(getEmployees({ privateAxios, accessToken: user.accessToken }));
   }, [id]);
   useEffect(() => {
     dispatch(
@@ -78,11 +73,13 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile">
-      {/*
-      <div style={{cursor:'pointer'}}>
-        {theme === 'light' ?<LightModeIcon onClick={toggleTheme} />:<DarkModeIcon onClick={toggleTheme} />}
+      <div style={{ cursor: "pointer" }}>
+        {theme === "light" ? (
+          <LightModeIcon onClick={toggleTheme} />
+        ) : (
+          <DarkModeIcon onClick={toggleTheme} />
+        )}
       </div>
-      */}
 
       {/* <header className="header">
         <h1 className="header-title">Good Morning, Harish</h1>

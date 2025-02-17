@@ -50,7 +50,8 @@ const Table = ({
         setFilteredEmployees(filteredUsers);
     }, [searchquery, employesToshow]);
 
-    if (filteredEmployees) setemployesToshow(filteredEmployees);
+    if (filteredEmployees && setemployesToshow)
+        setemployesToshow(filteredEmployees);
 
     return (
         <div className="dashboard-table-container">

@@ -117,9 +117,12 @@ const Attendence = () => {
               <td>
                 <div
                   className="dashboard-table-info cursor-pointer"
-                  onClick={() =>
-                    navigate(`/dashboard/user-profile/${Datum?._id}`)
-                  }
+                  onClick={() => {
+                    if (user?.role === "admin")
+                      navigate(`/dashboard/user-profile/${Datum?._id}`);
+                    if (user?.role === "hr")
+                      navigate(`/dashboard/user-profile/${Datum?._id}`);
+                  }}
                 >
                   <img
                     src={Datum?.avatar?.url}
