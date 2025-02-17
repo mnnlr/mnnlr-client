@@ -103,9 +103,8 @@ const Table = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {employees?.map((employee, index) => (
             <EmployeeCard
-
               key={index}
-              id={employee._id}
+              id={employee.userId}
               img={employee?.avatar?.url || 'path/to/default/avatar.png'} // Fallback to default image
               name={`${employee.firstName} ${employee.lastName}`}
               designation={employee.designation}

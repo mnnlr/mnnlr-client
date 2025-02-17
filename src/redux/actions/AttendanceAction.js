@@ -99,9 +99,10 @@ const employeeWeeklyandMonthlyAttendance=createAsyncThunk(
                     "Authorization": `Bearer ${Parameter?.accessToken}`,
                 },
             });
-            // console.log('employeeWeeklyandMonthlyAttendance data : ',data);
+            console.log('employeeWeeklyandMonthlyAttendance data : ',data);
             return data?.data;
         } catch (error) {
+            //  console.log('employeeWeeklyandMonthlyAttendance data : ',error);
             return rejectWithValue(error.response.data.message);
         }
     }

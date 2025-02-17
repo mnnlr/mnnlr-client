@@ -18,6 +18,7 @@ const Login = () => {
 
   useEffect( () =>{
     if(!isLoading&&user?._id){
+      sessionStorage.removeItem("timeData");  // remove time from sessionStorage when user logout
       return navigate(from, { replace: true });
     }
     if(!isLoading&&error){

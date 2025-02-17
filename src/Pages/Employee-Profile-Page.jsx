@@ -26,6 +26,12 @@ function EmployeeProfile() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [isEmployee, setEmployee] = useState([]);
 
+  //for if user is first time login means sessionstorage time is empty then get time from backend from backend
+  const [timeData, setTimeData] = useState(() => {
+    const savedTimeData = sessionStorage.getItem("timeData");
+    return savedTimeData ? JSON.parse(savedTimeData) : null;
+  });
+
   const { employees } = useSelector((state) => state.employees);
 
   useEffect(() => {
@@ -63,13 +69,33 @@ function EmployeeProfile() {
       dispatch(
         getEmployeeById({ privateAxios, accessToken: user.accessToken, id }),
       );
+
     }
     if (user.role === "employee" || user.role === "hr") {
       dispatch(
         employeeWeeklyandMonthlyAttendance({
           privateAxios,
           accessToken: user.accessToken,
-          id: user._id,
+          id: user._id
+        }),
+      );
+    }
+
+    if (user.role === "admin") {
+      dispatch(
+        employeeWeeklyandMonthlyAttendance({
+          privateAxios,
+          accessToken: user.accessToken,
+          id: id
+        }),
+      );
+    }
+    else {
+      dispatch(
+        employeeWeeklyandMonthlyAttendance({
+          privateAxios,
+          accessToken: user.accessToken,
+          id: user._id
         }),
       );
     }
@@ -96,95 +122,114 @@ function EmployeeProfile() {
   };
 
   useEffect(() => {
-    if (WeeklyandMonthlyAttendance?.today < 8.5 * 3600) {
-      const remainingSeconds = 8.5 * 3600 - WeeklyandMonthlyAttendance?.today;
-      const remainingHours = Math.floor(remainingSeconds / 3600);
-      const remainingMinutes = Math.floor((remainingSeconds % 3600) / 60)
-        .toString()
-        .padStart(2, "0");
-      toast.custom((t) => (
-        <div
-          className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-        >
-          <div className="flex-1 w-0 p-4">
-            <div className="flex items-start">
-              <div className="flex-shrink-0 pt-0.5">
-                <img
-                  className="h-10 w-10 rounded-full"
-                  src={employee?.avatar?.url}
-                  alt={employee?.firstName}
-                />
-              </div>
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-gray-900">
-                  {employee?.firstName} {employee?.lastName}, your working time
-                  is low today
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  You need to complete
-                  {` ${remainingHours}:${remainingMinutes} `}
-                  remaining hours.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex border-l border-gray-200">
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      ));
-    } else if (WeeklyandMonthlyAttendance?.today >= 8.5 * 3600) {
-      const completedSeconds = WeeklyandMonthlyAttendance?.today;
-      const completedHours = Math.floor(completedSeconds / 3600);
-      const completedMinutes = Math.floor((completedSeconds % 3600) / 60)
-        .toString()
-        .padStart(2, "0");
-      toast.custom((t) => (
-        <div
-          className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-        >
-          <div className="flex-1 w-0 p-4">
-            <div className="flex items-start">
-              <div className="flex-shrink-0 pt-0.5">
-                <img
-                  className="h-10 w-10 rounded-full"
-                  src={employee?.avatar?.url}
-                  alt={employee?.firstName}
-                />
-              </div>
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-gray-900">
-                  {employee?.firstName} {employee?.lastName}, your working hours
-                  are completed
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  You have completed your required working hours
-                  {` ${completedHours}:${completedMinutes} `} for today.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex border-l border-gray-200">
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      ));
+
+    if (!sessionStorage.getItem("timeData") && WeeklyandMonthlyAttendance) {
+      console.log("time get from redux")
+      setTimeData(WeeklyandMonthlyAttendance)
     }
-  }, [WeeklyandMonthlyAttendance?.today, employee]);
+  }, [WeeklyandMonthlyAttendance]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const updatedTimeData = sessionStorage.getItem("timeData");
+      if (updatedTimeData) {
+        setTimeData(JSON.parse(updatedTimeData));
+      }
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, [])
+console.log(timeData)
+  useEffect(() => {
+    if (user.role !== "admin") {
+      if (timeData?.today < 8.5 * 3600) {
+        const remainingSeconds = 8.5 * 3600 - timeData?.today;
+        const remainingHours = Math.floor(remainingSeconds / 3600);
+        const remainingMinutes = Math.floor((remainingSeconds % 3600) / 60)
+          .toString()
+          .padStart(2, "0");
+        toast.custom((t) => (
+          <div
+            className={`${t.visible ? "animate-enter" : "animate-leave"
+              } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          >
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <img
+                    className="h-10 w-10 rounded-full"
+                    src={employee?.avatar?.url}
+                    alt={employee?.firstName}
+                  />
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    {employee?.firstName} {employee?.lastName}, your working time
+                    is low today
+                  </p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    You need to complete
+                    {` ${remainingHours}:${remainingMinutes} `}
+                    remaining hours.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-gray-200">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        ));
+      } else if (timeData?.today >= 8.5 * 3600) {
+        const completedSeconds = timeData?.today;
+        const completedHours = Math.floor(completedSeconds / 3600);
+        const completedMinutes = Math.floor((completedSeconds % 3600) / 60)
+          .toString()
+          .padStart(2, "0");
+        toast.custom((t) => (
+          <div
+            className={`${t.visible ? "animate-enter" : "animate-leave"
+              } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          >
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <img
+                    className="h-10 w-10 rounded-full"
+                    src={employee?.avatar?.url}
+                    alt={employee?.firstName}
+                  />
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    {employee?.firstName} {employee?.lastName}, your working hours
+                    are completed
+                  </p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    You have completed your required working hours
+                    {` ${completedHours}:${completedMinutes} `} for today.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-gray-200">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        ));
+      }
+    }
+  }, []);
 
   const joiningDate = employee?.dateofjoining
     ? new Date(employee.dateofjoining).toDateString()
@@ -249,7 +294,7 @@ function EmployeeProfile() {
                             {tab}
                           </li>
                         ))}
-                        {(user?.role === "employee" || user?.role === "hr") && (
+                        {(user?.role === "employee" || user?.role === "hr" || user?.role === "admin") && (
                           <li
                             key="Attendance History"
                             className={`px-4 py-2 cursor-pointer ${activeTab === "Attendance History" ? "bg-custom-green text-white" : ""}`}
@@ -278,7 +323,7 @@ function EmployeeProfile() {
                       {tab}
                     </li>
                   ))}
-                  {(user?.role === "employee" || user?.role === "hr") && (
+                  {(user?.role === "employee" || user?.role === "hr" || user?.role === "admin") && (
                     <li
                       key="Attendance History"
                       className={`px-4 py-2 ml-6 cursor-pointer ${activeTab === "Attendance History" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
@@ -374,25 +419,45 @@ function EmployeeProfile() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="border-t">
-                        <td className="px-4 py-2 font-bold text-sm">
-                          Total Working Hours Today
-                        </td>
-                        <td className="px-4 py-2 text-sm">
-                          {convertSecondsToHHMMSS(
-                            WeeklyandMonthlyAttendance?.today,
-                          ) || "00:00:00"}
-                        </td>
-                      </tr>
+                      {user.role !== "admin" && (
+                        <tr className="border-t">
+                          <td className="px-4 py-2 font-bold text-sm">
+                            Today's Remaining time
+                          </td>
+                          <td className="px-4 py-2 text-sm">
+                            {timeData?.today !== undefined && 30600 - timeData.today > 0
+                              ? convertSecondsToHHMMSS(30600 - timeData.today) || "00:00:00"
+                              : "Completed"}
+                          </td>
 
+                        </tr>
+                      )}
+                      {user.role !== "admin" && (
+
+                        <tr className="border-t">
+                          <td className="px-4 py-2 font-bold text-sm">
+                            Total Working Hours Today
+                          </td>
+                          <td className="px-4 py-2 text-sm">
+                            {convertSecondsToHHMMSS(
+                              timeData?.today,
+                            ) || "00:00:00"}
+                          </td>
+                        </tr>
+                      )}
                       <tr className="border-t">
                         <td className="px-4 py-2 font-bold text-sm">
                           Total Working Hours This Week
                         </td>
                         <td className="px-4 py-2 text-sm">
-                          {convertSecondsToHHMMSS(
+                        {user.role === "admin"?
+                          convertSecondsToHHMMSS(
                             WeeklyandMonthlyAttendance?.thisWeek,
-                          ) || "00:00:00"}
+                          ) || "00:00:00"
+                          : convertSecondsToHHMMSS(
+                            timeData?.thisWeek,
+                          ) || "00:00:00"
+                        }
                         </td>
                       </tr>
 
@@ -401,20 +466,30 @@ function EmployeeProfile() {
                           Total Working Hours This Month
                         </td>
                         <td className="px-4 py-2 text-sm">
-                          {convertSecondsToHHMMSS(
+                        {user.role === "admin"?
+                          convertSecondsToHHMMSS(
                             WeeklyandMonthlyAttendance?.thisMonth,
-                          ) || "00:00:00"}
+                          ) || "00:00:00"
+                          : convertSecondsToHHMMSS(
+                            timeData?.thisMonth,
+                          ) || "00:00:00"
+                        }
                         </td>
                       </tr>
 
-                      <tr>
+                      <tr className="border-t">
                         <td className="px-4 py-2 font-bold text-sm">
                           Total Working Hours Overall
                         </td>
                         <td className="px-4 py-2 text-sm">
-                          {convertSecondsToHHMMSS(
+                          {user.role === "admin"?
+                          convertSecondsToHHMMSS(
                             WeeklyandMonthlyAttendance?.totalWorkingHours,
-                          ) || "00:00:00"}
+                          ) || "00:00:00"
+                          : convertSecondsToHHMMSS(
+                            timeData?.totalWorkingHours,
+                          ) || "00:00:00"
+                        }
                         </td>
                       </tr>
                     </tbody>

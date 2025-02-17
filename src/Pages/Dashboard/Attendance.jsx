@@ -17,8 +17,6 @@ const Attendence = () => {
   const privateAxios = useAxiosPrivate();
 
   const [filter, setFilter] = useState("present"); // State for filtering
-  // console.log(attendances);
-
   const filteredAttendances = employesToshow?.filter((user) => {
     if (filter === "present") return user.isActive === true;
     if (filter === "absent") return user.isActive === false;
@@ -33,8 +31,6 @@ const Attendence = () => {
   useEffect(() => {
     dispatch(getAttendance({ privateAxios, accessToken: user.accessToken }));
   }, [dispatch, privateAxios]);
-
-  // console.log(attendances);
 
   return (
     <div style={{ marginTop: "30px" }}>

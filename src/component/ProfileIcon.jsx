@@ -37,6 +37,7 @@ const ProfileIcon = () => {
     const handleLogOut = () => {
         setAnchorEl(null);
         dispatch(logOutUser());
+        sessionStorage.removeItem("timeData")
     }
 
     const { user } = useSelector(state => state.login);
