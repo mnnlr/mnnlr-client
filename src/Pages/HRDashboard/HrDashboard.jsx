@@ -27,6 +27,7 @@ import convertSecondsToHHMMSS from "../../utils/convertSecondsToHHMMSS";
 import { getAllLeaveRequest } from "../../redux/actions/LeaveActions";
 import { getEmployees } from "../../redux/actions/EmployeeAction";
 import { useGetEmpLeavesForHr } from "../../hooks/useGetEmpLeavesForHr";
+import { getHrTeamMembers } from "../../redux/actions/HrActions";
 
 // Register chart elements
 ChartJS.register(
@@ -47,17 +48,16 @@ const HrDashboard = () => {
   const privateAxios = useAxiosPrivate();
 
   const { user } = useSelector((state) => state.login);
-  const { HrAttendance } = useSelector((state) => state.attendances);
-  const { employees } = useSelector((state) => state.employees);
+  // const { HrAttendance } = useSelector((state) => state.attendances);
+  // const { employees } = useSelector((state) => state.employees);
   const { HrPerformance } = useSelector((state) => state.attendances);
   const { attendances } = useSelector((state) => state.attendances);
   const { leaves } = useSelector((state) => state.leaves);
-
+  const {teamMembers}=useSelector((state)=>state.Hrteams)
+  console.log(teamMembers);
   const { isLoading, isEmpData, getEmpLeavesForHr } = useGetEmpLeavesForHr();
-
-  const [isEmp, setEmp] = useState(null);
-  const [isHrTeamPresent, setHrTeamPresent] = useState([]);
-
+  // const [isEmp, setEmp] = useState(null);
+console.log(teamMembers)
   useEffect(() => {
     // Normally, you would dispatch an action to get real data
     dispatch(
@@ -68,6 +68,9 @@ const HrDashboard = () => {
     dispatch(
       getHrPerformance({ privateAxios, accessToken: user?.accessToken }),
     );
+    dispatch(
+      getHrTeamMembers({privateAxios, accessToken: user?.accessToken,id:user?._id})
+    )
   }, [dispatch, privateAxios]);
 
   useEffect(() => {
@@ -76,34 +79,26 @@ const HrDashboard = () => {
     );
   }, [user?.accessToken]);
 
-  useEffect(() => {
-    if (!employees) {
-      dispatch(getEmployees({ accessToken: user.accessToken, privateAxios }));
-    } else {
-      const foundEmp = employees.find((e) => e.userId === user._id);
-      setEmp(foundEmp || null);
-    }
-  }, [employees, user.accessToken, dispatch, privateAxios]);
+  // useEffect(() => {
+  //   if (!employees) {
+  //     dispatch(getEmployees({ accessToken: user.accessToken, privateAxios }));
+  //   } else {
+  //     const foundEmp = employees.find((e) => e.userId === user._id);
+  //     setEmp(foundEmp || null);
+  //   }
+  // }, [employees, user.accessToken, dispatch, privateAxios]);
 
   const hr = attendances.length;
 
-  // Filtering HR Team
-  const HrTeam =
-    isEmp?.AssignedTeamsToHR.length > 0
-      ? employees.filter((e) =>
-          isEmp?.AssignedTeamsToHR?.includes(e.employeeTeam),
-        )
-      : [];
-
   // Filtering HR Team's Attendance
-  const HrTeamAttendance = HrTeam.filter(
+  const HrTeamAttendance = teamMembers.Employees?.filter(
     (member) =>
       attendances.some((obj) => obj.userId === member.userId && obj.isActive), // Ensure both conditions match for the same object
   );
 
   // Filtering HR Team's leaves
-  const HrTeamLeaves = leaves.filter((leave) =>
-    HrTeam.some((obj) => leave.email === obj.email),
+  const HrTeamLeaves = leaves?.filter((leave) =>
+    teamMembers.Employees?.some((obj) => leave.email === obj.email),
   );
 
   useEffect(() => {
@@ -114,10 +109,6 @@ const HrDashboard = () => {
       fun();
     }
   }, [privateAxios]);
-
-  const present = HrAttendance.filter((attendance) => attendance.isActive) || (
-    <p>calculating...</p>
-  );
 
   const salaryData = {
     labels: ["January", "February", "March", "April", "May"],
@@ -176,10 +167,10 @@ const HrDashboard = () => {
                     Total Employees in Team
                   </div>
                   <div className="text-xl font-extrabold text-white">
-                    {!isEmp
+                    {!teamMembers.Employees
                       ? "Loading..."
-                      : isEmp?.AssignedTeamsToHR.length > 0
-                        ? HrTeam?.length
+                      :  teamMembers.Employees?.length> 0
+                        ? teamMembers.Employees?.length
                         : "No team assigned to you."}
                   </div>
                 </div>
@@ -200,9 +191,10 @@ const HrDashboard = () => {
                     Present Team employees
                   </div>
                   <div className="text-xl font-extrabold text-white">
-                    {!isEmp
+                    {console.log(teamMembers)}
+                    {!teamMembers?.Employees
                       ? "Loading..."
-                      : isEmp?.AssignedTeamsToHR.length > 0
+                      : HrTeamAttendance?.length > 0
                         ? HrTeamAttendance?.length
                         : "No team assigned to you."}
                   </div>
@@ -222,9 +214,9 @@ const HrDashboard = () => {
                 <div>
                   <div className="text-gray-500 font-bold">Leaves</div>
                   <div className="text-xl font-bold">
-                    {!isEmp
+                    {!teamMembers?.Employees
                       ? "Loading..."
-                      : isEmp?.AssignedTeamsToHR.length > 0
+                      : HrTeamLeaves?.length > 0
                         ? HrTeamLeaves?.length
                         : "No team assigned to you."}
                   </div>
@@ -246,9 +238,9 @@ const HrDashboard = () => {
                     Performance
                   </div>
                   <div className="text-sm font-extrabold text-white">
-                    {!isEmp
+                    {!teamMembers.Employees
                       ? "Loading..."
-                      : isEmp?.AssignedTeamsToHR.length > 0
+                      : teamMembers?.Employees.length > 0
                         ? convertSecondsToHHMMSS(
                             HrPerformance?.totalWorkingTimeOfAllEmployee,
                           )

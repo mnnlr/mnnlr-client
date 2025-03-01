@@ -4,8 +4,8 @@ function convertSecondsToHHMMSS(seconds) {
   const remainingSeconds = seconds % 60;
 
   // Return a formatted string like "HH:MM:SS" and also include the text "hrs", "min", "sec"
-  // return `${hours} hrs ${minutes} min ${remainingSeconds} sec`;
-  return `${hours} hrs ${minutes} min`;
+  return `${hours} hrs ${minutes} min ${remainingSeconds} sec`;
+  // return `${hours} hrs ${minutes} min`;
 
 }
 

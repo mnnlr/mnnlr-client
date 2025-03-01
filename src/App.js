@@ -77,7 +77,7 @@ const App = () => {
           >
             <Route path="employees" element={<Employees />} />
           </Route>
-          <Route element={<ProtectedRoute allowedRole={["employee"]} />}>
+          <Route element={<ProtectedRoute allowedRole={["employee","hr"]} />}>
             <Route path="apply-leave" element={<ApplyLeave />} />
           </Route>
 

@@ -27,10 +27,10 @@ function EmployeeProfile() {
   const [isEmployee, setEmployee] = useState([]);
 
   //for if user is first time login means sessionstorage time is empty then get time from backend from backend
-  const [timeData, setTimeData] = useState(() => {
-    const savedTimeData = sessionStorage.getItem("timeData");
-    return savedTimeData ? JSON.parse(savedTimeData) : null;
-  });
+  // const [timeData, setTimeData] = useState(() => {
+  //   const savedTimeData = sessionStorage.getItem("timeData");
+  //   return savedTimeData ? JSON.parse(savedTimeData) : null;
+  // });
 
   const { employees } = useSelector((state) => state.employees);
 
@@ -45,15 +45,15 @@ function EmployeeProfile() {
 
   useEffect(() => {
     if (employees) {
-      // console.log("emp: ", employees)
-      const employee = employees.find(
-        (employee) => employee?.userId === user?._id,
-      );
+      const userId = user.role === "admin" ? id : user._id;
+      const employee = employees.find((employee) => employee?.userId === userId);
+  
+      console.log(employee);
       if (employee) {
         setEmployee(employee);
       }
     }
-  }, [id, employees]);
+  }, [id, employees]); // Added `user` dependency to avoid stale values
 
   // console.log("emp: ", isEmployee);
   useEffect(() => {
@@ -120,30 +120,11 @@ function EmployeeProfile() {
     setActiveTab(tabName);
     setDropdownOpen(false);
   };
-
-  useEffect(() => {
-
-    if (!sessionStorage.getItem("timeData") && WeeklyandMonthlyAttendance) {
-      console.log("time get from redux")
-      setTimeData(WeeklyandMonthlyAttendance)
-    }
-  }, [WeeklyandMonthlyAttendance]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const updatedTimeData = sessionStorage.getItem("timeData");
-      if (updatedTimeData) {
-        setTimeData(JSON.parse(updatedTimeData));
-      }
-    }, 60000); // Update every minute
-
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, [])
-console.log(timeData)
+  
   useEffect(() => {
     if (user.role !== "admin") {
-      if (timeData?.today < 8.5 * 3600) {
-        const remainingSeconds = 8.5 * 3600 - timeData?.today;
+      if ( WeeklyandMonthlyAttendance?.today < 8.5 * 3600) {
+        const remainingSeconds = 8.5 * 3600 -  WeeklyandMonthlyAttendance?.today;
         const remainingHours = Math.floor(remainingSeconds / 3600);
         const remainingMinutes = Math.floor((remainingSeconds % 3600) / 60)
           .toString()
@@ -185,8 +166,8 @@ console.log(timeData)
             </div>
           </div>
         ));
-      } else if (timeData?.today >= 8.5 * 3600) {
-        const completedSeconds = timeData?.today;
+      } else if ( WeeklyandMonthlyAttendance?.today >= 8.5 * 3600) {
+        const completedSeconds =  WeeklyandMonthlyAttendance?.today;
         const completedHours = Math.floor(completedSeconds / 3600);
         const completedMinutes = Math.floor((completedSeconds % 3600) / 60)
           .toString()
@@ -323,7 +304,7 @@ console.log(timeData)
                       {tab}
                     </li>
                   ))}
-                  {(user?.role === "employee" || user?.role === "hr" || user?.role === "admin") && (
+                  {(user?.role === "employee" || user?.role === "hr") && (
                     <li
                       key="Attendance History"
                       className={`px-4 py-2 ml-6 cursor-pointer ${activeTab === "Attendance History" ? "text-custom-green border-b-2 border-custom-green font-bold" : ""}`}
@@ -425,38 +406,32 @@ console.log(timeData)
                             Today's Remaining time
                           </td>
                           <td className="px-4 py-2 text-sm">
-                            {timeData?.today !== undefined && 30600 - timeData.today > 0
-                              ? convertSecondsToHHMMSS(30600 - timeData.today) || "00:00:00"
+                            { WeeklyandMonthlyAttendance?.today !== undefined && 30600 -  WeeklyandMonthlyAttendance.today > 0
+                              ? convertSecondsToHHMMSS(30600 -  WeeklyandMonthlyAttendance?.today) || "00:00:00"
                               : "Completed"}
                           </td>
 
                         </tr>
                       )}
-                      {user.role !== "admin" && (
-
                         <tr className="border-t">
                           <td className="px-4 py-2 font-bold text-sm">
                             Total Working Hours Today
                           </td>
                           <td className="px-4 py-2 text-sm">
                             {convertSecondsToHHMMSS(
-                              timeData?.today,
+                               WeeklyandMonthlyAttendance?.today,
                             ) || "00:00:00"}
                           </td>
                         </tr>
-                      )}
                       <tr className="border-t">
                         <td className="px-4 py-2 font-bold text-sm">
                           Total Working Hours This Week
                         </td>
                         <td className="px-4 py-2 text-sm">
-                        {user.role === "admin"?
+                          {
                           convertSecondsToHHMMSS(
                             WeeklyandMonthlyAttendance?.thisWeek,
-                          ) || "00:00:00"
-                          : convertSecondsToHHMMSS(
-                            timeData?.thisWeek,
-                          ) || "00:00:00"
+                          )
                         }
                         </td>
                       </tr>
@@ -466,13 +441,10 @@ console.log(timeData)
                           Total Working Hours This Month
                         </td>
                         <td className="px-4 py-2 text-sm">
-                        {user.role === "admin"?
+                        {
                           convertSecondsToHHMMSS(
                             WeeklyandMonthlyAttendance?.thisMonth,
-                          ) || "00:00:00"
-                          : convertSecondsToHHMMSS(
-                            timeData?.thisMonth,
-                          ) || "00:00:00"
+                          )
                         }
                         </td>
                       </tr>
@@ -482,13 +454,10 @@ console.log(timeData)
                           Total Working Hours Overall
                         </td>
                         <td className="px-4 py-2 text-sm">
-                          {user.role === "admin"?
+                          {
                           convertSecondsToHHMMSS(
                             WeeklyandMonthlyAttendance?.totalWorkingHours,
-                          ) || "00:00:00"
-                          : convertSecondsToHHMMSS(
-                            timeData?.totalWorkingHours,
-                          ) || "00:00:00"
+                          ) 
                         }
                         </td>
                       </tr>

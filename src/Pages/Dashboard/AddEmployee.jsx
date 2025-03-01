@@ -15,7 +15,36 @@ const AddEmployee = () => {
         previewUrl:
             "https://t4.ftcdn.net/jpg/01/64/16/59/360_F_164165971_ELxPPwdwHYEhg4vZ3F4Ej7OmZVzqq4Ov.jpg",
     });
-
+    
+  let teams = [
+    { name: "Team-A", value: "TeamA" },
+    { name: "Team-B", value: "TeamB" },
+    { name: "Team-C", value: "TeamC" },
+    { name: "Team-D", value: "TeamD" },
+    { name: "Team-E", value: "TeamE" },
+    { name: "Team-F", value: "TeamF" },
+    { name: "Team-G", value: "TeamG" },
+    { name: "Team-H", value: "TeamH" },
+    { name: "Team-I", value: "TeamI" },
+    { name: "Team-J", value: "TeamJ" },
+    { name: "Team-K", value: "TeamK" },
+    { name: "Team-L", value: "TeamL" },
+    { name: "Team-M", value: "TeamM" },
+    { name: "Team-N", value: "TeamN" },
+    { name: "Team-O", value: "TeamO" },
+    { name: "Team-P", value: "TeamP" },
+    { name: "Team-Q", value: "TeamQ" },
+    { name: "Team-R", value: "TeamR" },
+    { name: "Team-S", value: "TeamS" },
+    { name: "Team-T", value: "TeamT" },
+    { name: "Team-U", value: "TeamU" },
+    { name: "Team-V", value: "TeamV" },
+    { name: "Team-W", value: "TeamW" },
+    { name: "Team-X", value: "TeamX" },
+    { name: "Team-Y", value: "TeamY" },
+    { name: "Team-Z", value: "TeamZ" }
+  ]
+    console.log(employeeDetails)
     const { user } = useSelector((state) => state.login);
     const { isLoading, message, error } = useSelector(
         (state) => state.employees
@@ -279,6 +308,85 @@ const AddEmployee = () => {
                                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                                 />
                             </div>
+                            <div className="grid grid-cols-2 gap-6 mb-5 mt-5">
+                {/* <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Shift
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Morning/Evening/Night"
+                    value={
+                      employeeDetails.shift ||
+                      employeePrevData.shift ||
+                      ""
+                    }
+                    onChange={handleEmployeeDetails}
+                    name="shift"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                </div> */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Employee Shift
+                  </label>
+                  <select
+                    value={
+                      employeeDetails.shift ||
+                      ""
+                    }
+                    onChange={handleEmployeeDetails}
+                    name="shift"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Select Shift</option>
+                    <option value="morning">Morning - 09:00 AM TO 06:00 PM</option>
+                    <option value="afternoon">Afternoon - 03:00 PM TO 11:00 PM</option>
+                    <option value="evening">Evening - None</option>
+                    <option value="night">Night</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Employee Team
+                  </label>
+                  <select
+                    value={
+                      employeeDetails.employeeTeam ||
+                      ""
+                    }
+                    onChange={handleEmployeeDetails}
+                    name="employeeTeam"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Select a team</option>
+                    {teams.map((team) => (
+                      <option key={`${team.name}-${team.value}`} value={team.value}>
+                        {team.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Date Of Joining
+                  </label>
+                  <input
+                    type="date"
+                    placeholder="DOJ"
+                    onChange={handleEmployeeDetails}
+                    value={
+                      employeeDetails.dateofjoining ||
+                    //   employeePrevData.dateofjoining ||
+                      ""
+                    }
+                    name="dateofjoining"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                </div>
+              </div>
                         </div>
                         <div className="mb-4">
                             <h3 className="text-lg font-medium mb-2">

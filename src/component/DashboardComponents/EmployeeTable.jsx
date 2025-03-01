@@ -23,6 +23,7 @@ const EmployeeTable = () => {
     const [employeeToDelete, setEmployeeToDelete] = useState(null);
     const [updatingUserId, setUpdatingUserId] = useState(null);
     const [employesToshow, setemployesToshow] = useState(null);
+    const {teamMembers}=useSelector((state)=>state.Hrteams)
 
     // console.log("user:", user);
     // console.log("emps:", employees);
@@ -146,7 +147,7 @@ const EmployeeTable = () => {
                     "Employed",
                     "ACTION",
                 ]}
-                employesToshow={employees}
+                employesToshow={user.role==="hr"?teamMembers?.Employees:employees}
                 setemployesToshow={setemployesToshow}
             >
 
@@ -158,8 +159,8 @@ const EmployeeTable = () => {
                                     return true; // Admin can see all employees
                                 }
                                 if (user?.role === "hr") {
-                                    // HR can see only employees in their assigned teams
-                                    return emp.AssignedTeamsToHR?.includes(empData.employeeTeam);
+                                    // return true because we already pass only hr team members to table if user.role==="hr"
+                                    return true
                                 }
                                 if (user?.role === "manager") {
                                     return emp.AssignedTeamsToManager?.includes(

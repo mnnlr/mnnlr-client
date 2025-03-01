@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getEmployees } from "../../redux/actions/EmployeeAction";
 import { useSelector, useDispatch } from "react-redux";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import {
   getAllHrAttandance,
   getAttendance,
 } from "../../redux/actions/AttendanceAction";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 import Table from "../../component/DashboardComponents/Table";
-
+import { getHrTeamMembers } from "../../redux/actions/HrActions";
 const HrAttendence = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.login);
@@ -17,6 +17,7 @@ const HrAttendence = () => {
   const { employees } = useSelector((state) => state.employees);
   const [isEmp, setEmp] = useState(null);
   const [employesToshow, setemployesToshow] = useState(null);
+  const {teamMembers}=useSelector((state)=>state.Hrteams)
 
   // Fake attendance data for demonstration
   const attendanc = [
@@ -66,18 +67,21 @@ const HrAttendence = () => {
     dispatch(
       getAllHrAttandance({ privateAxios, accessToken: user.accessToken }),
     );
+    dispatch(
+      getHrTeamMembers({privateAxios, accessToken: user?.accessToken,id:user?._id})
+    )
   }, [employees, user.accessToken, dispatch, privateAxios]);
 
-  // Filtering HR Team
-  const HrTeam =
-    isEmp?.AssignedTeamsToHR.length > 0
-      ? employees.filter((e) =>
-        isEmp?.AssignedTeamsToHR?.includes(e.employeeTeam),
-      )
-      : [];
+  // // Filtering HR Team
+  // const HrTeam =
+  //   isEmp?.AssignedTeamsToHR.length > 0
+  //     ? employees.filter((e) =>
+  //       isEmp?.AssignedTeamsToHR?.includes(e.employeeTeam),
+  //     )
+  //     : [];
   // Filtering HR Team's Attendance
   const HrTeamAttendance = attendances.filter((obj) =>
-    HrTeam.some((member) => member.userId === obj.userId),
+    teamMembers?.Employees?.some((member) => member.userId === obj.userId),
   );
 
   const [filter, setFilter] = useState("present"); // State for filtering
